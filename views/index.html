@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <base href="/">
+    <title>DashBoard for Intgg</title>
+    <link rel="stylesheet" href="/stylesheets/bootstrap.min.css">
+    <!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>-->
+
+    <!--<link rel='stylesheet' href='/stylesheets/style.css'/>-->
+    <link rel='stylesheet' href='/stylesheets/login.css'/>
+
+    <meta charset="utf-8">
+    <title>Fullscreen Login</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+
+</head>
+<body>
+
+<div class="warp">
+    <div class="logo">
+        <img src="/images/logo.png" alt="">
+        <h2>广告宝投放平台</h2>
+    </div>
+    <div class="loginBg">
+        <ul class="bgImg">
+            <li><img src="/images/1.jpg" alt=""></li>
+            <li><img src="/images/2.jpg" alt=""></li>
+            <li><img src="/images/3.jpg" alt=""></li>
+        </ul>
+        <ul class="bgNav">
+            <li class="navactive"></li>
+            <li></li>
+            <li></li>
+        </ul>
+    </div>
+    <div class="wchat_login">
+        <div class="login_header clearfix" id="login_type" >
+            <h3 class="active">微信登录</h3>
+            <h3>支付宝登录</h3>
+        </div>
+        <div class="login_content">
+            <ul>
+                <li class="content selected">
+                    <div class="login_code">
+                        <img src="/images/code.jpg" alt="">
+                    </div>
+                    <p>请使用微信扫码登录 <a href="">刷新</a></p></li>
+                <li class="content">
+                    <div class="login_code">
+                        <img src="/images/code.jpg" alt="">
+                    </div>
+                    <p>请使用支付宝扫码登录 <a href="">刷新</a></p>
+                </li>
+            </ul>
+            <!--<div class="content selected">-->
+
+            <!--</div>-->
+            <!--<div class="content">-->
+
+            <!--</div>-->
+
+        </div>
+
+    </div>
+</div>
+
+<!--<div class="col-md-8 col-md-offset-2">-->
+    <!--<h1>登录</h1>-->
+    <!--<label>后端index首页介绍请扫一扫登录:</label>-->
+    <!--&lt;!&ndash;<div id="login_container">&ndash;&gt;-->
+
+    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+<!--</div>-->
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+
+<script src="http://res.wx.qq.com/connect/zh_CN/htmledition/js/wxLogin.js"></script>
+
+<script>
+    $(function(){
+        $('#login_type').on('click','h3',function(){
+            var $this = $(this),
+                index = $this.index();
+            $this.addClass("active").siblings("h3").removeClass("active");
+            $(".login_content li").eq(index).addClass("selected").siblings("li").removeClass("selected");
+
+        })
+    })
+
+    window.onload = function(){
+        var obj = new WxLogin({
+            id:"login_container",
+            appid: "${appid}",
+            scope: "${scope}",
+            redirect_uri: "${redirect_uri}",
+            state: "${state}",
+            style: "",
+            href: ""
+        });
+
+    };
+
+
+</script>
+
+</body>
+</html>
