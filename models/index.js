@@ -18,12 +18,12 @@ var db = mongoose.createConnection(config.mongodb.str, config.mongodb.opts, func
 require('./materials');
 require('./setups');
 
-require('./user');
+require('./admin');
 
 exports.Materials = db.model('Materials');
 exports.Setups = db.model('Setups');
 
-exports.User = db.model('User');
+exports.Admin = db.model('Admin');
 
 exports.close = function(){
     db.close(function(){

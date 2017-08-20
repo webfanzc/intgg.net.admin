@@ -7,19 +7,16 @@ var materialRouter = express.Router();
 var mongoose = require('mongoose'),
     ObjectId = mongoose.Schema.Types.ObjectId;
 
-
+var jwt = require('jsonwebtoken');
 var URL = require('url'),
     async = require('async'),
     _ = require('underscore'),
     moment = require('moment');
-
-var redisDaos = require('../lib/redis');
-var usersDao = require('../daos/usersDao');
 var materialsDao = require('../daos/materialsDao');
 
 var utils = require("../utils");
 var config = require("../config");
-var logger = require("../Logger");
+// var logger = require("../Logger");
 
 
 var clientUserToken = utils.newRedisClient(config.userTokenRedisPort,config.userTokenRedisHost,5);
@@ -45,15 +42,28 @@ var clientUserToken = utils.newRedisClient(config.userTokenRedisPort,config.user
 //
 //});
 
+materialRouter.use('/',function (req,res,next) {
+    var params = URL.parse(req.url, true);
+    var queryParams = req.query,
+        token = queryParams.token;
+    jwt.verify(token, 'secret', function(err,decoded) {
+        if(err) {
+            var status = 505;
+
+            return utils.resToClient(res, params, {status: status, msg: 'token is null'});
+        }
+        next();
+    })
+})
+
 //查询素材分页列表
 materialRouter.get('/list', function (req, res, next) {
     var params = URL.parse(req.url, true);
     var queryParams = req.query;
-    var intid = queryParams.intid,
-        token = queryParams.token,
-        type = queryParams.type,
+    var type = queryParams.type,
         position = queryParams.position,
         date = queryParams.date,
+        verified = queryParams.verified;
         name = queryParams.name;
         queryParams.pageSize = queryParams.pageSize || 30;
         queryParams.pageNum = queryParams.pageNum || 1;
@@ -61,13 +71,9 @@ materialRouter.get('/list', function (req, res, next) {
     var status = 400,
         errmsg = "";
 
-    logger.info('----req.body or query-----',req.body || req.query);
+    // logger.info('----req.body or query-----',req.body || req.query);
 
 
-
-    if (_.isEmpty(intid) || _.isEmpty(token)) {
-        errmsg = "intid or token is empty.";
-    }
 
     if (!_.isEmpty(date) && !moment(date, 'YYYY-MM-DD', true).isValid()) {
         errmsg = "the date is not valid.";
@@ -79,27 +85,14 @@ materialRouter.get('/list', function (req, res, next) {
 
 
     async.auto({
-        checktoken: function (callback) {
-            redisDaos.getHashObj(clientUserToken,"TOKEN:" + intid,function(err,reply){
-                if(err){
-                    status = 500;
-                    return callback(err);
-                }
-                if(_.isEmpty(reply) || _.isUndefined(reply)){
-                    status = 505;
-                    return callback(new Error("cache token is empty."));
-                }
-                if(reply.token !== token){
-                    status = 505;
-                    return callback(new Error("token is invalid."));
-                }
+        getInfoByintid:function (callback) {
 
-                callback(null);
-            });
-        },
-        getInfoByintid: ["checktoken",function (result, callback) {
-
-            var condition = {intid:intid};
+            var condition = {};
+            if(verified == 0) {
+                _.extend(condition, {verified: 0})
+            }else {
+                _.extend(condition,{verified: {$gte: verified}})
+            }
             if(!_.isEmpty(type)){
                 _.extend(condition,{type:type})
             }
@@ -126,7 +119,7 @@ materialRouter.get('/list', function (req, res, next) {
                 callback(null,result);
             });
 
-        }]
+        }
     }, function (err, results) {
 
         if(err){
@@ -151,7 +144,7 @@ materialRouter.post('/save',function (req, res, next) {
     var body = req.body;
     //首先check用户的intid和token是否合法
 
-    logger.info('----req.body or query-----',req.body || req.query);
+    // logger.info('----req.body or query-----',req.body || req.query);
 
     var status = 400,
         errmsg = "";
@@ -233,21 +226,15 @@ materialRouter.post('/save',function (req, res, next) {
 //更新素材
 materialRouter.post('/update',function (req, res, next) {
     var params = URL.parse(req.url, true);
-    var intid = req.query.intid,
-        token = req.query.token,
-        materialid = req.query._id;
+    var materialid = req.query._id;
     var body = req.body;
 
     //首先check用户的intid和token是否合法
 
-    logger.info('----req.body or query-----',req.body || req.query);
-
+    // logger.info('----req.body or query-----',req.body || req.query);
     var status = 400,
         errmsg = "";
 
-    if (_.isEmpty(intid) || _.isEmpty(token)) {
-        errmsg = "intid or token is empty.";
-    }
     if (_.isEmpty(materialid)){
         errmsg = "material _id is empty";
     }
@@ -261,46 +248,10 @@ materialRouter.post('/update',function (req, res, next) {
         return utils.resToClient(res, params, {status: status, msg: errmsg});
     }
 
-    body = _.omit(body,"createTime", "updateTime","verified", "intid","_id");
+    body = _.omit(body,"createTime", "updateTime","intid","_id");
 
     async.auto({
-        checktoken: function (callback) {
-            redisDaos.getHashObj(clientUserToken,"TOKEN:" + intid,function(err,reply){
-                if(err){
-                    status = 500;
-                    return callback(err);
-                }
-                if(_.isEmpty(reply) || _.isUndefined(reply)){
-                    status = 505;
-                    return callback(new Error("cache token is empty."));
-                }
-                if(reply.token !== token){
-                    status = 505;
-                    return callback(new Error("token is invalid."));
-                }
-
-                callback(null);
-            });
-        },
-        checkintid: ["checktoken",function (result, callback) {
-            materialsDao.findById(materialid,function(err,reply){
-                //logger.info(err,reply);
-                if (err) {  //内部服务错误
-                    status = 500;
-                    return callback(err);
-                }
-                if (_.isEmpty(reply)) {  //不存在
-                    status = 404;
-                    return callback(new Error("material is not exist."));
-                }
-                if (reply.intid != intid) {  //不是当前用户的素材
-                    status = 401;
-                    return callback(new Error("material is not match this user can't be update."));
-                }
-                callback(null,reply);
-            });
-        }],
-        saveToMongo: ["checkintid",function (result, callback) {
+        saveToMongo: function (callback) {
             materialsDao.update({_id: materialid},body,null,function(err,reply){
                 if (err) {  //内部服务错误
                     status = 500;
@@ -311,13 +262,12 @@ materialRouter.post('/update',function (req, res, next) {
                 }
                 callback(null,reply);
             });
-        }]
+        }
     }, function (err, results) {
 
         if(err){
             return utils.resToClient(res, params, {status: status || 500, msg: err.message});
         }
-
         utils.resToClient(res,params,{status: 200, data: results.saveToMongo, hosts: config.HOSTS, msg:"更新成功"});
 
     });

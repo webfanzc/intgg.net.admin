@@ -5,20 +5,20 @@
 var express = require('express');
 var setupsRouter = express.Router();
 
+var jwt = require('jsonwebtoken');
 var URL = require('url'),
     async = require('async'),
     _ = require('underscore'),
     moment = require('moment');
-
-var redisDaos = require('../lib/redis');
-var usersDao = require('../daos/usersDao');
+// var redisDaos = require('../lib/redis');
+// var usersDao = require('../daos/usersDao');
 var setupsDao = require('../daos/setupsDao');
 
 var utils = require("../utils");
 var config = require("../config");
-var logger = require("../Logger");
+// var logger = require("../Logger");
 
-var clientUserToken = utils.newRedisClient(config.userTokenRedisPort,config.userTokenRedisHost,5);
+// var clientUserToken = utils.newRedisClient(config.userTokenRedisPort,config.userTokenRedisHost,5);
 
 
 //async.auto({
@@ -41,63 +41,64 @@ var clientUserToken = utils.newRedisClient(config.userTokenRedisPort,config.user
 //
 //});
 
-//查询设置
-setupsRouter.get('/get', function (req, res, next) {
+setupsRouter.use('/',function (req,res,next) {
     var params = URL.parse(req.url, true);
-    var queryParams = req.query;
-    var intid = queryParams.intid,
+    var queryParams = req.query,
         token = queryParams.token;
+    jwt.verify(token, 'secret', function(err,decoded) {
+        if(err) {
+            status = 505;
+
+            return utils.resToClient(res, params, {status: status, msg: 'token is null'});
+        }
+        next();
+    })
+})
+
+//查询设置
+setupsRouter.get('/list', function (req, res, next) {
+    var params = URL.parse(req.url, true);
+    var queryParams = req.query,
+        token = queryParams.token;
+    queryParams.pageSize = queryParams.pageSize || 30;
+    queryParams.pageNum = queryParams.pageNum || 1;
 
     var status = 400,
         errmsg = "";
 
-    logger.info('----req.body or query-----',req.body || req.query);
+    // logger.info('----req.body or query-----',req.body || req.query);
 
 
-    if (_.isEmpty(intid) || _.isEmpty(token)) {
-        errmsg = "intid or token is empty.";
-    }
     if(errmsg){
         return utils.resToClient(res, params, {status: status, msg: errmsg});
     }
 
 
     async.auto({
-        checktoken: function (callback) {
-            redisDaos.getHashObj(clientUserToken,"TOKEN:" + intid,function(err,reply){
-                if(err){
-                    status = 500;
-                    return callback(err);
-                }
-                if(_.isEmpty(reply) || _.isUndefined(reply)){
-                    status = 505;
-                    return callback(new Error("cache token is empty."));
-                }
-                if(reply.token !== token){
-                    status = 505;
-                    return callback(new Error("token is invalid."));
-                }
 
-                callback(null);
-            });
-        },
-        getInfoByintid: ["checktoken",function (result, callback) {
+        // checktoken: function(callback) {
+        //     jwt.verify(token, 'secret', function(err,decoded) {
+        //         if(err) {
+        //             status = 505;
+        //             return callback(new Error('token is null'))
+        //         }
+        //         callback(null);
+        //
+        //     })
+        // },
+        getInfoByintid: function (callback) {
 
-            setupsDao.findOne({intid: intid}, null, function (err, result) {
+            setupsDao.getSetupsList(null, null, queryParams ,function (err, reply) {
+                var condition = {};
                 if (err) {
                     status = 500;
                     return callback(err);
                 }
 
-                var currTime = moment().valueOf();
-                if(result.expireTime && currTime > result.expireTime){
-                    result.verified = 3;
-                    result.verifiedMsg = "您的认证信息已过期,请重新提交审核资料";
-                }
-                callback(null,result);
+                callback(null,reply);
             });
 
-        }]
+        }
     }, function (err, results) {
 
         if(err){
@@ -105,13 +106,9 @@ setupsRouter.get('/get', function (req, res, next) {
         }
 
         var data = results.getInfoByintid;
-        if(_.isEmpty(data)){
-            status = 404;
-        }else{
-            status = 200;
-        }
+        _.extend(data, {status: 200,hosts: config.HOSTS});
 
-        utils.resToClient(res, params, {status: status, data: data, hosts: config.HOSTS});
+        utils.resToClient(res, params, data);
 
     });
 
@@ -121,38 +118,31 @@ setupsRouter.get('/get', function (req, res, next) {
 //保存设置
 setupsRouter.post('/save',function (req, res, next) {
     var params = URL.parse(req.url, true);
-    var intid = req.query.intid,
-        token = req.query.token,
-        setupid = req.query._id;
+    var setupid = req.query._id;
     var body = req.body;
     //首先check用户的intid和token是否合法
 
-    logger.info('----req.body or query-----',req.body || req.query);
+    // logger.info('----req.body or query-----',req.body || req.query);
+
 
     var status = 400,
         errmsg = "";
 
-    if (_.isEmpty(intid) || _.isEmpty(token)) {
-        errmsg = "intid or token is empty.";
-    }
+
     if (_.isEmpty(body)) {
         errmsg = "request body is empty.";
     }
-    if (_.isEmpty(body.name) || _.isEmpty(body.idtype) || _.isEmpty(body.idcard) || _.isEmpty(body.idphoto) || _.isEmpty(body.phone) || _.isEmpty(body.email)) {
-        errmsg = "all input must be have.";
-    }
+    // if (_.isEmpty(body.name) || _.isEmpty(body.idtype) || _.isEmpty(body.idcard) || _.isEmpty(body.idphoto) || _.isEmpty(body.phone) || _.isEmpty(body.email)) {
+    //     errmsg = "all input must be have.";
+    // }
 
     if(typeof body.idphoto === "string"){
         body.idphoto = JSON.parse(body.idphoto);
     }
-    body = _.omit(body,"verifiedMsg", "expireTime", "createTime", "updateTime","intid","_id");
-    body.verified = 0; //只要点保存就是重新提交审核
-    body.verifiedMsg = "您提交的信息正在审核，请您耐心等待";
+    body = _.omit(body, "createTime", "updateTime","intid","_id");
+    // body.verified = 0; //只要点保存就是重新提交审核
+    // body.verifiedMsg = "您提交的信息正在审核，请您耐心等待";
 
-
-    if(_.isEmpty(body.idphoto)){
-        errmsg = "idphoto must be have a value.";
-    }
 
     if(errmsg){
         return utils.resToClient(res, params, {status: status, msg: errmsg});
@@ -160,99 +150,34 @@ setupsRouter.post('/save',function (req, res, next) {
 
     var userSetup = {};
     async.auto({
-        checktoken: function (callback) {
-            redisDaos.getHashObj(clientUserToken,"TOKEN:" + intid,function(err,reply){
-                if(err){
-                    status = 500;
-                    return callback(err);
-                }
-                if(_.isEmpty(reply) || _.isUndefined(reply)){
-                    status = 505;
-                    return callback(new Error("cache token is empty."));
-                }
-                if(reply.token !== token){
-                    status = 505;
-                    return callback(new Error("token is invalid."));
-                }
 
-                callback(null);
-            });
-        },
-        checkintid: ["checktoken",function (result, callback) {
-            usersDao.findById(intid,function(err,reply){
-                //logger.info(err,reply);
+        // checktoken: function(callback){
+        //     jwt.verify(token, 'secret', function (err,decoded) {
+        //         if(err){
+        //             st
+        //         }
+        //     })
+        // },
+        updateToMongo : function (callback) {
+
+            if(_.isEmpty(setupid)){
+                return callback(new Error("_id is lost."));
+            }
+            body = _.omit(body,"idtype");   //如果是更新就不能改变idtype的类型
+
+            setupsDao.update({_id: setupid},body,null,function(err,reply){
                 if (err) {  //内部服务错误
                     status = 500;
                     return callback(err);
                 }
-                if (_.isEmpty(reply)) {  //用户不存在
-                    status = 404;
-                    return callback(new Error("user is not exist."));
+                if (_.isEmpty(reply)) { //保存失败
+                    return callback(new Error("update is fail."));
                 }
                 callback(null,reply);
             });
-        }],
-        checkidcard: ["checkintid", function(result,callback){
-            var condition = {idcard: body.idcard,idtype: body.idtype};
-            if(!_.isEmpty(setupid)){
-                condition = {_id: setupid};
-            }
-            setupsDao.findOne(condition,null,function(err,reply){
-                if (err) {  //内部服务错误
-                    status = 500;
-                    return callback(err);
-                }
-                if(_.isEmpty(reply)){ //添加
-                    callback(null,"add");
-                }else{  //更新
-                    if(reply.intid != intid){
-                        return callback(new Error("setup is not match this user can't be update."));
-                    }
-                    userSetup = reply;
-                    callback(null,"update");
-                }
-            });
-        }],
-        saveToMongo: ["checkidcard",function (result, callback) {
-            if(result.checkidcard === "add" && _.isEmpty(setupid)){
-                _.extend(body,{intid: intid}); //把当前用户放进setups的intid字段中
-                setupsDao.save(body,function(err,reply){
-                    if (err) {  //内部服务错误
-                        status = 500;
-                        return callback(err);
-                    }
-                    if (_.isEmpty(reply)) { //保存失败
-                        return callback(new Error("save is fail."));
-                    }
-                    callback(null,reply);
-                });
-            }else{
-                callback(null);
-            }
 
-        }],
-        updateToMongo: ["checkidcard","saveToMongo",function (result, callback) {
-            if(result.checkidcard === "update"){
-                if(_.isEmpty(setupid)){
-                    return callback(new Error("_id is lost."));
-                }
-                body = _.omit(body,"idtype");   //如果是更新就不能改变idtype的类型
 
-                setupsDao.update({_id: setupid},body,null,function(err,reply){
-                    if (err) {  //内部服务错误
-                        status = 500;
-                        return callback(err);
-                    }
-                    if (_.isEmpty(reply)) { //保存失败
-                        return callback(new Error("update is fail."));
-                    }
-                    callback(null,reply);
-                });
-            }else{
-                callback(null);
-            }
-
-        }]
+        }
     }, function (err, results) {
         //logger.info(results,setupid,userSetup);
 
@@ -260,10 +185,9 @@ setupsRouter.post('/save',function (req, res, next) {
             return utils.resToClient(res, params, {status: status || 500, msg: err.message});
         }
 
-        utils.resToClient(res,params,{status: 200, msg:"保存成功", hosts: config.HOSTS, data: results.saveToMongo || results.updateToMongo || userSetup});
+        utils.resToClient(res,params,{status: 200, msg:"保存成功", hosts: config.HOSTS, data: results.updateToMongo || userSetup});
 
     });
 
 });
-
 module.exports = setupsRouter;

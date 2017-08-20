@@ -16,6 +16,7 @@ var schema = new Schema({
 
     verified: {type: Number, enum: [0,1,2,3,4],default: 0},
     //是否认证过 0表示保存待审,1表示审核通过,2表示审核拒绝,3表示被系统强制封停
+    verifiedMsg: {type: String,default: ""}, //审核结果原因
 
     createTime: {type: Number}, //创建时间 13位unix时间戳
     updateTime: {type: Number}, //更新时间 13位unix时间戳

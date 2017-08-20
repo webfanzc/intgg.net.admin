@@ -15,6 +15,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
 var config = require('./config');
+var indexRoutes = require('./routes');
 
 global.__dirname = __dirname;
 
@@ -42,9 +43,9 @@ app.use(favicon());
 app.use(bodyParser.json({limit: '100mb'}));
 app.use(bodyParser.urlencoded());
 app.use(cookieParser('your secret here'));
-app.use(express.static(__dirname + '/www'));
+app.use(express.static(__dirname + '/public'));
 
-
+indexRoutes.runApp(app);
 server.listen(app.get('port'), function(){
     console.log("Express server listening on port %d in %s mode", app.get('port'), app.get('env'));
 });
