@@ -1,0 +1,107 @@
+<header>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <h3>贴片审核</h3>
+            </div>
+        </div>
+        <div class="row">
+            <ul class="nav nav-tabs">
+                <li role="presentation" [class.active]="reject" (click)="selectResolve()"><a >未审核</a></li>
+                <li role="presentation" [class.active]="!reject" (click)="selectReject()"><a >已审核</a></li>
+            </ul>
+        </div>
+        <div class="row">
+            <nav class="navbar navbar-default">
+                <div class="container-fluid">
+                    <div class="navbar-header">
+                        <button class=" btn btn-primary navbar-btn">批量通过</button>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+<table class="table table-striped" *ngIf="reject">
+    <tr>
+        <td>创建日期</td>
+        <td>贴片名称</td>
+        <td>贴片位置</td>
+        <td>操作</td>
+    </tr>
+    <tr *ngFor="let sticker of stickersResolve;let i=index">
+        <td>{{sticker.createTime | date: 'yyyy-MM-dd HH:mm:ss'}}</td>
+        <td>{{sticker.materialid.name}}</td>
+        <td>{{sticker.materialid.position}}</td>
+        <td>
+            <button class="btn btn-success" data-toggle="modal" data-target="#myModal" (click)="stickerVerified(i,sticker)" >通过审核</button>
+            <button class="btn btn-danger" data-toggle="modal" data-target="#rejectModel" (click)="stickerVerified(i,sticker)">不通过</button>
+        </td>
+    </tr>
+</table>
+
+<table class="table table-striped" *ngIf="!reject">
+    <tr>
+        <td>创建日期</td>
+        <td>贴片名称</td>
+        <td>贴片位置</td>
+        <td>审核状态</td>
+    </tr>
+    <tr *ngFor="let sticker of stickersReject;let i=index">
+        <td>{{sticker.createTime | date: 'yyyy-MM-dd HH:mm:ss'}}</td>
+        <td>{{sticker.materialid.name}}</td>
+        <td>{{sticker.materialid.position}}</td>
+        <td>
+           <span *ngIf="sticker.verified == 1"> 已通过</span>
+           <span *ngIf="sticker.verified == 2"> 未通过</span>
+        </td>
+    </tr>
+</table>
+<!--<materials-page></materials-page>-->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content" *ngIf="sticker != null">
+            <div class="modal-header">
+                {{sticker.materialid?.name}}
+                {{sticker?.createTime | date: 'yyyy-MM-dd HH:mm:ss'}}
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body">
+                <p>展示位置：{{sticker.materialid?.position}}</p>
+                <div>
+                    <video  controls="controls" class="showImg">
+                        <source [src]="path + sticker.materialid.url"  />
+                    </video>
+                </div>
+
+                <p>素材内容:{{sticker.materialid?.content}}</p>
+                <p>贴片金额： {{stickerTotal}}元</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" data-dismiss="modal" (click)="passSticker(sticker)">通过验证</button>
+                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#rejectModel" data-dismiss="modal">不通过</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade bs-example-modal-sm" id="rejectModel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content" *ngIf="sticker != null">
+            <div class="modal-header">
+                {{sticker.materialid?.name}}：拒绝原因
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body" [formGroup]="stickerForm">
+                <textarea class="form-control" rows="3" formControlName="writeInfo"></textarea>
+                <select class="form-control" formControlName="selectInfo">
+                    <option>选择原因</option>
+                    <option *ngFor="let info of rejectInfo" [value]="info.value">{{info.value}}</option>
+                </select>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="rejectSticker()">不通过</button>
+            </div>
+        </div>
+    </div>
+</div>

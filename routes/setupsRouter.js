@@ -49,7 +49,7 @@ setupsRouter.use('/',function (req,res,next) {
         if(err) {
             status = 505;
 
-            return utils.resToClient(res, params, {status: status, msg: 'token is null'});
+            return utils.resToClient(res, params, {status: status, msg: 'token is  null'});
         }
         next();
     })

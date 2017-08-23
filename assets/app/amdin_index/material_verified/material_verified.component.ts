@@ -59,11 +59,14 @@ export class MaterialVerifiedComponent implements OnInit{
     rejectMaterial(){
         this.material.verified = 2;
         let value = this.materialForm.value;
-        if(value.writeInfo == null) {
-            this.material.verifiedMsg = value.selectInfo;
-
-        }else {
+        if(value.writeInfo != null) {
             this.material.verifiedMsg = value.writeInfo;
+        }
+        if(value.selectInfo != null){
+            this.material.verifiedMsg = value.selectInfo;
+        }
+        if(value.selectInfo == null && value.writeInfo == null) {
+            this.material.verifiedMsg = '审核未通过';
         }
         this.materialService.updateMaterial(this.material);
 

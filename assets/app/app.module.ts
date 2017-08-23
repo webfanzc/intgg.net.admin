@@ -12,6 +12,8 @@ import {FilterPipe} from "./amdin_index/filter.pipe";
 import {AdminLoginComponent} from "./amdin_login/admin_login.component";
 import {LoginGuard} from "./app.guard";
 import {MaterialsPageComponent} from "./amdin_index/material_verified/material-page/materials-page.component";
+import {StickerVerifiedComponent} from "./amdin_index/sticker_verified/sticker_verified.component";
+import {StickerPageComponent} from "./amdin_index/sticker_verified/sticker-page/sticker-page.component";
 
 
 @NgModule({
@@ -22,6 +24,8 @@ import {MaterialsPageComponent} from "./amdin_index/material_verified/material-p
         MaterialVerifiedComponent,
         MaterialsPageComponent,
         AdminLoginComponent,
+        StickerVerifiedComponent,
+        StickerPageComponent,
         FilterPipe
     ],
     imports: [

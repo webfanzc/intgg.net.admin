@@ -19,11 +19,12 @@ require('./materials');
 require('./setups');
 
 require('./admin');
-
+require('./stickers');
 exports.Materials = db.model('Materials');
 exports.Setups = db.model('Setups');
 
 exports.Admin = db.model('Admin');
+exports.Stickers = db.model('Stickers');
 
 exports.close = function(){
     db.close(function(){
