@@ -33,27 +33,21 @@ export class MaterialService {
             .then(
                 (response) => {
                     let res = response.json();
-                    console.log(res.data);
                     let data = res.data;
                     if(res.status == 200) {
-                        material.verified = data.verified;
-                        material.verifiedMsg = data.verifiedMsg;
-                        // this.materials[this.materials.indexOf(material)] = new Material(
-                        //     data.name,
-                        //     data.position,
-                        //     data.link,
-                        //     data.url,
-                        //     data.content,
-                        //     data.type,
-                        //     data.createTime,
-                        //     data._id,
-                        //     data.verified,
-                        //     data.verifiedMsg,
-                        // )
-                        // this.materialsChange.next(this.materials);
-                        // this.snackBar.open(res.msg,'',{
-                        //     duration: 2000
-                        // })
+                        this.materials[this.materials.indexOf(material)] = new Material(
+                            data.name,
+                            data.position,
+                            data.link,
+                            data.url,
+                            data.content,
+                            data.type,
+                            data.createTime,
+                            data._id,
+                            data.verified,
+                            data.verifiedMsg,
+                        )
+                        this.materialsChange.next(this.materials);
                     }
                     return this.materials;
                 }
@@ -64,42 +58,46 @@ export class MaterialService {
 
     //模糊查询素材
     searchMaterialByName(name:string): Promise<Material[]>{
-        let repath = '/materials/list?'+this.path+'&name='+name;
+        let repath = '/materials/list'+this.path+'&name='+name;
         return this.httpService.get(repath)
             .toPromise()
             .then(
-                (res) => {
+                (response) => {
 
-                    const messages = res.json().data;
+                    let res = response.json();
+                    let messages = res.data;
                     let materials: Material[] = [];
-                    for (let message of messages) {
-                        materials.push(new Material(
-                            message.name,
-                            message.position,
-                            message.link,
-                            message.url,
-                            message.content,
-                            message.type,
-                            message.createTime,
-                            message._id,
-                            message.updateTime,
-                            message.intid)
-                        );
+                    if(res.status == 200 ) {
+                        for (let message of messages) {
+                            materials.push(new Material(
+                                message.name,
+                                message.position,
+                                message.link,
+                                message.url,
+                                message.content,
+                                message.type,
+                                message.createTime,
+                                message._id,
+                                message.verified,
+                                message.verifiedMsg)
+                            );
+                        }
+                        this.materialsSearch = materials;
+                        this.materialsChange.next(materials);
+                        return materials;
                     }
-                    this.materialsSearch = materials;
-                    this.materialsChange.next(materials);
-                    return materials;
+
                 }
             )
     }
     //搜索素材
-    search(params: MaterialSearchParams): Promise<Material[]>{
-        let repath = '/materials/list?'+this.path;
+    searchMaterial(params: MaterialSearchParams): Promise<Material[]>{
+        let repath = '/materials/list'+this.path;
         return this.httpService.get(repath,{search: this.filterParams(params)})
             .toPromise()
             .then(
                 (response) => {
-                    const messages = response.json().data;
+                    let messages = response.json().data;
                     let materials: Material[] = [];
                     for (let message of messages) {
                         materials.push(new Material(

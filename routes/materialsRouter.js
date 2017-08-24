@@ -50,7 +50,7 @@ materialRouter.use('/',function (req,res,next) {
         if(err) {
             var status = 505;
 
-            return utils.resToClient(res, params, {status: status, msg: 'token is null'});
+            return utils.resToClient(res, params, {status: status, msg: 'token is 佛挡杀佛 null'});
         }
         next();
     })
@@ -63,11 +63,9 @@ materialRouter.get('/list', function (req, res, next) {
     var type = queryParams.type,
         position = queryParams.position,
         date = queryParams.date,
-        verified = queryParams.verified;
         name = queryParams.name;
-        queryParams.pageSize = queryParams.pageSize || 30;
-        queryParams.pageNum = queryParams.pageNum || 1;
-
+    queryParams.pageSize = queryParams.pageSize || 30;
+    queryParams.pageNum = queryParams.pageNum || 1;
     var status = 400,
         errmsg = "";
 
@@ -88,11 +86,11 @@ materialRouter.get('/list', function (req, res, next) {
         getInfoByintid:function (callback) {
 
             var condition = {};
-            if(verified == 0) {
-                _.extend(condition, {verified: 0})
-            }else {
-                _.extend(condition,{verified: {$gte: verified}})
-            }
+            // if(verified == 0) {
+            //     _.extend(condition, {verified: 0})
+            // }else {
+            //     _.extend(condition,{verified: {$gte: verified}})
+            // }
             if(!_.isEmpty(type)){
                 _.extend(condition,{type:type})
             }

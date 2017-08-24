@@ -30,6 +30,7 @@ export class StickerVerifiedComponent implements OnInit{
     stickerTotal: string;
     path: string = util.path;
     stickerForm: FormGroup;
+    searchForm: FormGroup;
     rejectInfo = [
         {value: '贴片涉及违法信息', viewValue: 'Steak'},
         {value: '贴片内容不清晰', viewValue: 'Pizza'},
@@ -115,6 +116,10 @@ export class StickerVerifiedComponent implements OnInit{
         this.stickerForm = new FormGroup({
             writeInfo: new FormControl(),
             selectInfo: new FormControl()
+        });
+        this.searchForm = new FormGroup({
+            total: new FormControl(),
+            date: new FormControl()
         })
     }
 }

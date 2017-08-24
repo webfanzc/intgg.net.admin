@@ -15,7 +15,19 @@
             <nav class="navbar navbar-default">
                 <div class="container-fluid">
                     <div class="navbar-header">
-                        <button class=" btn btn-primary navbar-btn">批量通过</button>
+                        <div class="row">
+                            <div class="col-md-1">
+                                <button class=" btn btn-primary navbar-btn pass">批量通过</button>
+                            </div>
+                            <div class="col-md-11">
+                                <form class="form-inline searchForm" [formGroup]="searchForm">
+                                    <div class="form-group">
+                                        <input type="date" class="form-control" formControlName="date" (change)="searchMaterial()">
+                                    </div>
+                                    <input type="text" class="form-control" placeholder="输入素材名称" formControlName="total">
+                                </form>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </nav>

@@ -48,6 +48,48 @@ export class StickerService {
 
     }
 
+
+    searchSticker(params: StickerSearchParams){
+        let repath = '/sticker/list'+this.path;
+        this.httpService.get(repath,{search: this.filterParams(params)})
+            .toPromise()
+            .then(
+                (response) => {
+                    let res = response.json();
+                    if(res.status == 200){
+                        let data = res.data;
+                        let stickers : Sticker[] = []
+                        for(let value of data){
+                            if(value.materialid != null){
+                                stickers.push(new Sticker(
+                                    value.total,
+                                    value.materialid,
+                                    value._id,
+                                    value.createTime,
+                                    value.verified,
+                                    value.verifiedMsg,
+                                    value.intid
+                                    )
+                                )
+                            }
+                        }
+                        this.stickers = stickers;
+                        this.stickersChange.next(this.stickers);
+                        return res;
+                    }
+                }
+            )
+
+    }
+
+    private filterParams(params: StickerSearchParams): URLSearchParams{
+        return Object.keys(params)
+            .filter(key => params[key])
+            .reduce( (sum: URLSearchParams, key: string) => {
+                sum.append(key, params[key]);
+                return sum;
+            },new URLSearchParams() )
+    }
     getstickers() :Promise<Sticker[]> {
         const repath = '/sticker/list'+this.path;
         return this.httpService.get(repath)
@@ -86,10 +128,9 @@ export class StickerService {
     }
 }
 
-export class MaterialSearchParams {
+export class StickerSearchParams {
     constructor(
-        public type: string,
-        public position: string,
+        public total: string,
         public date: string
     ){}
 }
