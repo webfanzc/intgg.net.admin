@@ -5,7 +5,7 @@ module.exports = webpackMerge(commonConfig, {
     devtool: 'cheap-module-eval-source-map',
 
     output: {
-        path: '/admin/intgg.net.admin/public/js/app',
+        path: '/opt/www/intgg.net.admin/public/js/app',
         publicPath: "/js/app/",
         filename: 'bundle.js',
         chunkFilename: '[id].chunk.js'
