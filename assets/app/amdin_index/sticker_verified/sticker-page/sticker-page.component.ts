@@ -16,123 +16,119 @@ import {StickerService} from "../sticker.verified.service";
 
 export class StickerPageComponent implements OnInit{
 
-    // @Input() mateirals : Sticker[] = [];
-    // pageTotal: number;
-    // pageSize = 30; // 每页的数据条数
-    // pageCount: number[] = []; //总的页数
-    // curpage: number;  //当前的页码数
-    // endPageNum: number;
-    // constructor(private materialService: StickerService){}
-    //
-    // getPageData(pageNum: number){
-    //
-    //     this.curpage = pageNum;
-    //     this.materialService.getMaterialsPage(pageNum,this.pageSize)
-    //         .then(
-    //             (res: any) => {
-    //                 let total = res.total;
-    //                 let pageCount = res.pageCount;
-    //                 let page : number[]=[];
-    //                 console.log(this.pageCount);
-    //             }
-    //         )
-    // }
-    //
-    // //首页
-    // startPage(){
-    //     this.materialService.getMaterialsPage(1,this.pageSize)
-    //         .then(
-    //             (res: any) => {
-    //
-    //                 let total = res.total;
-    //                 let pageCount = res.pageCount;
-    //                 this.curpage = 1;
-    //                 this.initPage(this.curpage,pageCount);
-    //                 console.log(this.pageCount);
-    //
-    //             }
-    //         )
-    // }
-    //
-    // // 上一页
-    //
-    // beforePage(){
-    //     this.materialService.getMaterialsPage(this.curpage-1,this.pageSize)
-    //         .then(
-    //             (res: any) => {
-    //
-    //                 let total = res.total;
-    //                 let pageCount = res.pageCount;
-    //                 this.curpage = this.curpage - 1;
-    //                 this.initPage(this.curpage,res.pageCount);
-    //                 console.log(this.pageCount);
-    //
-    //             }
-    //         )
-    // }
-    // nextPage(){
-    //     this.materialService.getMaterialsPage(this.curpage+1,this.pageSize)
-    //         .then(
-    //             (res: any) => {
-    //
-    //                 let total = res.total;
-    //                 let pageCount = res.pageCount;
-    //                 this.curpage = this.curpage+1;
-    //                 this.initPage(this.curpage,res.pageCount);
-    //                 console.log(this.pageCount);
-    //
-    //             }
-    //         )
-    // }
-    // endPage(){
-    //     this.materialService.getMaterialsPage(this.endPageNum,this.pageSize)
-    //         .then(
-    //             (res: any) => {
-    //
-    //                 let total = res.total;
-    //                 let pageCount = res.pageCount;
-    //                 let page : number[]=[];
-    //
-    //
-    //                 this.curpage = this.endPageNum;
-    //                 this.initPage(this.curpage,res.pageCount);
-    //                 console.log(this.pageCount);
-    //
-    //             }
-    //         )
-    // }
-    //
-    // // 计算页码
-    //
-    // initPage(curpage: number,total: number) {
-    //     this.pageCount= [];
-    //     if( total> 10 && curpage < 10 ) {
-    //         for(let i=0;i<10;i++) {
-    //             this.pageCount.push(
-    //                 i+1
-    //             )
-    //         }
-    //     }
-    //     if(total>10 && curpage >= 10 ){
-    //         let poor = total - 9;
-    //         for(let i=0;i<10;i++){
-    //             this.pageCount.push(
-    //                 i+poor
-    //             )
-    //
-    //         }
-    //     }
-    //     if(total < 10){
-    //         for(let i=0;i<total;i++) {
-    //             this.pageCount.push(
-    //                 i+1
-    //             )
-    //         }
-    //     }
-    // }
-    //
+    @Input() verified: number;
+    pageTotal: number;
+    pageSize :  number = 30; // 每页的数据条数
+    pageCount: number[] = []; //总的页数
+    curpage: number;  //当前的页码数
+    endPageNum: number;
+    constructor(private stickerService: StickerService){}
+
+    getPageData(pageNum: number){
+        this.curpage = pageNum;
+        this.stickerService.getstickers(this.verified,this.curpage-1,this.pageSize)
+            .then(
+                (res: any) => {
+                    let total = res.total;
+                    let pageCount = res.pageCount;
+                    let page : number[]=[];
+                }
+            )
+    }
+
+    //首页
+    startPage(){
+        this.stickerService.getstickers(this.verified,this.curpage-1,this.pageSize)
+            .then(
+                (res: any) => {
+
+                    let total = res.total;
+                    let pageCount = res.pageCount;
+                    this.curpage = 1;
+                    this.initPage(this.curpage,pageCount);
+
+
+                }
+            )
+    }
+
+    // 上一页
+
+    beforePage(){
+        console.log(this.curpage);
+        let curpage = this.curpage;
+        this.stickerService.getstickers(this.verified,this.curpage-1,this.pageSize)
+            .then(
+                (res: any) => {
+                    let total = res.total;
+                    let pageCount = res.pageCount;
+                    this.curpage = curpage - 1;
+                    this.initPage(this.curpage,res.pageCount);
+                }
+            )
+    }
+    nextPage(){
+        let curpage = this.curpage;
+        this.stickerService.getstickers(this.verified,this.curpage+1,this.pageSize)
+            .then(
+                (res: any) => {
+
+                    let total = res.total;
+                    let pageCount = res.pageCount;
+                    this.curpage = curpage + 1;
+                    this.initPage(this.curpage,res.pageCount);
+
+
+                }
+            )
+    }
+    endPage(){
+        this.stickerService.getstickers(this.verified,this.curpage-1,this.pageSize)
+            .then(
+                (res: any) => {
+
+                    let total = res.total;
+                    let pageCount = res.pageCount;
+                    let page : number[]=[];
+                    this.curpage = this.endPageNum;
+                    this.initPage(this.curpage,res.pageCount);
+
+
+                }
+            )
+    }
+
+    // 计算页码
+
+    initPage(curpage: number,total: number) {
+        this.pageCount= [];
+        if( total> 10 && curpage < 10 ) {
+            for(let i=0;i<10;i++) {
+                this.pageCount.push(
+                    i+1
+                )
+            }
+        }
+        if(total>10 && curpage >= 10 ){
+            let poor = total - 9;
+            for(let i=0;i<10;i++){
+                this.pageCount.push(
+                    i+poor
+                )
+
+            }
+        }
+        if(total < 10){
+            for(let i=0;i<total;i++) {
+                this.pageCount.push(
+                    i+1
+                )
+            }
+        }
+    }
+
     ngOnInit(){
-        // this.materialService.getMaterials(0)
+        // this.stickerService.getstickers(0)
         //     .then(
         //         (res: any) => {
         //             this.pageCount.splice(this.pageCount.length);
@@ -144,17 +140,22 @@ export class StickerPageComponent implements OnInit{
         //             this.curpage = 1;
         //         }
         //     )
-        // this.materialService.materiasPage
-        //     .subscribe(
-        //         (res: any) => {
-        //             this.pageCount.splice(this.pageCount.length);
-        //             let total = res.total;
-        //             let pageCount = res.pageCount;
-        //             this.endPageNum = pageCount;
-        //             this.initPage(1,res.pageCount);
-        //             this.pageTotal = pageCount;
-        //             this.curpage = 1;
-        //         }
-        //     )
+        this.stickerService.stickersPage
+            .subscribe(
+                (res: any) => {
+                    this.pageCount.splice(this.pageCount.length);
+                    let total = res.total;
+                    let pageCount = res.pageCount;
+                    this.endPageNum = pageCount;
+                    this.initPage(1,res.pageCount);
+                    this.pageTotal = pageCount;
+                    this.curpage = 1;
+                }
+            )
     }
 }
+
+
+
+
+// this.stickerService.getstickers(this.verified,this.curpage-1,this.pageSize)

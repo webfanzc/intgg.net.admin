@@ -2,3 +2,11 @@
     width: 200px;
     height: 150px;
 }
+
+.pass {
+    float: left;
+}
+.searchForm {
+    float: right;
+    margin-top: 8px;
+}

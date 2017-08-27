@@ -62,6 +62,7 @@ materialRouter.get('/list', function (req, res, next) {
     var queryParams = req.query;
     var type = queryParams.type,
         position = queryParams.position,
+        verified = queryParams.verified,
         date = queryParams.date,
         name = queryParams.name;
     queryParams.pageSize = queryParams.pageSize || 30;
@@ -86,11 +87,12 @@ materialRouter.get('/list', function (req, res, next) {
         getInfoByintid:function (callback) {
 
             var condition = {};
-            // if(verified == 0) {
-            //     _.extend(condition, {verified: 0})
-            // }else {
-            //     _.extend(condition,{verified: {$gte: verified}})
-            // }
+            if(verified == 0) {
+                _.extend(condition, {verified: 0})
+            }
+            if(verified == 1) {
+                _.extend(condition,{verified: {$gte: verified}})
+            }
             if(!_.isEmpty(type)){
                 _.extend(condition,{type:type})
             }

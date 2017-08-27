@@ -71,7 +71,7 @@
         <td>素材位置</td>
         <td>审核状态</td>
     </tr>
-    <tr *ngFor="let material of materialReject;let i=index">
+    <tr *ngFor="let material of materials;let i=index">
         <td>{{material.createTime | date: 'yyyy-MM-dd HH:mm:ss'}}</td>
         <td>{{material.name}}</td>
         <td>{{material.position}}</td>
@@ -81,7 +81,9 @@
         </td>
     </tr>
 </table>
-<materials-page></materials-page>
+<materials-page
+    [verified]="verified"
+></materials-page>
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content" *ngIf="material != null">

@@ -45,8 +45,6 @@ stickersRouter.get('/list', function(req, res, next) {
     var status = 400,
         errmsg = "";
 
-
-
     if (!_.isEmpty(date) && !moment(date, 'YYYY-MM-DD', true).isValid()) {
         errmsg = "the date is not valid.";
     }
@@ -58,11 +56,12 @@ stickersRouter.get('/list', function(req, res, next) {
     async.auto({
         getInfoByintid: function(callback) {
             var condition = {};
-            // if(verified == 0) {
-            //     _.extend(condition, {verified: 0})
-            // }else {
-            //     _.extend(condition,{verified: {$gte: verified}})
-            // }
+            if(verified == 0) {
+                _.extend(condition, {verified: 0})
+            }
+            else if(verified == 1) {
+                _.extend(condition,{verified: {$gte: verified}})
+            }
             if(!_.isEmpty(date)){
                 var endDate = moment(date).add(1,"d");
                 var st = moment(date).valueOf();

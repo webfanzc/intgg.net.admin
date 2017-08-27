@@ -4,7 +4,7 @@
 
 
 import {Component, OnInit} from "@angular/core";
-import {StickerService} from "./sticker.verified.service";
+import {StickerService, StickerSearchParams} from "./sticker.verified.service";
 import {Sticker} from "./sticker.verified.model";
 import * as util from "../../util"
 import {FormGroup, FormControl} from "@angular/forms";
@@ -29,6 +29,7 @@ export class StickerVerifiedComponent implements OnInit{
     sticker: Sticker;
     stickerTotal: string;
     path: string = util.path;
+    verified: number;
     stickerForm: FormGroup;
     searchForm: FormGroup;
     rejectInfo = [
@@ -36,7 +37,12 @@ export class StickerVerifiedComponent implements OnInit{
         {value: '贴片内容不清晰', viewValue: 'Pizza'},
     ];
     constructor(private stickerService: StickerService){
-        this.stickerService.getstickers();
+        if(this.reject) {
+            this.stickerService.getstickers(0,1,30);
+        }else {
+            this.stickerService.getstickers(1,1,30);
+        }
+
     }
 
     stickerVerified(index: number, sticker: Sticker){
@@ -44,32 +50,50 @@ export class StickerVerifiedComponent implements OnInit{
         this.stickerTotal = (parseInt(sticker.total)/100).toFixed(2);
     }
 
+
+
+    //搜索sticker
+
+    searchSticker(){
+        let value = this.searchForm.value;
+        if(this.reject) {
+            this.stickerService.searchSticker(0,new StickerSearchParams(value.total,value.date));
+        }else {
+            this.stickerService.searchSticker(1,new StickerSearchParams(value.total,value.date));
+        }
+
+    }
+
     selectResolve(resolve: any, reject: any){
         this.reject = true;
-        this.stickersResolve = this.stickers
-            .filter(
-                (item) => {
-                    let verified = item['verified'];
-                        return verified == 0;
-
-                }
-            );
+        this.verified = 0;
+        this.stickerService.getstickers(0,1,30);
+        // this.stickersResolve = this.stickers
+        //     .filter(
+        //         (item) => {
+        //             let verified = item['verified'];
+        //             return verified == 0;
+        //
+        //         }
+        //     );
 
     }
     selectReject(resolve: any, reject: any) {
         this.reject = false;
-        this.stickersReject = this.stickers
-            .filter(
-                (item) => {
-                    let verified = item['verified'];
-                    return verified != 0;
+        this.verified = 1;
+        this.stickerService.getstickers(1,1,30);
 
-                }
-            );
+        // this.stickersReject = this.stickers
+        //     .filter(
+        //         (item) => {
+        //             let verified = item['verified'];
+        //             return verified != 0;
+        //
+        //         }
+        //     );
     }
 
     passSticker(sticker: Sticker){
-        console.log('update');
         sticker.verified = 1;
         sticker.verifiedMsg = '审核通过';
         this.stickerService.updateSticker(sticker);
@@ -98,9 +122,7 @@ export class StickerVerifiedComponent implements OnInit{
                         this.stickersResolve = stickers
                             .filter(
                                 (item) => {
-                                    let verified = item['verified'];
-                                    return verified == 0;
-
+                                    return item['verified']== 0;
                                 }
                             )
                         this.stickers = stickers

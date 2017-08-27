@@ -27,6 +27,7 @@ export class MaterialVerifiedComponent implements OnInit{
     material: Material;
     materialIndex: number;
     path: string = util.path;
+    verified: number = 0;
     reject: boolean = true;
     materialForm: FormGroup;
     searchForm: FormGroup;
@@ -53,6 +54,11 @@ export class MaterialVerifiedComponent implements OnInit{
         {value:'image',viewValue:'图片'}
     ]
     constructor(private materialService: MaterialService){
+        if(this.reject) {
+            this.materialService.getMaterials(0,1,30)
+        }else {
+            this.materialService.getMaterials(1,1,30)
+        }
         this.materialService.getMaterials(0);
     }
 
@@ -79,11 +85,13 @@ export class MaterialVerifiedComponent implements OnInit{
 
     selectResolve(resolve: any, reject: any){
         this.reject = true;
-        this.materialService.getMaterials(0);
+        this.verified = 0;
+        this.materialService.getMaterials(0,1,30);
     }
     selectReject(resolve: any, reject: any) {
-        this.reject = false
-        this.materialService.getMaterials(1);
+        this.reject = false;
+        this.verified = 1;
+        this.materialService.getMaterials(1,1,30);
 
     }
 
@@ -106,18 +114,11 @@ export class MaterialVerifiedComponent implements OnInit{
         this.materialService.materialsChange
             .subscribe(
                 (materials: Material[]) => {
-                    console.log(materials);
                     this.materials = materials;
                     this.materialResovle = materials
                         .filter(
                             (item) => {
                                 return item['verified'] == 0;
-                            }
-                        )
-                    this.materialReject = materials
-                        .filter(
-                            (item) => {
-                                return item['verified'] != 0;
                             }
                         )
                 }

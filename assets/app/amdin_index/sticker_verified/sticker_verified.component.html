@@ -22,9 +22,9 @@
                             <div class="col-md-11">
                                 <form class="form-inline searchForm" [formGroup]="searchForm">
                                     <div class="form-group">
-                                        <input type="date" class="form-control" formControlName="date" (change)="searchMaterial()">
+                                        <input type="date" class="form-control" formControlName="date" (change)="searchSticker()">
                                     </div>
-                                    <input type="text" class="form-control" placeholder="输入素材名称" formControlName="total">
+                                    <input type="text" class="form-control" placeholder="输入素材名称" formControlName="total" (change)="searchSticker()">
                                 </form>
                             </div>
                         </div>
@@ -38,13 +38,13 @@
     <tr>
         <td>创建日期</td>
         <td>贴片名称</td>
-        <td>贴片位置</td>
+        <td>贴片金额</td>
         <td>操作</td>
     </tr>
     <tr *ngFor="let sticker of stickersResolve;let i=index">
         <td>{{sticker.createTime | date: 'yyyy-MM-dd HH:mm:ss'}}</td>
         <td>{{sticker.materialid.name}}</td>
-        <td>{{sticker.materialid.position}}</td>
+        <td>{{sticker.total}}</td>
         <td>
             <button class="btn btn-success" data-toggle="modal" data-target="#myModal" (click)="stickerVerified(i,sticker)" >通过审核</button>
             <button class="btn btn-danger" data-toggle="modal" data-target="#rejectModel" (click)="stickerVerified(i,sticker)">不通过</button>
@@ -56,20 +56,22 @@
     <tr>
         <td>创建日期</td>
         <td>贴片名称</td>
-        <td>贴片位置</td>
+        <td>贴片金额</td>
         <td>审核状态</td>
     </tr>
-    <tr *ngFor="let sticker of stickersReject;let i=index">
+    <tr *ngFor="let sticker of stickers;let i=index">
         <td>{{sticker.createTime | date: 'yyyy-MM-dd HH:mm:ss'}}</td>
         <td>{{sticker.materialid.name}}</td>
-        <td>{{sticker.materialid.position}}</td>
+        <td>{{sticker.total}}</td>
         <td>
            <span *ngIf="sticker.verified == 1"> 已通过</span>
            <span *ngIf="sticker.verified == 2"> 未通过</span>
         </td>
     </tr>
 </table>
-<!--<materials-page></materials-page>-->
+<sticker-page
+    [verified]="verified"
+></sticker-page>
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content" *ngIf="sticker != null">

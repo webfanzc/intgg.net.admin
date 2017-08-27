@@ -16,6 +16,7 @@ export class StickerService {
     private path: string = '?token='+localStorage.getItem('token');
     private stickers: Sticker[] = [];
     stickersChange: Subject<Sticker[]> = new Subject<Sticker[]>();
+    stickersPage: Subject<any> = new Subject<any>();
     private  headers = {
         headers:new Headers({'Content-Type': 'application/json'})
     };
@@ -49,8 +50,8 @@ export class StickerService {
     }
 
 
-    searchSticker(params: StickerSearchParams){
-        let repath = '/sticker/list'+this.path;
+    searchSticker(verified: number,params: StickerSearchParams){
+        let repath = '/sticker/list'+this.path+'&verified='+verified;
         this.httpService.get(repath,{search: this.filterParams(params)})
             .toPromise()
             .then(
@@ -90,13 +91,18 @@ export class StickerService {
                 return sum;
             },new URLSearchParams() )
     }
-    getstickers() :Promise<Sticker[]> {
-        const repath = '/sticker/list'+this.path;
+
+    getStickersPage(pageNum: number, pageSize: number) {
+        let repath = '/sticker/list'+this.path +'&page'
+    }
+
+    getstickers(verified: number,pageNum?: number,pageSize?: number) :Promise<Sticker[]> {
+        let page = '&pageSize='+pageSize+'&pageNum='+pageNum;
+        const repath = '/sticker/list'+this.path+'&verified='+verified+page;
         return this.httpService.get(repath)
             .toPromise()
             .then(
                 (response) => {
-
                     let res = response.json();
                     if(res.status == 200){
                         let data = res.data;
@@ -117,6 +123,7 @@ export class StickerService {
                         }
                         this.stickers = stickers;
                         this.stickersChange.next(this.stickers);
+                        this.stickersPage.next(res);
                         return res;
                     }
                     if(res.status == 505) {
@@ -127,7 +134,7 @@ export class StickerService {
             )
     }
 }
-
+//
 export class StickerSearchParams {
     constructor(
         public total: string,

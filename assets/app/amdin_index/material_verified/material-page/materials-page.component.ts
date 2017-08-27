@@ -16,7 +16,7 @@ import {MaterialService} from "../material.verified.service";
 
 export class MaterialsPageComponent implements OnInit{
 
-    @Input() mateirals : Material[] = [];
+    @Input() verified : number;
     pageTotal: number;
     pageSize = 30; // 每页的数据条数
     pageCount: number[] = []; //总的页数
@@ -26,7 +26,7 @@ export class MaterialsPageComponent implements OnInit{
 
     getPageData(pageNum: number){
         this.curpage = pageNum;
-        this.materialService.getMaterialsPage(pageNum,this.pageSize)
+        this.materialService.getMaterials(this.verified,pageNum,this.pageSize)
             .then(
                 (res: any) => {
                     let total = res.total;
@@ -39,16 +39,13 @@ export class MaterialsPageComponent implements OnInit{
 
     //首页
     startPage(){
-        this.materialService.getMaterialsPage(1,this.pageSize)
+        this.materialService.getMaterials(this.verified,this.pageSize)
             .then(
                 (res: any) => {
-
                     let total = res.total;
                     let pageCount = res.pageCount;
                     this.curpage = 1;
                     this.initPage(this.curpage,pageCount);
-                    console.log(this.pageCount);
-
                 }
             )
     }
@@ -56,27 +53,27 @@ export class MaterialsPageComponent implements OnInit{
     // 上一页
 
     beforePage(){
-        this.materialService.getMaterialsPage(this.curpage-1,this.pageSize)
+        let curpage = this.curpage;
+        this.materialService.getMaterials(this.verified,this.curpage-1,this.pageSize)
             .then(
                 (res: any) => {
-
                     let total = res.total;
                     let pageCount = res.pageCount;
-                    this.curpage = this.curpage - 1;
+                    this.curpage = curpage - 1;
                     this.initPage(this.curpage,res.pageCount);
                     console.log(this.pageCount);
-
                 }
             )
     }
     nextPage(){
-        this.materialService.getMaterialsPage(this.curpage+1,this.pageSize)
+        let curpage = this.curpage;
+        this.materialService.getMaterials(this.verified,this.curpage+1,this.pageSize)
             .then(
                 (res: any) => {
 
                     let total = res.total;
                     let pageCount = res.pageCount;
-                    this.curpage = this.curpage+1;
+                    this.curpage = curpage+1;
                     this.initPage(this.curpage,res.pageCount);
                     console.log(this.pageCount);
 
@@ -84,7 +81,7 @@ export class MaterialsPageComponent implements OnInit{
             )
     }
     endPage(){
-        this.materialService.getMaterialsPage(this.endPageNum,this.pageSize)
+        this.materialService.getMaterials(this.verified,this.curpage+1,this.pageSize)
             .then(
                 (res: any) => {
 

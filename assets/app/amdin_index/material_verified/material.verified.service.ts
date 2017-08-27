@@ -187,15 +187,15 @@ export class MaterialService {
     }
 
 
-    getMaterials(verified: number) :Promise<Material[]> {
-        let repath = '/materials/list'+this.path+'&verified='+verified;
+    getMaterials(verified: number,pageNum?: number, pageSize?:number) :Promise<Material[]> {
+        let page = '&pageSize='+pageSize+'&pageNum='+pageNum;
+        let repath = '/materials/list'+this.path+'&verified='+verified+page;
         return this.httpService.get(repath)
             .toPromise()
             .then((response) => {
                     let res = response.json();
                     const messages = res.data;
                     let materials: Material[] = [];
-
                     if(res.status == 505) {
                         this.router.navigate(['/admin_login'])
                         return null;
