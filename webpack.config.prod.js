@@ -8,7 +8,7 @@ module.exports = webpackMerge.smart(commonConfig, {
     },
 
     output: {
-        path: '/admin/intgg.net.admin/intgg.net/public/js/app',
+        path: '/opt/www/intgg.net.admin/public/js/app',
         filename: 'bundle.js',
         publicPath: '/js/app/',
         chunkFilename: '[id].[hash].chunk.js'
