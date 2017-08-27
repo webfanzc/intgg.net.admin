@@ -4,4 +4,6 @@ node_modules/**/*
 ps*.log
 .DS_Store
 
+public/js/app/*
+
 */.gitkeep/*
