@@ -61,10 +61,10 @@ export class SetupsVerifiedComponent implements OnInit{
 
     }
 
-    selectResolve(resolve: any, reject: any){
+    selectResolve(){
         this.reject = true;
     }
-    selectReject(resolve: any, reject: any) {
+    selectReject() {
         this.reject = false
 
     }

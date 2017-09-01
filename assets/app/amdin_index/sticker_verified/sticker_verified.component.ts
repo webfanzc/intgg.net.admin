@@ -64,7 +64,7 @@ export class StickerVerifiedComponent implements OnInit{
 
     }
 
-    selectResolve(resolve: any, reject: any){
+    selectResolve(){
         this.reject = true;
         this.verified = 0;
         this.stickerService.getstickers(0,1,30);
@@ -78,7 +78,7 @@ export class StickerVerifiedComponent implements OnInit{
         //     );
 
     }
-    selectReject(resolve: any, reject: any) {
+    selectReject() {
         this.reject = false;
         this.verified = 1;
         this.stickerService.getstickers(1,1,30);

@@ -83,12 +83,12 @@ export class MaterialVerifiedComponent implements OnInit{
         this.materialService.searchMaterialByName(event.target.value);
     }
 
-    selectResolve(resolve: any, reject: any){
+    selectResolve(){
         this.reject = true;
         this.verified = 0;
         this.materialService.getMaterials(0,1,30);
     }
-    selectReject(resolve: any, reject: any) {
+    selectReject() {
         this.reject = false;
         this.verified = 1;
         this.materialService.getMaterials(1,1,30);
