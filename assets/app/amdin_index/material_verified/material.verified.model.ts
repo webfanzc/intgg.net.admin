@@ -25,7 +25,8 @@ export class Material {
                 createTime?: number,
                 _id?: string,
                 verified?: number,
-                verifiedMsg?: string
+                verifiedMsg?: string,
+                intid?: string
                 ) {
         this.name = name;
         this.position = position;
@@ -36,6 +37,8 @@ export class Material {
         this.type = type;
         this._id = _id;
         this.verified = verified;
+        this.intid = intid;
+        this.verifiedMsg = verifiedMsg;
     }
 
 }

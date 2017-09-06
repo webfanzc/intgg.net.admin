@@ -24,11 +24,15 @@ exports.getList = function(conditions, fields, page, callback) {
         start = pageSize * (page.pageNum - 1);
     async.auto({
         findItems: function(callback){
-            var query = Stickers.find(conditions, fields || "-intid -__v")
+            var query = Stickers.find(conditions)
                 .lean()
                 .populate({
                     path: 'materialid',
                     select: 'name link url position content type verified'
+                })
+                .populate({
+                    path: 'intid',
+                    select: 'nickname'
                 })
                 .skip(start).limit(pageSize).sort({'createTime':-1});
             query.exec(function(err, data) {

@@ -24,9 +24,15 @@ exports.getList = function (conditions, fields, page, callback) {
         start = pageSize * (page.pageNum - 1);
     async.auto({
         findItems: function (callback) {
-            var query = Materials.find(conditions, fields || "-intid -__v")
-                .lean().skip(start).limit(pageSize).sort({"createTime": -1});
+            var query = Materials.find(conditions)
+                .lean()
+                .populate({
+                    path: 'intid',
+                    select: 'nickname'
+                })
+                .skip(start).limit(pageSize).sort({"createTime": -1});
             query.exec(function (err, data) {
+                console.log(data);
                 callback(err, data);
             });
         },

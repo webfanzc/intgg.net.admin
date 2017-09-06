@@ -51,7 +51,7 @@ export class MaterialService {
                     }
                     return this.materials;
                 }
-            ).catch(this.handleError);
+            )
 
     }
 
@@ -178,7 +178,7 @@ export class MaterialService {
                     return res;
                 }
 
-            ).catch(this.handleError);
+            )
     }
 
 
@@ -212,11 +212,13 @@ export class MaterialService {
                                 message.createTime,
                                 message._id,
                                 message.verified,
-                                message.verifiedMsg)
+                                message.verifiedMsg,
+                                message.intid)
                             );
                         }
                         this.materials = materials;
                         this.materialsChange.next(this.materials);
+                        console.log(materials);
                         this.materiasPage.next(res);
                         return res;
                     }
@@ -225,14 +227,14 @@ export class MaterialService {
 
                 }
 
-            ).catch(this.handleError);
+            )
 
 
     }
-    private handleError(error: any): Promise<any> {
-        console.error('An error occurred', error); // for demo purposes only
-        return Promise.reject(error.message || error);
-    }
+    // private handleError(error: any): Promise<any> {
+    //     console.error('An error occurred', error); // for demo purposes only
+    //     return Promise.reject(error.message || error);
+    // }
 
 }
 

@@ -107,6 +107,7 @@ export class StickerService {
                     if(res.status == 200){
                         let data = res.data;
                         let stickers : Sticker[] = []
+                        console.log(data);
                         for(let value of data){
                             if(value.materialid != null){
                                 stickers.push(new Sticker(

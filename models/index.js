@@ -17,7 +17,7 @@ var db = mongoose.createConnection(config.mongodb.str, config.mongodb.opts, func
 
 require('./materials');
 require('./setups');
-
+require('./users')
 require('./admin');
 require('./stickers');
 exports.Materials = db.model('Materials');
@@ -25,6 +25,7 @@ exports.Setups = db.model('Setups');
 
 exports.Admin = db.model('Admin');
 exports.Stickers = db.model('Stickers');
+exports.Users = db.model('Users');
 
 exports.close = function(){
     db.close(function(){

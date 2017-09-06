@@ -39,12 +39,14 @@
         <td>创建日期</td>
         <td>贴片名称</td>
         <td>贴片金额</td>
+        <td>贴片持有者</td>
         <td>操作</td>
     </tr>
     <tr *ngFor="let sticker of stickersResolve;let i=index">
         <td>{{sticker.createTime | date: 'yyyy-MM-dd HH:mm:ss'}}</td>
         <td>{{sticker.materialid.name}}</td>
         <td>{{sticker.total}}</td>
+        <td>{{sticker.intid.nickname}}</td>
         <td>
             <button class="btn btn-success" data-toggle="modal" data-target="#myModal" (click)="stickerVerified(i,sticker)" >通过审核</button>
             <button class="btn btn-danger" data-toggle="modal" data-target="#rejectModel" (click)="stickerVerified(i,sticker)">不通过</button>
@@ -57,12 +59,14 @@
         <td>创建日期</td>
         <td>贴片名称</td>
         <td>贴片金额</td>
+        <td>贴片持有者</td>
         <td>审核状态</td>
     </tr>
     <tr *ngFor="let sticker of stickers;let i=index">
         <td>{{sticker.createTime | date: 'yyyy-MM-dd HH:mm:ss'}}</td>
         <td>{{sticker.materialid.name}}</td>
         <td>{{sticker.total}}</td>
+        <td>{{sticker.intid.nickname}}</td>
         <td>
            <span *ngIf="sticker.verified == 1"> 已通过</span>
            <span *ngIf="sticker.verified == 2"> 未通过</span>

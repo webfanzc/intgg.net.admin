@@ -51,12 +51,14 @@
         <td>创建日期</td>
         <td>素材名称</td>
         <td>素材位置</td>
+        <td>素材持有者</td>
         <td>操作</td>
     </tr>
     <tr *ngFor="let material of materialResovle;let i=index">
         <td>{{material.createTime | date: 'yyyy-MM-dd HH:mm:ss'}}</td>
         <td>{{material.name}}</td>
         <td>{{material.position}}</td>
+        <td>{{material.intid.nickname}}</td>
         <td>
             <button class="btn btn-success" data-toggle="modal" data-target="#myModal" (click)="materialVerified(i,material)" >通过审核</button>
             <button class="btn btn-danger" data-toggle="modal" data-target="#rejectModel" (click)="materialVerified(i,material)">不通过</button>
@@ -69,12 +71,14 @@
         <td>创建日期</td>
         <td>素材名称</td>
         <td>素材位置</td>
+        <td>素材持有者</td>
         <td>审核状态</td>
     </tr>
     <tr *ngFor="let material of materials;let i=index">
         <td>{{material.createTime | date: 'yyyy-MM-dd HH:mm:ss'}}</td>
         <td>{{material.name}}</td>
         <td>{{material.position}}</td>
+        <td>{{material.intid.nickname}}</td>
         <td>
            <span *ngIf="material.verified == 1"> 已通过</span>
            <span *ngIf="material.verified == 2"> 未通过</span>
