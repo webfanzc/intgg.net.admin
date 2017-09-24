@@ -8,7 +8,7 @@ module.exports = {
 
     mongodb: {
         mongos: false,
-        str: 'mongodb://intggnet:intggnet@139.224.62.107:27027/intggnet',
+        str: 'mongodb://intggnet:intggnet@106.15.228.49:27027/intggnet',
         opts: {
             server: { poolSize: 5 }
 //            replset: {strategy: 'ping', rs_name: 'ali'}
@@ -54,22 +54,22 @@ module.exports = {
         //'10.105.249.140:7000'
     ],
 
-    usersMasterHost: '139.224.62.107', //db7存放了所有摇一摇用户信息,db8存放了用户名称模糊查询所用
+    usersMasterHost: '106.15.228.49', //db7存放了所有摇一摇用户信息,db8存放了用户名称模糊查询所用
     usersMasterPort: 6383,            //单独的实体机做主
 
-    usersSlaveHost: '139.224.62.107', //db7存放了所有摇一摇用户信息,db8存放了用户名称模糊查询所用
+    usersSlaveHost: '106.15.228.49', //db7存放了所有摇一摇用户信息,db8存放了用户名称模糊查询所用
     usersSlavePort: 6383,            //从库供查询用户信息接口使用
 
-    wxtokenRedisHost: '139.224.62.107', //139.224.62.107
+    wxtokenRedisHost: '106.15.228.49', //106.15.228.49
     wxtokenRedisPort: 6383,
 
-    qrcodeRedisHost: '139.224.62.107',  //微信二维码验证code,登录auth
+    qrcodeRedisHost: '106.15.228.49',  //微信二维码验证code,登录auth
     qrcodeRedisPort: 6383,
 
-    userTokenRedisHost: '139.224.62.107',  //用户token
+    userTokenRedisHost: '106.15.228.49',  //用户token
     userTokenRedisPort: 6383,
 
-    timerRedisHost:'139.224.62.107',   //定时器,自动拍
+    timerRedisHost:'106.15.228.49',   //定时器,自动拍
     timerRedisPort:6383,
     timerDB: "15",
 
