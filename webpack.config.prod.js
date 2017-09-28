@@ -1,10 +1,13 @@
 var webpack = require('webpack');
 var webpackMerge = require('webpack-merge');
 var commonConfig = require('./webpack.config.common.js');
+var ngtools = require('@ngtools/webpack');
+var helpers = require('./helpers');
+var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = webpackMerge.smart(commonConfig, {
     entry: {
-        'app': './assets/app/main.aot.ts'
+        'app': './assets/app/main.ts'
     },
 
     output: {
@@ -13,7 +16,6 @@ module.exports = webpackMerge.smart(commonConfig, {
         filename: 'bundle.js',
         chunkFilename: '[id].[hash].chunk.js'
     },
-
     module: {
         loaders: [
             {
@@ -21,16 +23,75 @@ module.exports = webpackMerge.smart(commonConfig, {
                 loaders: [
                     'awesome-typescript-loader',
                     'angular2-template-loader',
-                    'angular2-router-loader?aot=true&genDir=public/js/app'
+                    'angular2-router-loader'
                 ]
+            },
+            {
+                test: /\.html$/,
+                loader: 'html-loader'
+            },
+            {
+                test: /\.css$/,
+                loader: 'raw-loader'
             }
         ]
     },
-
     plugins: [
-        new webpack.NoErrorsPlugin(),
+        // new webpack.NoEmitOnErrorsPlugin(),
+        // new ExtractTextPlugin({
+        //     filename: '[name].[hash].css',
+        //     disable: false,
+        //     allChunks: true
+        // }),
+        //最小化 (minify)
         new webpack.optimize.UglifyJsPlugin({
-            sourceMap: false
-        })
+            mangle: true,
+            screw_ie8: true,
+            beautify: false,
+            comments: false,
+            compress: {
+                warnings: false,
+                warnings: true,
+                drop_console: false,
+                collapse_vars: true,
+                reduce_vars: true
+            }
+        }),
+        new webpack.LoaderOptionsPlugin({
+            options: {
+                htmlLoader: {
+                    minimize: false
+                }
+            }
+        }),
+
+        //ng2 aot webpack插件配置
+        //ng2 aot webpack config
+        new ngtools.AotPlugin({
+            tsConfigPath: './tsconfig.aot.json',
+            entryModule: helpers.root('intgg.net.admin/assets','app','app.module')+'#AppModule'
+        }),
+
+        // new webpack.DefinePlugin({
+        //     'process.env': {
+        //         'NODE_ENV': JSON.stringify(env)
+        //     }
+        // })
     ]
+
+    // output: {
+    //     path: '/opt/www/intgg.net/public/js/app',
+    //     publicPath: '/js/app/',
+    //     filename: 'bundle.js',
+    //     chunkFilename: '[id].[hash].chunk.js'
+    // },
+    //
+
+
+    // plugins: [
+    //     new webpack.NoErrorsPlugin(),
+    //     new webpack.optimize.UglifyJsPlugin({
+    //         sourceMap: false
+    //     })
+    // ]
 });

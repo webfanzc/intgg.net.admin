@@ -2,7 +2,6 @@
  * Created by gy104 on 17/8/18.
  */
 import {Component, OnInit} from "@angular/core";
-import {calcBindingFlags} from "@angular/core/src/view/util";
 import {AdminLoginService} from "./amdin_login.service";
 import {FormGroup, FormControl, Validators} from "@angular/forms";
 import {Router} from "@angular/router";
