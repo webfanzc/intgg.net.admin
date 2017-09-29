@@ -2,11 +2,11 @@
  * Module dependencies.
  */
 
-var express = require('express')
-  , http = require('http')
-  , path = require('path')
-  , fs = require('fs')
-  , juicer = require('juicer');
+var express = require('express'),
+    http = require('http'),
+    path = require('path'),
+    fs = require('fs'),
+    juicer = require('juicer');
     juicer.set('strip',false);
     juicer.register('JSON', JSON);
 

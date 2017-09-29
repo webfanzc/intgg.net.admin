@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www",
+    "start": "node app.js",
     "build": "del-cli 'public/js/app' 'aot/**/*'  && webpack --config webpack.config.dev.js --progress --profile --watch",
     "build:prod": "del-cli public/js/app 'aot/**/*' && ngc -p tsconfig.aot.json &&  webpack --config webpack.config.prod.js --progress --profile  --bail && del-cli 'aot/**/*' 'assets/app/**/*.ngsummary.json' 'assets/app/**/*.ngfactory.ts' 'assets/app/**/*.ngstyle.ts' 'public/js/app/**/*.js' 'public/js/app/**/*.js.map' '!public/js/app/bundle.js' '!public/js/app/*.chunk.js' 'assets/app/**/*.ngfactory.ts' 'assets/app/**/*.shim.ts'"
   },
