@@ -13,6 +13,8 @@ import {MaterialsPageComponent} from "./material_verified/material-page/material
 import {StickerVerifiedComponent} from "./sticker_verified/sticker_verified.component";
 import {StickerPageComponent} from "./sticker_verified/sticker-page/sticker-page.component";
 import {FilterPipe} from "./filter.pipe";
+import {DroppackVerifiedComponent} from "./droppacks_verified/droppacks.component";
+import {DroppacksPageComponent} from "./droppacks_verified/droppack-page/droppacks-page.component";
 @NgModule({
     declarations: [
         AdminIndexComponent,
@@ -21,6 +23,8 @@ import {FilterPipe} from "./filter.pipe";
         MaterialsPageComponent,
         StickerVerifiedComponent,
         StickerPageComponent,
+        DroppackVerifiedComponent,
+        DroppacksPageComponent,
         FilterPipe
     ],
     imports:  [

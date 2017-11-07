@@ -20,8 +20,10 @@ require('./setups');
 require('./users')
 require('./admin');
 require('./stickers');
+require('./droppacks')
 exports.Materials = db.model('Materials');
 exports.Setups = db.model('Setups');
+exports.Droppacks = db.model("Droppacks")
 
 exports.Admin = db.model('Admin');
 exports.Stickers = db.model('Stickers');

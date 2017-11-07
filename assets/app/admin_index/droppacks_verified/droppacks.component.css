@@ -1,0 +1,39 @@
+.showImg {
+    width: 200px;
+    height: 150px;
+}
+
+.pass {
+    float: left;
+}
+.searchForm {
+    float: right;
+    margin-top: 8px;
+}
+
+/*投放包配置*/
+
+.configInfo {
+    margin-top: 20px;
+}
+.configInfo ul {
+    width: 300px;
+}
+.droppack-config {
+    width: 100%;
+}
+.droppack-config video {
+    width: 300px;
+}
+.droppack-config img {
+    width: 300px;
+    margin-top: 10px;
+}
+
+/*// 去掉下载键*/
+video::-webkit-media-controls-enclosure {
+    overflow:hidden;
+}
+video::-webkit-media-controls-panel {
+    width: calc(100% + 30px);
+}

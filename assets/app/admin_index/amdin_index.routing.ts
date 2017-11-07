@@ -7,12 +7,14 @@ import {MaterialVerifiedComponent} from "./material_verified/material_verified.c
 import {StickerVerifiedComponent} from "./sticker_verified/sticker_verified.component";
 import {NgModule} from "@angular/core";
 import {AdminIndexComponent} from "./admin_index.component";
+import {DroppackVerifiedComponent} from "./droppacks_verified/droppacks.component";
 
 export const ADMIN_ROUTES: Routes = [
     { path: '', component: AdminIndexComponent, children: [
         { path: 'setups', component: SetupsVerifiedComponent},
         { path: 'material', component: MaterialVerifiedComponent},
-        { path: 'sticker', component: StickerVerifiedComponent}
+        { path: 'sticker', component: StickerVerifiedComponent},
+        { path: 'droppack', component: DroppackVerifiedComponent}
     ] },
 ];
 
