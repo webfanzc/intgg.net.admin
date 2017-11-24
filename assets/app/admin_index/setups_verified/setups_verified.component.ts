@@ -39,7 +39,7 @@ export class SetupsVerifiedComponent implements OnInit{
     resovleSetup() {
         let date = new Date(this.setup.createTime);
         date.setFullYear(date.getFullYear() + 1);
-        this.setup.verified = 1;
+        this.setup.isAuth = 1;
         this.setup.verifiedMsg = '您提交的信息已通过审核';
         this.setup.expireTime = date.getTime();
         this.setupsService.updateSetup(this.setupIndex,this.setup);
@@ -48,7 +48,7 @@ export class SetupsVerifiedComponent implements OnInit{
 
 
     rejectSetup() {
-        this.setup.verified = 2;
+        this.setup.isAuth = 2;
         let value = this.setupForm.value;
         if(value.writeInfo == null) {
             this.setup.verifiedMsg = value.selectInfo;

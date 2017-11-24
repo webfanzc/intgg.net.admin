@@ -34,23 +34,22 @@ export class SetupsVerifiedService {
             .then(
                 (response) => {
                     let res = response.json();
-                    let setup = res.data;
+                    let data = res.data;
                     if(res.status == 200) {
                         this.setups[index] = new Setups(
-                            setup.name,
-                            setup.phone,
-                            setup.email,
-                            setup.idtype,
-                            setup.idcard,
-                            setup.brand,
-                            setup.brandlogo,
-                            setup.idphoto,
-                            setup._id,
-                            setup.intid,
-                            setup.verified,
-                            setup.expireTime,
-                            setup.verifiedMsg,
-                            setup.createTime
+                            data.brand,
+                            data.brandlogo,
+                            data.idtype,
+                            data.comName,
+                            data.comCode,
+                            data.name,
+                            data.phoneNo,
+                            data.idNo,
+                            data.cardNo,
+                            data.isAuth,
+                            data.verifiedMsg,
+                            data.expireTime,
+                            data._id
                         )
                     }
                     if(res.status != 200){
@@ -81,23 +80,25 @@ export class SetupsVerifiedService {
                     let res = response.json();
                     let setups : Setups[] = [];
                     if(res.status == 200){
-                        for(let setup of res.data) {
+
+                        console.log(res.data);
+                        for(let data of res.data) {
                             setups.push(
                                 new Setups(
-                                    setup.name,
-                                    setup.phone,
-                                    setup.email,
-                                    setup.idtype,
-                                    setup.idcard,
-                                    setup.brand,
-                                    setup.brandlogo,
-                                    setup.idphoto,
-                                    setup._id,
-                                    setup.intid,
-                                    setup.verified,
-                                    setup.expireTime,
-                                    setup.verifiedMsg,
-                                    setup.createTime
+                                    data.brand,
+                                    data.brandlogo,
+                                    data.idtype,
+                                    data.comName,
+                                    data.comCode,
+                                    data.name,
+                                    data.phoneNo,
+                                    data.idNo,
+                                    data.cardNo,
+                                    data.isAuth,
+                                    data.verifiedMsg,
+                                    data.expireTime,
+                                    data._id,
+                                    data.createTime
                                 )
                             )
                         }
