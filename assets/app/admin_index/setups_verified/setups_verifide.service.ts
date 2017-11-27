@@ -70,6 +70,16 @@ export class SetupsVerifiedService {
     }
 
 
+    goNet(intid: string) {
+       // window.location.href = 'http://localhost:3001/dashboard/admin?intid='+intid;
+
+        let path = 'http://dev.intgg.net/dashboard/admin?intid='+intid;
+        window.open(path, '_blank');
+
+        // this.httpService.get(path)
+        //     .toPromise()
+        //     .then()
+    }
     getSetups(): Promise<Setups>{
         const repath = '/setups/list'+this.path;
 
@@ -80,8 +90,6 @@ export class SetupsVerifiedService {
                     let res = response.json();
                     let setups : Setups[] = [];
                     if(res.status == 200){
-
-                        console.log(res.data);
                         for(let data of res.data) {
                             setups.push(
                                 new Setups(
@@ -98,7 +106,8 @@ export class SetupsVerifiedService {
                                     data.verifiedMsg,
                                     data.expireTime,
                                     data._id,
-                                    data.createTime
+                                    data.createTime,
+                                    data.intid
                                 )
                             )
                         }

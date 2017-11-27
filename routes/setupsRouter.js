@@ -179,13 +179,47 @@ setupsRouter.post('/save',function (req, res, next) {
 
         }
     }, function (err, results) {
-        //logger.info(results,setupid,userSetup);
 
         if(err){
             return utils.resToClient(res, params, {status: status || 500, msg: err.message});
         }
 
         utils.resToClient(res,params,{status: 200, msg:"保存成功", hosts: config.HOSTS, data: results.updateToMongo || userSetup});
+
+    });
+
+});
+setupsRouter.post('/del',function (req, res, next) {
+    var params = URL.parse(req.url, true);
+    var intid = req.query.intid,
+        token = req.query.token,
+        setupid = req.query._id || "";
+
+    var status = 400,
+        errmsg = "";
+
+    async.auto({
+        checkintid:function (callback) {
+            var condition = {_id: setupid};
+            setupsDao.del(condition,null,function(err,reply){
+                    if (err) {  //内部服务错误
+                        status = 500;
+                        return callback(err);
+                    }
+                    if (_.isEmpty(reply)) { //删除失败
+                        return callback(new Error("del droppack is fail."));
+                    }
+                    callback(null,reply);
+                });
+
+        },
+    }, function (err, results) {
+
+        if(err){
+            return utils.resToClient(res, params, {status: status || 500, msg: err.message});
+        }
+
+        utils.resToClient(res,params,{status: 200, data: results.saveToMongo, msg:"删除成功"});
 
     });
 

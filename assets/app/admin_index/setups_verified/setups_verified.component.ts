@@ -36,6 +36,9 @@ export class SetupsVerifiedComponent implements OnInit{
         this.setupIndex = index;
     }
 
+    checkInfo(setup: Setups) {
+        this.setup = setup;
+    }
     resovleSetup() {
         let date = new Date(this.setup.createTime);
         date.setFullYear(date.getFullYear() + 1);
@@ -69,11 +72,16 @@ export class SetupsVerifiedComponent implements OnInit{
 
     }
 
+    goNet(intid: string) {
+        this.setupsService.goNet(intid);
+    }
+
     ngOnInit(){
         this.setupsService.setupsSuject
             .subscribe(
                 (setups:Setups[]) =>{
                     this.setups = setups;
+                    console.log(this.setups);
                 }
             )
         this.initForm();

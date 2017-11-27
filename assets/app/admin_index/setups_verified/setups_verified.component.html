@@ -8,7 +8,7 @@
         <div class="row">
             <ul class="nav nav-tabs">
                 <li role="presentation" [class.active]="reject" (click)="selectResolve()"><a>未审核</a></li>
-                <li role="presentation" [class.active]="!reject" (click)="selectReject()"><a>已审核</a></li>
+                <!--<li role="presentation" [class.active]="!reject" (click)="selectReject()"><a>已审核</a></li>-->
             </ul>
         </div>
         <div class="row">
@@ -39,9 +39,9 @@
         <td>{{setup.name}}</td>
         <td>{{setup.brand}}</td>
         <td>
-            <!--<button class="btn btn-success" data-toggle="modal" data-target="#myModal" (click)="resovle(i,setup)">通过审核</button>-->
-            <button class="btn btn-success">进入后台</button>
-            <!--<button class="btn btn-danger" data-toggle="modal" data-target="#rejectModel"  (click)="resovle(i,setup)">不通过</button>-->
+            <button class="btn btn-success" data-toggle="modal" data-target="#myModal" (click)="checkInfo(setup)">查看信息</button>
+            <button class="btn btn-success" (click)="goNet(setup.intid)">进入后台</button>
+            <button class="btn btn-danger" data-toggle="modal" data-target="#rejectModel">不通过</button>
         </td>
 
     </tr>
@@ -73,63 +73,63 @@
     </tr>
 </table>
 
-<!--<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">-->
-    <!--<div class="modal-dialog" role="document">-->
-        <!--<div class="modal-content" *ngIf="setup != null">-->
-            <!--<div class="modal-header">-->
-                <!--{{setup?.name}}-->
-                <!--{{setup.createTime | date: 'yyyy-MM-dd HH:mm:ss'}}-->
-                <!--<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>-->
-            <!--</div>-->
-            <!--<div class="modal-body">-->
-                <!--<p>主体类型：-->
-                    <!--<span *ngIf="setup.idtype == 0">个人</span>-->
-                    <!--<span *ngIf="setup.idtype == 1">公司</span>-->
-                <!--</p>-->
-                <!--<p>推广品牌： {{setup?.brand}}</p>-->
-                <!--<p>-->
-                    <!--<span *ngIf="setup.idtype == 0">身份证号</span>-->
-                    <!--<span *ngIf="setup.idtype == 1">营业执照编号</span>-->
-                    <!--： {{setup?.idcard}}-->
-                <!--</p>-->
-                <!--<p>推广品牌： {{setup?.brand}}</p>-->
-                <!--<p>手机号： {{setup?.phone}}</p>-->
-                <!--<p>E-mail： {{setup?.email}}</p>-->
-                <!--<div>-->
-                    <!--<p>推广品牌logo:</p>-->
-                    <!--<img [src]="path +setup.brandlogo" class="showImg">-->
-                <!--</div>-->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content" *ngIf="setup != null">
+            <div class="modal-header">
+                {{setup?.name}}
+                {{setup.createTime | date: 'yyyy-MM-dd HH:mm:ss'}}
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body">
+                <p>主体类型：
+                    <span *ngIf="setup.idtype == 0">个人</span>
+                    <span *ngIf="setup.idtype == 1">公司</span>
+                </p>
+                <p *ngIf="setup.idtype == 1">公司名称： {{setup.comName}}</p>
+                <p>法人姓名： {{setup?.name}}</p>
+                <p>
+                   身份证号： {{setup?.idNo}}
+                </p>
+                <p *ngIf="setup.idtype == 1">公司统一信用代码： {{setup?.comCode}}</p>
+                <p>手机号： {{setup?.phoneNo}}</p>
+                <p>银行卡号： {{setup?.cardNo}}</p>
+                <p>推广品牌： {{setup?.brand}}</p>
+                <div>
+                    <p>推广品牌logo:</p>
+                    <img [src]="path +setup.brandlogo" class="showImg">
+                </div>
                 <!--<div>-->
                     <!--<p><span *ngIf="setup.idtype == 0">身份证</span></p>-->
                     <!--<p><span *ngIf="setup.idtype == 1">营业执照</span></p>-->
                     <!--<img *ngFor="let idphoto of setup.idphoto" [src]="path + idphoto.photo" alt="">-->
                 <!--</div>-->
-            <!--</div>-->
+            </div>
             <!--<div class="modal-footer">-->
                 <!--<button type="button" class="btn btn-success" data-dismiss="modal" (click)="resovleSetup()">通过验证</button>-->
                 <!--<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#rejectModel" data-dismiss="modal">不通过</button>-->
             <!--</div>-->
-        <!--</div>-->
-    <!--</div>-->
-<!--</div>-->
+        </div>
+    </div>
+</div>
 
-<!--<div class="modal fade bs-example-modal-sm" id="rejectModel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">-->
-    <!--<div class="modal-dialog" role="document">-->
-        <!--<div class="modal-content" *ngIf="setup != null">-->
-            <!--<div class="modal-header">-->
-                <!--{{setup?.name}}：拒绝原因-->
-                <!--<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>-->
-            <!--</div>-->
-            <!--<div class="modal-body" [formGroup]="setupForm">-->
-                <!--<textarea class="form-control" rows="3" formControlName="writeInfo"></textarea>-->
-                <!--<select class="form-control" formControlName="selectInfo">-->
-                    <!--<option>选择原因</option>-->
-                    <!--<option *ngFor="let info of rejectInfo" [value]="info.value">{{info.value}}</option>-->
-                <!--</select>-->
-            <!--</div>-->
-            <!--<div class="modal-footer">-->
-                <!--<button type="button" class="btn btn-danger" data-dismiss="modal" (click)="rejectSetup()">不通过</button>-->
-            <!--</div>-->
-        <!--</div>-->
-    <!--</div>-->
-<!--</div>-->
+<div class="modal fade bs-example-modal-sm" id="rejectModel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content" *ngIf="setup != null">
+            <div class="modal-header">
+                {{setup?.name}}：拒绝原因
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body" [formGroup]="setupForm">
+                <textarea class="form-control" rows="3" formControlName="writeInfo"></textarea>
+                <select class="form-control" formControlName="selectInfo">
+                    <option>选择原因</option>
+                    <option *ngFor="let info of rejectInfo" [value]="info.value">{{info.value}}</option>
+                </select>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="rejectSetup()">不通过</button>
+            </div>
+        </div>
+    </div>
+</div>

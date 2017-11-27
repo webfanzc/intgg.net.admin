@@ -95,7 +95,8 @@ export class Setups {
         verifiedMsg?: string,
         expireTime?: number,
         _id?: string,
-        createTime?: number
+        createTime?: number,
+        intid?: string
     ){
         this.idtype = idtype;
         this.comName = comName;
@@ -111,5 +112,6 @@ export class Setups {
         this.expireTime = expireTime;
         this._id = _id;
         this.createTime = createTime;
+        this.intid = intid;
     }
 }

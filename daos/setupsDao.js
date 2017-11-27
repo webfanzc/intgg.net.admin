@@ -24,7 +24,7 @@ exports.getSetupsList = function (conditions, fields, page, callback) {
         start = pageSize * (page.pageNum - 1);
     async.auto({
         findItems: function (callback) {
-            var query = Setups.find(conditions, fields || "-intid -__v")
+            var query = Setups.find(conditions, fields || "-__v")
                 .lean().skip(start).limit(pageSize).sort({"createTime": -1});
             query.exec(function (err, data) {
                 callback(err, data);
