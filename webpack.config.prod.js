@@ -33,6 +33,10 @@ module.exports = webpackMerge.smart(commonConfig, {
             {
                 test: /\.css$/,
                 loader: 'raw-loader'
+            },
+            {
+                test: /(?:\.ngfactory\.js|\.ngstyle\.js|\.ts)$/,
+                loader: '@ngtools/webpack',
             }
         ]
     },
@@ -67,10 +71,15 @@ module.exports = webpackMerge.smart(commonConfig, {
 
         //ng2 aot webpack插件配置
         //ng2 aot webpack config
-        new ngtools.AotPlugin({
-            tsConfigPath: './tsconfig.aot.json',
-            entryModule: helpers.root('intgg.net.admin/assets','app','app.module')+'#AppModule'
-        }),
+        // new ngtools.AotPlugin({
+        //     tsConfigPath: './tsconfig.aot.json',
+        //     entryModule: helpers.root('intgg.net.admin/assets','app','app.module')+'#AppModule'
+        // }),
+        new ngtools.AngularCompilerPlugin({
+            tsConfigPath: './tsconfig.json',
+            entryModule: helpers.root('intgg.net.admin/assets','app','app.module')+'#AppModule',
+            // sourceMap: true
+        })
 
         // new webpack.DefinePlugin({
         //     'process.env': {

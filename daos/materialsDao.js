@@ -32,7 +32,6 @@ exports.getList = function (conditions, fields, page, callback) {
                 })
                 .skip(start).limit(pageSize).sort({"createTime": -1});
             query.exec(function (err, data) {
-                console.log(data);
                 callback(err, data);
             });
         },

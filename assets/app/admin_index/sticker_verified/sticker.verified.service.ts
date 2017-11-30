@@ -2,14 +2,14 @@
  * Created by gy104 on 17/4/1.
  */
 import {Injectable, EventEmitter} from "@angular/core";
-import {MdSnackBar} from "@angular/material";
-import {Http, RequestOptions, Headers, URLSearchParams} from "@angular/http";
 import { Router} from "@angular/router";
 import 'rxjs/Rx'
 import 'rxjs/add/operator/toPromise';
 import 'rxjs/add/operator/catch';
 import {Subject} from "rxjs/Subject";
 import {Sticker} from "./sticker.verified.model";
+import {HttpHeaders, HttpClient} from "@angular/common/http";
+import {HttpParams} from "@angular/common/http";
 
 @Injectable()
 export class StickerService {
@@ -17,19 +17,19 @@ export class StickerService {
     private stickers: Sticker[] = [];
     stickersChange: Subject<Sticker[]> = new Subject<Sticker[]>();
     stickersPage: Subject<any> = new Subject<any>();
-    private  headers = {
-        headers:new Headers({'Content-Type': 'application/json'})
+    private headers = {
+        headers: new HttpHeaders().set('Content-Type','application/json')
     };
-    constructor(private httpService: Http,private router: Router){}
+    constructor(private httpService: HttpClient,private router: Router){}
 
     updateSticker(sticker: Sticker){
         let body = JSON.stringify(sticker);
         const repath = '/sticker/update'+this.path+'&_id='+sticker._id;
-        this.httpService.post(repath, body, this.headers)
+        this.httpService.post<any>(repath, body, this.headers)
             .toPromise()
             .then(
                 (response) => {
-                    let res = response.json();
+                    let res = response;
                     let value = res.data;
                     if(res.status == 200){
                         let stickers = new Sticker(
@@ -52,11 +52,11 @@ export class StickerService {
 
     searchSticker(verified: number,params: StickerSearchParams){
         let repath = '/sticker/list'+this.path+'&verified='+verified;
-        this.httpService.get(repath,{search: this.filterParams(params)})
+        return this.httpService.get<any>(repath,{params: this.filterParams(params)})
             .toPromise()
             .then(
                 (response) => {
-                    let res = response.json();
+                    let res = response;
                     if(res.status == 200){
                         let data = res.data;
                         let stickers : Sticker[] = []
@@ -83,13 +83,19 @@ export class StickerService {
 
     }
 
-    private filterParams(params: StickerSearchParams): URLSearchParams{
-        return Object.keys(params)
-            .filter(key => params[key])
-            .reduce( (sum: URLSearchParams, key: string) => {
-                sum.append(key, params[key]);
-                return sum;
-            },new URLSearchParams() )
+    private filterParams(params: StickerSearchParams):HttpParams{
+        let ret = new HttpParams();
+        if (params) {
+            // tslint:disable-next-line:forin
+            for (const key in params) {
+                let _data = params[key];
+                if (_data != null) {
+                    ret = ret.set(key, _data);
+                }
+
+            }
+        }
+        return ret;
     }
 
     getStickersPage(pageNum: number, pageSize: number) {
@@ -99,11 +105,11 @@ export class StickerService {
     getstickers(verified: number,pageNum?: number,pageSize?: number) :Promise<Sticker[]> {
         let page = '&pageSize='+pageSize+'&pageNum='+pageNum;
         const repath = '/sticker/list'+this.path+'&verified='+verified+page;
-        return this.httpService.get(repath)
+        return this.httpService.get<any>(repath)
             .toPromise()
             .then(
                 (response) => {
-                    let res = response.json();
+                    let res = response;
                     if(res.status == 200){
                         let data = res.data;
                         let stickers : Sticker[] = []

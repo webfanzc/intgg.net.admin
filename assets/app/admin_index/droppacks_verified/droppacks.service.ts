@@ -13,6 +13,9 @@ import 'rxjs/add/operator/catch';
 
 import {Droppack} from './droppacks.model'
 import {Subject} from "rxjs/Subject";
+import {HttpClient} from "@angular/common/http";
+import {HttpParams} from "@angular/common/http";
+import {HttpHeaders} from "@angular/common/http";
 
 @Injectable()
 export class DroppackService {
@@ -21,20 +24,20 @@ export class DroppackService {
     private droppacks : Droppack[] = [];
     droppacksSearch : Droppack[] = [];
     private headers = {
-        headers:new Headers({'Content-Type': 'application/json'})
+        headers: new HttpHeaders().set('Content-Type','application/json')
     };
     path: string = '?token='+localStorage.getItem('token');
-    constructor(private httpService: Http ,private router: Router){}
+    constructor(private httpService: HttpClient ,private router: Router){}
 
     updateDroppack(droppack: Droppack){
         const body = JSON.stringify(droppack);
         console.log(body)
         let repath = '/droppacks/update'+this.path+ '&_id='+droppack._id;
-        return this.httpService.post(repath,body,this.headers)
+        return this.httpService.post<any>(repath,body,this.headers)
             .toPromise()
             .then(
                 (response) => {
-                    let res = response.json();
+                    let res = response;
                     let data = res.data;
                     if(res.status == 200) {
                         this.droppacks[this.droppacks.indexOf(droppack)] = new Droppack(
@@ -61,12 +64,12 @@ export class DroppackService {
     //模糊查询素材
     searchDroppackByName(name:string): Promise<Droppack[]>{
         let repath = '/droppacks/list'+this.path+'&packname='+name;
-        return this.httpService.get(repath)
+        return this.httpService.get<any>(repath)
             .toPromise()
             .then(
                 (response) => {
 
-                    let res = response.json();
+                    let res = response;
                     let messages = res.data;
                     let droppacks: Droppack[] = [];
                     if(res.status == 200 ) {
@@ -98,11 +101,11 @@ export class DroppackService {
     //搜索素材
     searchDroppack(params: DroppackSearchParams): Promise<Droppack[]>{
         let repath = '/droppacks/list'+this.path;
-        return this.httpService.get(repath,{search: this.filterParams(params)})
+        return this.httpService.get<any>(repath,{params: this.filterParams(params)})
             .toPromise()
             .then(
                 (response) => {
-                    let res = response.json();
+                    let res = response;
                     let messages = res.data;
                     let droppacks: Droppack[] = [];
                     if (res.status == 200) {
@@ -123,7 +126,6 @@ export class DroppackService {
                         }
                         this.droppacks = droppacks;
                         this.droppacksChange.next(this.droppacks);
-                        console.log(droppacks);
                         this.droppacksPage.next(res);
                         return res;
                     }
@@ -132,13 +134,19 @@ export class DroppackService {
     }
 
 
-    private filterParams(params: DroppackSearchParams): URLSearchParams{
-        return Object.keys(params)
-            .filter(key => params[key])
-            .reduce( (sum: URLSearchParams, key: string) => {
-                sum.append(key, params[key]);
-                return sum;
-            },new URLSearchParams() )
+    private filterParams(params: DroppackSearchParams): HttpParams{
+        let ret = new HttpParams();
+        if (params) {
+            // tslint:disable-next-line:forin
+            for (const key in params) {
+                let _data = params[key];
+                if (_data != null) {
+                    ret = ret.set(key, _data);
+                }
+
+            }
+        }
+        return ret;
     }
 
     // getMaterialsPage(pageNum: number, pageSize: number){
@@ -179,10 +187,10 @@ export class DroppackService {
     getDroppacks(verified: number,pageNum?: number, pageSize?:number) :Promise<Droppack[]> {
         let page = '&pageSize='+pageSize+'&pageNum='+pageNum;
         let repath = '/droppacks/list'+this.path+'&verified='+verified+page;
-        return this.httpService.get(repath)
+        return this.httpService.get<any>(repath)
             .toPromise()
             .then((response) => {
-                    let res = response.json();
+                    let res = response;
                     let droppacks: Droppack[] = [];
                     if(res.status == 505) {
                         this.router.navigate(['/admin_login'])

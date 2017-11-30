@@ -7,9 +7,9 @@ import {Http,Headers} from "@angular/http"
  * Created by gy104 on 17/3/23.
  */
 import { Setups } from './setups.model'
-import {MdSnackBar} from "@angular/material";
 import {Subject} from "rxjs";
 import {Router} from "@angular/router";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 
 @Injectable()
 export class SetupsVerifiedService {
@@ -17,23 +17,23 @@ export class SetupsVerifiedService {
     public  setupsSuject: Subject<Setups[]> = new Subject<Setups[]>();
     public setupIndex: Subject<number> = new Subject<number>();
     private path = "?token=" + localStorage.getItem('token');
-    constructor(private httpService: Http,private router: Router){}
+    private headers = {
+        headers: new HttpHeaders().set('Content-Type','application/json')
+    };
+    constructor(private httpService: HttpClient,private router: Router){}
 
 
 
     updateSetup(index: number,setups: Setups){
         let _id = setups._id;
         let body = JSON.stringify(setups);
-        const headers = {
-            headers:new Headers({'Content-Type': 'application/json'})
-        };
         const prepath =  "/setups/save" + this.path+'&_id=' + _id;;
 
-        this.httpService.post(prepath,body, headers)
+        this.httpService.post<any>(prepath,body, this.headers)
             .toPromise()
             .then(
                 (response) => {
-                    let res = response.json();
+                    let res = response;
                     let data = res.data;
                     if(res.status == 200) {
                         this.setups[index] = new Setups(
@@ -83,11 +83,11 @@ export class SetupsVerifiedService {
     getSetups(): Promise<Setups>{
         const repath = '/setups/list'+this.path;
 
-        return this.httpService.get(repath)
+        return this.httpService.get<any>(repath)
             .toPromise()
             .then(
                 (response) => {
-                    let res = response.json();
+                    let res = response;
                     let setups : Setups[] = [];
                     if(res.status == 200){
                         for(let data of res.data) {
