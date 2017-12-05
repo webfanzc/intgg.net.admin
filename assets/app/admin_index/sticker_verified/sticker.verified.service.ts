@@ -25,7 +25,7 @@ export class StickerService {
     updateSticker(sticker: Sticker){
         let body = JSON.stringify(sticker);
         const repath = '/sticker/update'+this.path+'&_id='+sticker._id;
-        this.httpService.post<any>(repath, body, this.headers)
+        return this.httpService.post<any>(repath, body, this.headers)
             .toPromise()
             .then(
                 (response) => {
@@ -43,15 +43,26 @@ export class StickerService {
                         );
                         this.stickers[this.stickers.indexOf(sticker)] = stickers;
                         this.stickersChange.next(this.stickers);
+                        return stickers;
                     }
                 }
             )
 
     }
 
+    delMoney(stickerid: string,intid: string) {
+        let repath = '/moneys/del'+this.path+'&sourceId='+stickerid+'&intid='+intid;
+        this.httpService.post(repath,null,this.headers)
+            .subscribe(
+                (reponse) => {
+                    console.log(reponse);
+                }
+            )
+    }
 
     searchSticker(verified: number,params: StickerSearchParams){
         let repath = '/sticker/list'+this.path+'&verified='+verified;
+
         return this.httpService.get<any>(repath,{params: this.filterParams(params)})
             .toPromise()
             .then(

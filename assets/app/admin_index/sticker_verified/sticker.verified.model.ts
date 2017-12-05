@@ -9,7 +9,7 @@ export class Sticker {
     verified: number;
     verifiedMsg: string;
     _id: string;
-    intid: string;
+    intid: any;
     constructor(
         total: string,
         materialid: string,
@@ -17,7 +17,7 @@ export class Sticker {
         createTime?: string,
         verified?: number,
         verifiedMsg?: string,
-        intid?: string
+        intid?: any
     ){
         this.total = total;
         this.createTime = createTime;

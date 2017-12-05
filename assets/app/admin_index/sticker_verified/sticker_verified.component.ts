@@ -112,7 +112,14 @@ export class StickerVerifiedComponent implements OnInit{
             this.sticker.verifiedMsg = '审核不通过'
         }
         this.sticker.verified = 2;
-        this.stickerService.updateSticker(this.sticker);
+        console.log(this.sticker);
+        this.stickerService.updateSticker(this.sticker)
+            .then(
+                (sticker: Sticker) => {
+                    console.log(sticker);
+                    this.stickerService.delMoney(sticker._id,sticker.intid);
+                }
+            );
     }
 
     ngOnInit(){

@@ -10,6 +10,7 @@ var setupsRouter = require('./setupsRouter');
 var adminRouter = require('./adminRouter');
 var stickerRouter = require('./stickersRouter');
 var droppacksRouter = require('./droppacksRouter');
+var moneysRouter = require('./moneysRouter');
 var config = require('../config');
 
 exports.runApp = function(app){
@@ -21,6 +22,7 @@ exports.runApp = function(app){
     app.use('/admin',adminRouter); // 后台登录注册
     app.use('/sticker', stickerRouter); // 贴片审核
     app.use('/droppacks',droppacksRouter);  // 投放包审核
+    app.use('/moneys',moneysRouter);
     // //ronghui test route
     // app.get('/admin', function (req, res, next) {
     //     res.render('admin_index');

@@ -54,7 +54,7 @@ materialRouter.use('/',function (req,res,next) {
         }
         next();
     })
-})
+});
 
 //查询素材分页列表
 materialRouter.get('/list', function (req, res, next) {

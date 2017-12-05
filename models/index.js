@@ -20,14 +20,16 @@ require('./setups');
 require('./users')
 require('./admin');
 require('./stickers');
-require('./droppacks')
+require('./droppacks');
+require('./moneys');
 exports.Materials = db.model('Materials');
 exports.Setups = db.model('Setups');
-exports.Droppacks = db.model("Droppacks")
+exports.Droppacks = db.model("Droppacks");
 
 exports.Admin = db.model('Admin');
 exports.Stickers = db.model('Stickers');
 exports.Users = db.model('Users');
+exports.Moneys = db.model('Moneys');
 
 exports.close = function(){
     db.close(function(){

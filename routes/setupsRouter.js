@@ -20,7 +20,6 @@ var config = require("../config");
 
 // var clientUserToken = utils.newRedisClient(config.userTokenRedisPort,config.userTokenRedisHost,5);
 
-
 //async.auto({
 //    checktoken: function(callback){
 //
@@ -150,14 +149,6 @@ setupsRouter.post('/save',function (req, res, next) {
 
     var userSetup = {};
     async.auto({
-
-        // checktoken: function(callback){
-        //     jwt.verify(token, 'secret', function (err,decoded) {
-        //         if(err){
-        //             st
-        //         }
-        //     })
-        // },
         updateToMongo : function (callback) {
 
             if(_.isEmpty(setupid)){
@@ -189,39 +180,5 @@ setupsRouter.post('/save',function (req, res, next) {
     });
 
 });
-setupsRouter.post('/del',function (req, res, next) {
-    var params = URL.parse(req.url, true);
-    var intid = req.query.intid,
-        token = req.query.token,
-        setupid = req.query._id || "";
 
-    var status = 400,
-        errmsg = "";
-
-    async.auto({
-        checkintid:function (callback) {
-            var condition = {_id: setupid};
-            setupsDao.del(condition,null,function(err,reply){
-                    if (err) {  //内部服务错误
-                        status = 500;
-                        return callback(err);
-                    }
-                    if (_.isEmpty(reply)) { //删除失败
-                        return callback(new Error("del droppack is fail."));
-                    }
-                    callback(null,reply);
-                });
-
-        },
-    }, function (err, results) {
-
-        if(err){
-            return utils.resToClient(res, params, {status: status || 500, msg: err.message});
-        }
-
-        utils.resToClient(res,params,{status: 200, data: results.saveToMongo, msg:"删除成功"});
-
-    });
-
-});
 module.exports = setupsRouter;
