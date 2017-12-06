@@ -73,7 +73,7 @@ export class SetupsVerifiedService {
     goNet(intid: string) {
        // window.location.href = 'http://localhost:3001/dashboard/admin?intid='+intid;
 
-        let path = 'http://localhost:3001/dashboard/admin?intid='+intid;
+        let path = 'http://dev.intgg.net/dashboard/admin?intid='+intid;
         window.open(path, '_blank');
 
         // this.httpService.get(path)
