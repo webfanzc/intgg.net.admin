@@ -34,6 +34,7 @@ export class DroppackVerifiedComponent implements OnInit{
     reject: boolean = true;
     materialForm: FormGroup;
     searchForm: FormGroup;
+    modal: number = 0;
     config: string = "community";
     configInfo: any;
     rejectInfo = [
@@ -50,6 +51,7 @@ export class DroppackVerifiedComponent implements OnInit{
     }
 
     droppackVerified(index: number, droppack: Droppack){
+        this.modal = 1;
         this.droppack = droppack;
         this.configInfo = droppack.configInfo;
         this.droppackIndex = index;

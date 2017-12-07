@@ -39,7 +39,7 @@
         <td>{{setup.name}}</td>
         <td>{{setup.brand}}</td>
         <td>
-            <button class="btn btn-success" data-toggle="modal" data-target="#myModal" (click)="checkInfo(setup)">查看信息</button>
+            <button class="btn btn-success" (click)="checkInfo(setup)">查看信息</button>
             <button class="btn btn-success" (click)="goNet(setup.intid)">进入后台</button>
             <button class="btn btn-danger" data-toggle="modal" data-target="#rejectModel">不通过</button>
         </td>

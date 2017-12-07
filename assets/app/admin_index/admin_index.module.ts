@@ -15,6 +15,7 @@ import {StickerPageComponent} from "./sticker_verified/sticker-page/sticker-page
 import {FilterPipe} from "./filter.pipe";
 import {DroppackVerifiedComponent} from "./droppacks_verified/droppacks.component";
 import {DroppacksPageComponent} from "./droppacks_verified/droppack-page/droppacks-page.component";
+import {HttpClientModule} from "@angular/common/http";
 @NgModule({
     declarations: [
         AdminIndexComponent,
@@ -29,7 +30,7 @@ import {DroppacksPageComponent} from "./droppacks_verified/droppack-page/droppac
     ],
     imports:  [
         CommonModule,
-        HttpModule,
+        HttpClientModule,
         FormsModule,
         ReactiveFormsModule,
         AdminIndexRoutingModule,

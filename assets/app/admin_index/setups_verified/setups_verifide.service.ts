@@ -113,7 +113,7 @@ export class SetupsVerifiedService {
                         }
                         this.setups = setups;
                         this.setupsSuject.next(this.setups);
-                        return response.json().data;
+                        return response.data;
                     }
                 }
             )

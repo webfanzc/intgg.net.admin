@@ -48,17 +48,18 @@ module.exports = webpackMerge.smart(commonConfig, {
         //     allChunks: true
         // }),
         //最小化 (minify)
+        new webpack.NoEmitOnErrorsPlugin(),
+        //最小化 (minify)
         new webpack.optimize.UglifyJsPlugin({
-            mangle: true,
-            screw_ie8: true,
-            beautify: false,
-            comments: false,
+            // mangle: true,
+            // screw_ie8: true,
+            // beautify: false,
+            // comments: false,
             compress: {
                 warnings: false,
-                warnings: true,
-                drop_console: false,
-                collapse_vars: true,
-                reduce_vars: true
+                // drop_console: false,
+                // collapse_vars: true,
+                // reduce_vars: true
             }
         }),
         new webpack.LoaderOptionsPlugin({
