@@ -11,10 +11,15 @@ import {HttpClientModule} from "@angular/common/http";
 import {DroppacksRoutingModule} from "./droppacks.routing";
 import {ShareModule} from "../../share/share.module";
 import {ConfirmDialogComponent} from "./droppack-dialog/confirm-dialog.component";
+import {DroppackService} from "./droppacks.service";
+import {DroppackRejectComponent} from "./droppack_reject/droppacks_reject.component";
+import {DroppackResovleComponent} from "./droppack_resovle/droppacks_resovle.component";
 @NgModule({
     declarations: [
         DroppackVerifiedComponent,
         DroppacksPageComponent,
+        DroppackRejectComponent,
+        DroppackResovleComponent,
         ConfirmDialogComponent
         // FilterPipe
     ],
@@ -27,6 +32,9 @@ import {ConfirmDialogComponent} from "./droppack-dialog/confirm-dialog.component
     ],
     entryComponents: [
         ConfirmDialogComponent
+    ],
+    providers: [
+        DroppackService
     ]
 })
 export class DroppacksModule{}

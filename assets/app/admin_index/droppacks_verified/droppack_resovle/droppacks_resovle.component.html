@@ -1,0 +1,87 @@
+<mat-list>
+    <mat-list-item>
+        <ul>
+            <li class="title"><h4 >创建日期</h4></li>
+            <li class="date"><h4 >投放包名称</h4></li>
+            <li class="edit"><h4 >推广品牌</h4></li>
+            <li class="edit"><h4 >素材持有者</h4></li>
+            <li class="edit"><h4 >审核状态</h4></li>
+        </ul>
+    </mat-list-item>
+    <mat-list-item *ngFor="let droppack of droppacks;let i=index">
+        <ul>
+            <li class="title">{{droppack.createTime | date: 'yyyy-MM-dd HH:mm:ss'}}</li>
+            <li class="date">{{droppack.packname}}</li>
+            <li class="edit">{{droppack.brand}}</li>
+            <li class="edit">{{droppack.intid.nickname}}</li>
+            <li class="edit">
+                <button mat-raised-button color="primary" (click)="droppackVerified(i,droppack)">通过审核</button>
+                <button mat-raised-button color="accent" (click)="droppackVerified(i,droppack)">不通过</button>
+            </li>
+        </ul>
+    </mat-list-item>
+</mat-list>
+<!--<mat-tab-group class="demo-tab-group">-->
+    <!--<mat-tab label="未审核" (selectChange)="selectResolve()">-->
+        <!--<form class="sticker-form" [formGroup]="searchForm">-->
+            <!--<mat-form-field class="example-full-width">-->
+                <!--<input matInput  type="date"  formControlName="date" (change)="searchMaterial()">-->
+            <!--</mat-form-field>-->
+            <!--<mat-form-field class="example-full-width">-->
+                <!--<input matInput  placeholder="输入投放包名称" placeholder="输入投放包名称" (input)="searchMaterialByName($event)">-->
+            <!--</mat-form-field>-->
+        <!--</form>-->
+        <!--<div class="demo-tab-content">-->
+            <!--<mat-list>-->
+                <!--<mat-list-item>-->
+                    <!--<ul>-->
+                        <!--<li class="title"><h4 >创建日期</h4></li>-->
+                        <!--<li class="date"><h4 >投放包名称</h4></li>-->
+                        <!--<li class="edit"><h4 >推广品牌</h4></li>-->
+                        <!--<li class="edit"><h4 >素材持有者</h4></li>-->
+                        <!--<li class="edit"><h4 >审核状态</h4></li>-->
+                    <!--</ul>-->
+                <!--</mat-list-item>-->
+                <!--<mat-list-item *ngFor="let droppack of droppackResovle;let i=index">-->
+                    <!--<ul>-->
+                        <!--<li class="title">{{droppack.createTime | date: 'yyyy-MM-dd HH:mm:ss'}}</li>-->
+                        <!--<li class="date">{{droppack.packname}}</li>-->
+                        <!--<li class="edit">{{droppack.brand}}</li>-->
+                        <!--<li class="edit">{{droppack.intid.nickname}}</li>-->
+                        <!--<li class="edit">-->
+                            <!--<button mat-raised-button color="primary" (click)="droppackVerified(i,droppack)">通过审核</button>-->
+                            <!--<button mat-raised-button color="accent" (click)="droppackVerified(i,droppack)">不通过</button>-->
+                        <!--</li>-->
+                    <!--</ul>-->
+                <!--</mat-list-item>-->
+            <!--</mat-list>-->
+        <!--</div>-->
+    <!--</mat-tab>-->
+    <!--<mat-tab label="已审核" (selectChange)="selectReject($event)">-->
+        <!--<div class="demo-tab-content">-->
+            <!--<mat-list>-->
+                <!--<mat-list-item>-->
+                    <!--<ul>-->
+                        <!--<li class="title"><h4 >创建日期</h4></li>-->
+                        <!--<li class="date"><h4 >投放包名称</h4></li>-->
+                        <!--<li class="edit"><h4 >推广品牌</h4></li>-->
+                        <!--<li class="edit"><h4 >素材持有者</h4></li>-->
+                        <!--<li class="edit"><h4 >审核状态</h4></li>-->
+                    <!--</ul>-->
+                <!--</mat-list-item>-->
+                <!--<mat-list-item *ngFor="let droppack of droppackResovle;let i=index">-->
+                    <!--<ul>-->
+                        <!--<li class="title">{{droppack.createTime | date: 'yyyy-MM-dd HH:mm:ss'}}</li>-->
+                        <!--<li class="date">{{droppack.packname}}</li>-->
+                        <!--<li class="edit">{{droppack.brand}}</li>-->
+                        <!--<li class="edit">{{droppack.intid.nickname}}</li>-->
+                        <!--<li class="edit">-->
+                            <!--<button mat-raised-button color="primary" (click)="droppackVerified(i,droppack)">通过审核</button>-->
+                            <!--<button mat-raised-button color="accent" (click)="droppackVerified(i,droppack)">不通过</button>-->
+                        <!--</li>-->
+                    <!--</ul>-->
+                <!--</mat-list-item>-->
+            <!--</mat-list>-->
+        <!--</div>-->
+    <!--</mat-tab>-->
+<!--</mat-tab-group>-->

@@ -40,7 +40,7 @@ export class DroppackService {
                     let res = response;
                     let data = res.data;
                     if(res.status == 200) {
-                        this.droppacks[this.droppacks.indexOf(droppack)] = new Droppack(
+                        let droppack = new Droppack(
                             data.name,
                             data.position,
                             data.link,
@@ -53,6 +53,7 @@ export class DroppackService {
                             data.verifiedMsg,
                         )
                         this.droppacksChange.next(this.droppacks);
+                        return droppack;
                     }
                     return this.droppacks;
                 }

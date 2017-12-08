@@ -7,25 +7,22 @@
 
 
 import {Component, OnInit} from "@angular/core";
-import * as util from "../../util"
+import * as util from "../../../util"
 import {FormGroup, FormControl} from "@angular/forms";
-import {DroppackService, DroppackSearchParams} from "./droppacks.service";
-import {Droppack} from "./droppacks.model";
+import {DroppackService, DroppackSearchParams} from "../droppacks.service";
+import {Droppack} from "../droppacks.model";
 import {MatDialog} from "@angular/material";
-import {ConfirmDialogComponent} from "./droppack-dialog/confirm-dialog.component";
+import {ConfirmDialogComponent} from "../droppack-dialog/confirm-dialog.component";
 
 @Component ({
-    selector: 'droppack_veridfied',
-    templateUrl: 'droppacks.component.html',
+    selector: 'droppack_reject',
+    templateUrl: 'droppacks_reject.component.html',
     styleUrls: [
-        'droppacks.component.css'
+        'droppacks_reject.component.css'
     ],
-    providers: [
-        DroppackService
-    ]
 
 })
-export class DroppackVerifiedComponent implements OnInit{
+export class DroppackRejectComponent implements OnInit{
     droppacks : Droppack[] = [];
     droppackResovle: Droppack[] = [];
     droppackReject: Droppack[] = [];
@@ -44,12 +41,12 @@ export class DroppackVerifiedComponent implements OnInit{
         {value: '排版错误', viewValue: 'Pizza'},
     ];
     constructor(private droppackService: DroppackService,private dialog: MatDialog){
-        if(this.reject) {
-            this.droppackService.getDroppacks(0,1,30)
-        }else {
+        // if(this.reject) {
+        //     this.droppackService.getDroppacks(0,1,30)
+        // }else {
             this.droppackService.getDroppacks(1,1,30);
-        }
-        this.droppackService.getDroppacks(0);
+        // }
+        // this.droppackService.getDroppacks(0);
     }
 
     droppackVerified(index: number, droppack: Droppack){
@@ -142,6 +139,7 @@ export class DroppackVerifiedComponent implements OnInit{
             .subscribe(
                 (droppacks: Droppack[]) => {
                     this.droppacks = droppacks;
+                    console.log(this.droppacks);
                     this.droppackResovle = droppacks
                         .filter(
                             (item) => {
