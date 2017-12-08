@@ -1,0 +1,56 @@
+
+
+<!--<mat-dialog-content >-->
+    <!--{{data.materialid?.name}}-->
+<!--</mat-dialog-content >-->
+<!--<mat-dialog-actions >-->
+    <!--<div class="btnBox">-->
+        <!--<button mat-raised-button (click)="dialogRef.close('ok')">确认</button>-->
+        <!--<button mat-raised-button (click)="dialogRef.close('cancel')">取消</button>-->
+    <!--</div>-->
+<!--</mat-dialog-actions>-->
+<!--<mat-dialog-title>-->
+    <!--{{data.materialid?.name}}-->
+<!--</mat-dialog-title>-->
+<h2 mat-dialog-title *ngIf="data != 'cancel'">{{data.materialid?.name}}</h2>
+<mat-dialog-content *ngIf="data != 'cancel'">
+    <p>创建时间：{{data?.createTime | date: 'yyyy-MM-dd HH:mm:ss'}}</p>
+    <p>展示位置：{{data.materialid?.position}}</p>
+    <div>
+        <video  controls="controls" class="showImg">
+            <source [src]="path + data.materialid.url"  />
+        </video>
+    </div>
+    <p>素材内容:{{data.materialid?.content}}</p>
+    <p>贴片金额： {{(data.total/100).toFixed(2)}}元</p>
+    <p>贴片持有者：{{data.intid.nickname}}</p>
+</mat-dialog-content>
+<mat-dialog-actions *ngIf="data != 'cancel'">
+    <div class="btnBox">
+        <button mat-raised-button color="primary" (click)="dialogRef.close('ok')">通过审核</button>
+        <button mat-raised-button color="accent" (click)="dialogRef.close('cancel')">不通过</button>
+    </div>
+</mat-dialog-actions>
+
+<h2 mat-dialog-title *ngIf="data == 'cancel'">拒绝原因</h2>
+<mat-dialog-content *ngIf="data == 'cancel'">
+    <div class="example-container" [formGroup]="stickerForm">
+        <mat-form-field>
+            <textarea matInput placeholder="填写拒绝原因" formControlName="writeInfo"></textarea>
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-select placeholder="选择拒绝原因" formControlName="selectInfo">
+                <mat-option  *ngFor="let info of rejectInfo" [value]="info.value">
+                    {{info.value}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+</mat-dialog-content>
+<mat-dialog-actions *ngIf="data == 'cancel'">
+    <div class="btnBox">
+        <button mat-raised-button color="primary" (click)="rejectSticker()">确定</button>
+        <button mat-raised-button color="accent" (click)="dialogRef.close('cancel')">取消</button>
+    </div>
+</mat-dialog-actions>

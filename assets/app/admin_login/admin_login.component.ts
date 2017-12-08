@@ -40,7 +40,7 @@ export class AdminLoginComponent implements OnInit {
                     if(data != null) {
                         if(data.status == 200) {
                             localStorage.setItem('token',data.token);
-                            this.router.navigate(['/admin_index']);
+                            this.router.navigate(['/setup']);
                         }else {
                             this.errmsg = data.msg;
                         }

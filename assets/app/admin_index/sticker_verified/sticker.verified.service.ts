@@ -121,10 +121,10 @@ export class StickerService {
             .then(
                 (response) => {
                     let res = response;
+                    console.log(res);
                     if(res.status == 200){
                         let data = res.data;
                         let stickers : Sticker[] = []
-                        console.log(data);
                         for(let value of data){
                             if(value.materialid != null){
                                 stickers.push(new Sticker(
@@ -144,9 +144,9 @@ export class StickerService {
                         this.stickersPage.next(res);
                         return res;
                     }
-                    if(res.status == 505) {
-                        this.router.navigate(['/admin_login'])
-                    }
+                    // if(res.status == 505) {
+                    //     this.router.navigate(['/admin_login'])
+                    // }
 
                 }
             )
@@ -155,7 +155,7 @@ export class StickerService {
 //
 export class StickerSearchParams {
     constructor(
-        public total: string,
+        public total: number,
         public date: string
     ){}
 }

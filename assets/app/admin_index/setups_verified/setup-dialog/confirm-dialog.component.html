@@ -1,0 +1,28 @@
+
+<h2 mat-dialog-title >{{setup?.name}}</h2>
+<mat-dialog-content>
+    <p>创建时间：{{setup.createTime | date: 'yyyy-MM-dd HH:mm:ss'}}</p>
+    <p>主体类型：
+        <span *ngIf="setup.idtype == 0">个人</span>
+        <span *ngIf="setup.idtype == 1">公司</span>
+    </p>
+    <p *ngIf="setup.idtype == 1">公司名称： {{setup.comName}}</p>
+    <p>法人姓名： {{setup?.name}}</p>
+    <p>
+        身份证号： {{setup?.idNo}}
+    </p>
+    <p *ngIf="setup.idtype == 1">公司统一信用代码： {{setup?.comCode}}</p>
+    <p>手机号： {{setup?.phoneNo}}</p>
+    <p>银行卡号： {{setup?.cardNo}}</p>
+    <p>推广品牌： {{setup?.brand}}</p>
+    <div class="showImg">
+        <img [src]="path +setup.brandlogo" class="showImg">
+    </div>
+</mat-dialog-content>
+<mat-dialog-actions>
+    <div class="btnBox">
+        <!--<button mat-raised-button color="primary" (click)="dialogRef.close('ok')">通过审核</button>-->
+        <button mat-raised-button color="accent" (click)="dialogRef.close('cancel')">关闭</button>
+    </div>
+</mat-dialog-actions>
+

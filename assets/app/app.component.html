@@ -1,4 +1,43 @@
 
 
-<router-outlet></router-outlet>
-<button class="btn btn-danger" style="position: fixed;top: 10px;right: 10px" *ngIf="isLoginIn()" (click)="onlogout()">退出</button>
+<!--<router-outlet></router-outlet>-->
+<!--<button class="btn btn-danger" style="position: fixed;top: 10px;right: 10px" *ngIf="isLoginIn()" (click)="onlogout()">退出</button>-->
+<mat-sidenav-container>
+    <mat-sidenav #sidenav>
+        <!--<app-sidebar></app-sidebar>-->
+        <mat-nav-list>
+            <mat-list-item mat-line routerLink="setup">
+                <mat-icon mat-list-icon>menu</mat-icon>
+                <span mat-line>广告商</span>
+            </mat-list-item>
+            <mat-list-item mat-line routerLink="droppack">
+                <mat-icon mat-list-icon>menu</mat-icon>
+                <span mat-line>投放包审核</span>
+            </mat-list-item>
+            <mat-list-item mat-line routerLink="stickers">
+                <mat-icon mat-list-icon>menu</mat-icon>
+                <span mat-line>贴片审核</span>
+            </mat-list-item>
+            <!--<mat-list-item mat-line>-->
+            <!--<mat-icon mat-list-icon>menu</mat-icon>-->
+            <!--<span mat-line>广告商</span>-->
+            <!--</mat-list-item>-->
+        </mat-nav-list>
+    </mat-sidenav>
+    <div class="site">
+        <header *ngIf="isLoginIn()">
+            <app-header
+            (toggle)="sidenav.toggle()"
+            ></app-header>
+        </header>
+        <main>
+            <router-outlet></router-outlet>
+            <!--<button (click)="sidenav.open()">打开侧边栏</button>-->
+        </main>
+        <footer>
+            <app-footer>
+
+            </app-footer>
+        </footer>
+    </div>
+</mat-sidenav-container>

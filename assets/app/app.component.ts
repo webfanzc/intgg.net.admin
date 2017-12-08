@@ -11,7 +11,6 @@ export class AppComponent {
         this.router.navigate(['/admin_login']);
         localStorage.clear();
     }
-
     isLoginIn() {
         return localStorage.getItem('token') !== null;
     }

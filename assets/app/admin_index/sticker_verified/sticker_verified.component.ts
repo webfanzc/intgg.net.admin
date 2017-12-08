@@ -8,6 +8,8 @@ import {StickerService, StickerSearchParams} from "./sticker.verified.service";
 import {Sticker} from "./sticker.verified.model";
 import * as util from "../../util"
 import {FormGroup, FormControl} from "@angular/forms";
+import {MatDialog} from "@angular/material";
+import {ConfirmDialogComponent} from "./sticker-dialog/confirm-dialog.component";
 
 @Component ({
     selector: 'sticker_verified',
@@ -36,7 +38,7 @@ export class StickerVerifiedComponent implements OnInit{
         {value: '贴片涉及违法信息', viewValue: 'Steak'},
         {value: '贴片内容不清晰', viewValue: 'Pizza'},
     ];
-    constructor(private stickerService: StickerService){
+    constructor(private stickerService: StickerService,private dialog: MatDialog){
         if(this.reject) {
             this.stickerService.getstickers(0,1,30);
         }else {
@@ -47,6 +49,39 @@ export class StickerVerifiedComponent implements OnInit{
 
     stickerVerified(index: number, sticker: Sticker){
         this.sticker = sticker;
+        let dialogRef = this.dialog.open(ConfirmDialogComponent,{
+            data: sticker
+        });
+        dialogRef.afterClosed()
+            .subscribe(
+                (result) => {
+                    if(result == 'ok'){
+                        sticker.verified = 1;
+                        sticker.verifiedMsg = '审核通过';
+                        this.stickerService.updateSticker(sticker);
+                    }else if(result == 'cancel'){
+                        let rejectDialog = this.dialog.open(ConfirmDialogComponent,{
+                            data: 'cancel'
+                        });
+                        rejectDialog.afterClosed()
+                            .subscribe(
+                                (result) => {
+                                    if(result != null && result != 'cancel') {
+                                        sticker.verified = 2;
+                                        sticker.verifiedMsg = result;
+                                        this.stickerService.updateSticker(this.sticker)
+                                            .then(
+                                                (sticker: Sticker) => {
+                                                    console.log(sticker);
+                                                    this.stickerService.delMoney(sticker._id,sticker.intid);
+                                                }
+                                            );
+                                    }
+                                }
+                            )
+                    }
+                }
+            )
         this.stickerTotal = (parseInt(sticker.total)/100).toFixed(2);
     }
 
@@ -57,9 +92,9 @@ export class StickerVerifiedComponent implements OnInit{
     searchSticker(){
         let value = this.searchForm.value;
         if(this.reject) {
-            this.stickerService.searchSticker(0,new StickerSearchParams(value.total,value.date));
+            this.stickerService.searchSticker(0,new StickerSearchParams(value.total*100,value.date));
         }else {
-            this.stickerService.searchSticker(1,new StickerSearchParams(value.total,value.date));
+            this.stickerService.searchSticker(1,new StickerSearchParams(value.total*100,value.date));
         }
 
     }
@@ -112,7 +147,6 @@ export class StickerVerifiedComponent implements OnInit{
             this.sticker.verifiedMsg = '审核不通过'
         }
         this.sticker.verified = 2;
-        console.log(this.sticker);
         this.stickerService.updateSticker(this.sticker)
             .then(
                 (sticker: Sticker) => {

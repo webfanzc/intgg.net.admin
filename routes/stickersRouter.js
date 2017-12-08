@@ -24,7 +24,6 @@ stickersRouter.use('/',function (req,res,next) {
     jwt.verify(token, 'secret', function(err,decoded) {
         if(err) {
             status = 505;
-
             return utils.resToClient(res, params, {status: status, msg: 'token is  null'});
         }
         next();

@@ -1,13 +1,17 @@
 import { Routes, RouterModule } from "@angular/router";
-import {AdminIndexComponent} from "./admin_index/admin_index.component"
-import {ADMIN_ROUTES} from "./admin_index/amdin_index.routing";
+// import {ADMIN_ROUTES} from "./admin_index/amdin_index.routing";
 import {AdminLoginComponent} from "./admin_login/admin_login.component";
 import {LoginGuard} from "./app.guard";
 import {NgModule} from "@angular/core";
+import {StickerVerifiedComponent} from "./admin_index/sticker_verified/sticker_verified.component";
 const APP_ROUTES: Routes = [
     { path: '', redirectTo: 'admin_login', pathMatch: 'full' }, //通过public/test/login.html 扫一扫登录
-    // { path: 'admin_index', canActivate:[LoginGuard], component:AdminIndexComponent,children: ADMIN_ROUTES},
-    { path: 'admin_index', canActivate:[LoginGuard],loadChildren: './admin_index/admin_index.module#AdminIndexModule'},
+    // { path: 'stickers', canActivate:[LoginGuard], component:StickerVerifiedComponent},
+    // { path: 'admin_index', canActivate:[LoginGuard],loadChildren: './admin_index/admin_index.module#AdminIndexModule'},
+    { path: 'stickers', canActivate:[LoginGuard], loadChildren: './admin_index/sticker_verified/sticker_verified.module#StickersModule'},
+    { path: 'setup', canActivate:[LoginGuard], loadChildren: './admin_index/setups_verified/setup_verified.module#SetupModule'},
+    { path: 'droppack', canActivate:[LoginGuard], loadChildren: './admin_index/droppacks_verified/droppacks.module#DroppacksModule'},
+    // { path: 'admin_index', canActivate:[LoginGuard],loadChildren: './admin_index/admin_index.module#AdminIndexModule'},
     { path: 'admin_login', component: AdminLoginComponent}
 
 ];

@@ -8,6 +8,8 @@ import {SetupsVerifiedService} from "./setups_verifide.service";
 import {Setups} from "./setups.model";
 import * as util from '../../util'
 import {FormGroup, FormControl} from "@angular/forms";
+import {MatDialog} from "@angular/material";
+import {ConfirmDialogComponent} from "./setup-dialog/confirm-dialog.component";
 @Component ({
     selector: 'setups_verified',
     templateUrl: './setups_verified.component.html',
@@ -27,7 +29,7 @@ export class SetupsVerifiedComponent implements OnInit{
     path: string = util.path;
 
     reject: boolean = true;
-    constructor(private setupsService: SetupsVerifiedService){
+    constructor(private setupsService: SetupsVerifiedService,private dialog: MatDialog){
         this.setupsService.getSetups();
     }
 
@@ -37,7 +39,9 @@ export class SetupsVerifiedComponent implements OnInit{
     }
 
     checkInfo(setup: Setups) {
-        this.setup = setup;
+        let dialogRef = this.dialog.open(ConfirmDialogComponent, {
+            data: setup
+        });
     }
     resovleSetup() {
         let date = new Date(this.setup.createTime);

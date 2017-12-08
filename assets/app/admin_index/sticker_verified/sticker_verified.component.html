@@ -1,125 +1,239 @@
-<header>
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-12">
-                <h3>贴片审核</h3>
-            </div>
-        </div>
-        <div class="row">
-            <ul class="nav nav-tabs">
-                <li role="presentation" [class.active]="reject" (click)="selectResolve()"><a >未审核</a></li>
-                <li role="presentation" [class.active]="!reject" (click)="selectReject()"><a >已审核</a></li>
-            </ul>
-        </div>
-        <div class="row">
-            <nav class="navbar navbar-default">
-                <div class="container-fluid">
-                    <div class="navbar-header">
-                        <div class="row">
-                            <div class="col-md-1">
-                                <button class=" btn btn-primary navbar-btn pass">批量通过</button>
-                            </div>
-                            <div class="col-md-11">
-                                <form class="form-inline searchForm" [formGroup]="searchForm">
-                                    <div class="form-group">
-                                        <input type="date" class="form-control" formControlName="date" (change)="searchSticker()">
-                                    </div>
-                                    <input type="text" class="form-control" placeholder="输入素材名称" formControlName="total" (change)="searchSticker()">
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </nav>
-        </div>
-    </div>
-</header>
-<table class="table table-striped" *ngIf="reject">
-    <tr>
-        <td>创建日期</td>
-        <td>贴片名称</td>
-        <td>贴片金额</td>
-        <td>贴片持有者</td>
-        <td>操作</td>
-    </tr>
-    <tr *ngFor="let sticker of stickersResolve;let i=index">
-        <td>{{sticker.createTime | date: 'yyyy-MM-dd HH:mm:ss'}}</td>
-        <td>{{sticker.materialid.name}}</td>
-        <td>{{sticker.total}}</td>
-        <td>{{sticker.intid.nickname}}</td>
-        <td>
-            <button class="btn btn-success" data-toggle="modal" data-target="#myModal" (click)="stickerVerified(i,sticker)" >通过审核</button>
-            <button class="btn btn-danger" data-toggle="modal" data-target="#rejectModel" (click)="stickerVerified(i,sticker)">不通过</button>
-        </td>
-    </tr>
-</table>
+<!--<header>-->
+    <!--<div class="container-fluid">-->
+        <!--<div class="row">-->
+            <!--<div class="col-md-12">-->
+                <!--<h3>贴片审核</h3>-->
+            <!--</div>-->
+        <!--</div>-->
+        <!--<div class="row">-->
+            <!--<ul class="nav nav-tabs">-->
+                <!--<li role="presentation" [class.active]="reject" (click)="selectResolve()"><a >未审核</a></li>-->
+                <!--<li role="presentation" [class.active]="!reject" (click)="selectReject()"><a >已审核</a></li>-->
+            <!--</ul>-->
+        <!--</div>-->
+        <!--<div class="row">-->
+            <!--<nav class="navbar navbar-default">-->
+                <!--<div class="container-fluid">-->
+                    <!--<div class="navbar-header">-->
+                        <!--<div class="row">-->
+                            <!--<div class="col-md-1">-->
+                                <!--<button class=" btn btn-primary navbar-btn pass">批量通过</button>-->
+                            <!--</div>-->
+                            <!--<div class="col-md-11">-->
+                                <!--<form class="form-inline searchForm" [formGroup]="searchForm">-->
+                                    <!--<div class="form-group">-->
+                                        <!--<input type="date" class="form-control" formControlName="date" (change)="searchSticker()">-->
+                                    <!--</div>-->
+                                    <!--<input type="text" class="form-control" placeholder="输入素材名称" formControlName="total" (change)="searchSticker()">-->
+                                <!--</form>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</nav>-->
+        <!--</div>-->
+    <!--</div>-->
+<!--</header>-->
+<!--<table class="table table-striped" *ngIf="reject">-->
+    <!--<tr>-->
+        <!--<td>创建日期</td>-->
+        <!--<td>贴片名称</td>-->
+        <!--<td>贴片金额</td>-->
+        <!--<td>贴片持有者</td>-->
+        <!--<td>操作</td>-->
+    <!--</tr>-->
+    <!--<tr *ngFor="let sticker of stickersResolve;let i=index">-->
+        <!--<td>{{sticker.createTime | date: 'yyyy-MM-dd HH:mm:ss'}}</td>-->
+        <!--<td>{{sticker.materialid.name}}</td>-->
+        <!--<td>{{sticker.total}}</td>-->
+        <!--<td>{{sticker.intid.nickname}}</td>-->
+        <!--<td>-->
+            <!--<button class="btn btn-success" data-toggle="modal" data-target="#myModal" (click)="stickerVerified(i,sticker)" >通过审核</button>-->
+            <!--<button class="btn btn-danger" data-toggle="modal" data-target="#rejectModel" (click)="stickerVerified(i,sticker)">不通过</button>-->
+        <!--</td>-->
+    <!--</tr>-->
+<!--</table>-->
 
-<table class="table table-striped" *ngIf="!reject">
-    <tr>
-        <td>创建日期</td>
-        <td>贴片名称</td>
-        <td>贴片金额</td>
-        <td>贴片持有者</td>
-        <td>审核状态</td>
-    </tr>
-    <tr *ngFor="let sticker of stickers;let i=index">
-        <td>{{sticker.createTime | date: 'yyyy-MM-dd HH:mm:ss'}}</td>
-        <td>{{sticker.materialid.name}}</td>
-        <td>{{sticker.total}}</td>
-        <td>{{sticker.intid.nickname}}</td>
-        <td>
-           <span *ngIf="sticker.verified == 1"> 已通过</span>
-           <span *ngIf="sticker.verified == 2"> 未通过</span>
-        </td>
-    </tr>
-</table>
+<!--<table class="table table-striped" *ngIf="!reject">-->
+    <!--<tr>-->
+        <!--<td>创建日期</td>-->
+        <!--<td>贴片名称</td>-->
+        <!--<td>贴片金额</td>-->
+        <!--<td>贴片持有者</td>-->
+        <!--<td>审核状态</td>-->
+    <!--</tr>-->
+    <!--<tr *ngFor="let sticker of stickers;let i=index">-->
+        <!--<td>{{sticker.createTime | date: 'yyyy-MM-dd HH:mm:ss'}}</td>-->
+        <!--<td>{{sticker.materialid.name}}</td>-->
+        <!--<td>{{sticker.total}}</td>-->
+        <!--<td>{{sticker.intid.nickname}}</td>-->
+        <!--<td>-->
+           <!--<span *ngIf="sticker.verified == 1"> 已通过</span>-->
+           <!--<span *ngIf="sticker.verified == 2"> 未通过</span>-->
+        <!--</td>-->
+    <!--</tr>-->
+<!--</table>-->
+<!--<sticker-page-->
+    <!--[verified]="verified"-->
+<!--&gt;</sticker-page>-->
+<!--<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">-->
+    <!--<div class="modal-dialog" role="document">-->
+        <!--<div class="modal-content" *ngIf="sticker != null">-->
+            <!--<div class="modal-header">-->
+                <!--{{sticker.materialid?.name}}-->
+                <!--{{sticker?.createTime | date: 'yyyy-MM-dd HH:mm:ss'}}-->
+                <!--<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>-->
+            <!--</div>-->
+            <!--<div class="modal-body">-->
+                <!--<p>展示位置：{{sticker.materialid?.position}}</p>-->
+                <!--<div>-->
+                    <!--<video  controls="controls" class="showImg">-->
+                        <!--<source [src]="path + sticker.materialid.url"  />-->
+                    <!--</video>-->
+                <!--</div>-->
+
+                <!--<p>素材内容:{{sticker.materialid?.content}}</p>-->
+                <!--<p>贴片金额： {{stickerTotal}}元</p>-->
+            <!--</div>-->
+            <!--<div class="modal-footer">-->
+                <!--<button type="button" class="btn btn-success" data-dismiss="modal" (click)="passSticker(sticker)">通过验证</button>-->
+                <!--<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#rejectModel" data-dismiss="modal">不通过</button>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
+<!--</div>-->
+
+<!--<div class="modal fade bs-example-modal-sm" id="rejectModel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">-->
+    <!--<div class="modal-dialog" role="document">-->
+        <!--<div class="modal-content" *ngIf="sticker != null">-->
+            <!--<div class="modal-header">-->
+                <!--{{sticker.materialid?.name}}：拒绝原因-->
+                <!--<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>-->
+            <!--</div>-->
+            <!--<div class="modal-body" [formGroup]="stickerForm">-->
+                <!--<textarea class="form-control" rows="3" formControlName="writeInfo"></textarea>-->
+                <!--<select class="form-control" formControlName="selectInfo">-->
+                    <!--<option>选择原因</option>-->
+                    <!--<option *ngFor="let info of rejectInfo" [value]="info.value">{{info.value}}</option>-->
+                <!--</select>-->
+            <!--</div>-->
+            <!--<div class="modal-footer">-->
+                <!--<button type="button" class="btn btn-danger" data-dismiss="modal" (click)="rejectSticker()">不通过</button>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
+<!--</div>-->
+<mat-toolbar layout="row"  >
+    <i class="material-icons material-header">camera</i>
+    <h3 class="title">我的贴片</h3>
+    <span class="material-fill-remaining-space"></span>
+    <!--<div class="material-date">-->
+        <!--&lt;!&ndash;<input type="date" placeholder="时间"  floatPlaceholder="never" class="material-input" (change)="onSearchByDate($event)">&ndash;&gt;-->
+        <!--&lt;!&ndash;<mat-form-field>&ndash;&gt;-->
+            <!--&lt;!&ndash;<input matInput #date [matDatepicker]="picker" placeholder="时间" (dateChange)="onSearchByDate($event)">&ndash;&gt;-->
+            <!--&lt;!&ndash;<mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>&ndash;&gt;-->
+            <!--&lt;!&ndash;<mat-datepicker #picker></mat-datepicker>&ndash;&gt;-->
+        <!--&lt;!&ndash;</mat-form-field>&ndash;&gt;-->
+    <!--</div>-->
+    <!--<div class="material-search">-->
+        <!--&lt;!&ndash;<i class="material-icons">search</i>&ndash;&gt;-->
+        <!--&lt;!&ndash;<input  type="text" placeholder="请输入贴片金额查询" class="material-search-input" #searchByName [formControl]="stickerTotal">&ndash;&gt;-->
+        <!--<mat-form-field class="example-full-width">-->
+            <!--<input matInput placeholder="贴片名称搜索" [formControl]="stickerTotal">-->
+            <!--<span matSuffix><i class="material-icons">search</i></span>-->
+        <!--</mat-form-field>-->
+    <!--</div>-->
+</mat-toolbar>
+<!--<mat-list>-->
+    <!--<mat-list-item>-->
+        <!--<ul>-->
+            <!--<li class="title"><h4 >创建日期</h4></li>-->
+            <!--<li class="date"><h4 >贴片名称</h4></li>-->
+            <!--<li class="edit"><h4 >贴片金额</h4></li>-->
+            <!--<li class="edit"><h4 >贴片持有者</h4></li>-->
+            <!--<li class="edit"><h4 >审核状态</h4></li>-->
+        <!--</ul>-->
+    <!--</mat-list-item>-->
+    <!--<mat-list-item *ngFor="let sticker of stickers;let i=index">-->
+        <!--<ul>-->
+            <!--<li class="title">{{sticker.createTime | date: 'yyyy-MM-dd HH:mm:ss'}}</li>-->
+            <!--<li class="date">{{sticker.materialid.name}}</li>-->
+            <!--<li class="edit">{{sticker.total}}</li>-->
+            <!--<li class="edit">{{sticker.intid.nickname}}</li>-->
+            <!--<li class="edit">-->
+                <!--<button mat-raised-button color="primary">通过审核</button>-->
+                <!--<button mat-raised-button color="accent">不通过</button>-->
+            <!--</li>-->
+        <!--</ul>-->
+    <!--</mat-list-item>-->
+<!--</mat-list>-->
+
+<mat-tab-group class="demo-tab-group">
+    <mat-tab label="未审核" (selectChange)="selectResolve()">
+        <form class="sticker-form" [formGroup]="searchForm">
+            <mat-form-field class="example-full-width">
+                <input matInput  type="date"  formControlName="date" (change)="searchSticker()">
+            </mat-form-field>
+            <mat-form-field class="example-full-width">
+                <input matInput  placeholder="输入素材名称" formControlName="total" (change)="searchSticker()">
+            </mat-form-field>
+        </form>
+        <div class="demo-tab-content">
+            <mat-list>
+                <mat-list-item>
+                    <ul>
+                        <li class="title"><h4 >创建日期</h4></li>
+                        <li class="date"><h4 >贴片名称</h4></li>
+                        <li class="edit"><h4 >贴片金额</h4></li>
+                        <li class="edit"><h4 >贴片持有者</h4></li>
+                        <li class="edit"><h4 >审核状态</h4></li>
+                    </ul>
+                </mat-list-item>
+                <mat-list-item *ngFor="let sticker of stickers;let i=index">
+                    <ul>
+                        <li class="title">{{sticker.createTime | date: 'yyyy-MM-dd HH:mm:ss'}}</li>
+                        <li class="date">{{sticker.materialid.name}}</li>
+                        <li class="edit">{{(sticker.total/100).toFixed(2)}}</li>
+                        <li class="edit">{{sticker.intid.nickname}}</li>
+                        <li class="edit">
+                            <button mat-raised-button color="primary" (click)="stickerVerified(i,sticker)">通过审核</button>
+                            <button mat-raised-button color="accent">不通过</button>
+                        </li>
+                    </ul>
+                </mat-list-item>
+            </mat-list>
+        </div>
+    </mat-tab>
+    <mat-tab label="已审核" (selectChange)="selectReject()">
+        <div class="demo-tab-content">
+            <mat-list>
+                <mat-list-item>
+                    <ul>
+                        <li class="title"><h4 >创建日期</h4></li>
+                        <li class="date"><h4 >贴片名称</h4></li>
+                        <li class="edit"><h4 >贴片金额</h4></li>
+                        <li class="edit"><h4 >贴片持有者</h4></li>
+                        <li class="edit"><h4 >审核状态</h4></li>
+                    </ul>
+                </mat-list-item>
+                <mat-list-item *ngFor="let sticker of stickers;let i=index">
+                    <ul>
+                        <li class="title">{{sticker.createTime | date: 'yyyy-MM-dd HH:mm:ss'}}</li>
+                        <li class="date">{{sticker.materialid.name}}</li>
+                        <li class="edit">{{sticker.total}}</li>
+                        <li class="edit">{{sticker.intid.nickname}}</li>
+                        <li class="edit">
+                            <!--<button mat-raised-button color="primary">通过审核</button>-->
+                            <!--<button mat-raised-button color="accent">不通过</button>-->
+                            <span *ngIf="sticker.verified == 1"> 已通过</span>
+                            <span *ngIf="sticker.verified == 2"> 未通过</span>
+                        </li>
+                    </ul>
+                </mat-list-item>
+            </mat-list>
+        </div>
+    </mat-tab>
+</mat-tab-group>
 <sticker-page
-    [verified]="verified"
+[verified]="verified"
 ></sticker-page>
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content" *ngIf="sticker != null">
-            <div class="modal-header">
-                {{sticker.materialid?.name}}
-                {{sticker?.createTime | date: 'yyyy-MM-dd HH:mm:ss'}}
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            </div>
-            <div class="modal-body">
-                <p>展示位置：{{sticker.materialid?.position}}</p>
-                <div>
-                    <video  controls="controls" class="showImg">
-                        <source [src]="path + sticker.materialid.url"  />
-                    </video>
-                </div>
-
-                <p>素材内容:{{sticker.materialid?.content}}</p>
-                <p>贴片金额： {{stickerTotal}}元</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-success" data-dismiss="modal" (click)="passSticker(sticker)">通过验证</button>
-                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#rejectModel" data-dismiss="modal">不通过</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="modal fade bs-example-modal-sm" id="rejectModel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content" *ngIf="sticker != null">
-            <div class="modal-header">
-                {{sticker.materialid?.name}}：拒绝原因
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            </div>
-            <div class="modal-body" [formGroup]="stickerForm">
-                <textarea class="form-control" rows="3" formControlName="writeInfo"></textarea>
-                <select class="form-control" formControlName="selectInfo">
-                    <option>选择原因</option>
-                    <option *ngFor="let info of rejectInfo" [value]="info.value">{{info.value}}</option>
-                </select>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="rejectSticker()">不通过</button>
-            </div>
-        </div>
-    </div>
-</div>

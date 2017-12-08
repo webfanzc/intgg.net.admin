@@ -1,135 +1,186 @@
-<header>
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-12">
-                <h3>广告商审核</h3>
-            </div>
-        </div>
-        <div class="row">
-            <ul class="nav nav-tabs">
-                <li role="presentation" [class.active]="reject" (click)="selectResolve()"><a>未审核</a></li>
-                <!--<li role="presentation" [class.active]="!reject" (click)="selectReject()"><a>已审核</a></li>-->
-            </ul>
-        </div>
-        <div class="row">
-            <nav class="navbar navbar-default">
-                <div class="container-fluid">
-                    <div class="navbar-header">
-                        <button class=" btn btn-primary navbar-btn">批量通过</button>
-                    </div>
-                </div>
-            </nav>
-        </div>
-    </div>
-</header>
-<table class="table table-striped" *ngIf="reject">
-    <tr>
-        <td>提交时间</td>
-        <td>类型</td>
-        <td>名称</td>
-        <td>推广品牌</td>
-        <td>操作</td>
-    </tr>
-    <tr *ngFor="let setup of setups;let i=index " >
-        <td>{{setup.createTime | date :'yyyy-MM-dd HH:mm:ss'}}</td>
-        <td >
-            <span *ngIf="setup.idtype == 0">个人</span>
-            <span *ngIf="setup.idtype == 1">公司</span>
-        </td>
-        <td>{{setup.name}}</td>
-        <td>{{setup.brand}}</td>
-        <td>
-            <button class="btn btn-success" data-toggle="modal" data-target="#myModal" (click)="checkInfo(setup)">查看信息</button>
-            <button class="btn btn-danger" (click)="goNet(setup.intid)">进入后台</button>
-            <!--<button class="btn btn-danger" data-toggle="modal" data-target="#rejectModel">不通过</button>-->
-        </td>
-
-    </tr>
-</table>
-
-<table class="table table-striped" *ngIf="!reject" #reject>
-    <tr>
-        <td>提交时间</td>
-        <td>类型</td>
-        <td>法人名称</td>
-        <td>推广品牌</td>
-        <td>审核状况</td>
-    </tr>
-    <tr *ngFor="let setup of setups | filter:'verified':1; let i=index" >
-        <td>{{setup.createTime | date :'yyyy-MM-dd HH:mm:ss'}}</td>
-        <td>
-            <span *ngIf="setup.idtype == 0">个人</span>
-            <span *ngIf="setup.idtype == 1">公司</span>
-        </td>
-        <td>{{setup.name}}</td>
-        <td>{{setup.brand}}</td>
-        <td>
-            <span *ngIf="setup.verified == 1">审核通过</span>
-            <span *ngIf="setup.verified != 1">审核未通过</span>
-            <!--<button class="btn btn-success" data-toggle="modal" data-target="#myModal" (click)="resovle(i,setup)">通过审核</button>-->
-            <!--<button class="btn btn-danger" data-toggle="modal" data-target="#rejectModel"  (click)="resovle(i,setup)">不通过</button>-->
-        </td>
-
-    </tr>
-</table>
-
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content" *ngIf="setup != null">
-            <div class="modal-header">
-                {{setup?.name}}
-                {{setup.createTime | date: 'yyyy-MM-dd HH:mm:ss'}}
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            </div>
-            <div class="modal-body">
-                <p>主体类型：
-                    <span *ngIf="setup.idtype == 0">个人</span>
-                    <span *ngIf="setup.idtype == 1">公司</span>
-                </p>
-                <p *ngIf="setup.idtype == 1">公司名称： {{setup.comName}}</p>
-                <p>法人姓名： {{setup?.name}}</p>
-                <p>
-                   身份证号： {{setup?.idNo}}
-                </p>
-                <p *ngIf="setup.idtype == 1">公司统一信用代码： {{setup?.comCode}}</p>
-                <p>手机号： {{setup?.phoneNo}}</p>
-                <p>银行卡号： {{setup?.cardNo}}</p>
-                <p>推广品牌： {{setup?.brand}}</p>
-                <div>
-                    <p>推广品牌logo:</p>
-                    <img [src]="path +setup.brandlogo" class="showImg">
-                </div>
-                <!--<div>-->
-                    <!--<p><span *ngIf="setup.idtype == 0">身份证</span></p>-->
-                    <!--<p><span *ngIf="setup.idtype == 1">营业执照</span></p>-->
-                    <!--<img *ngFor="let idphoto of setup.idphoto" [src]="path + idphoto.photo" alt="">-->
-                <!--</div>-->
-            </div>
-            <!--<div class="modal-footer">-->
-                <!--<button type="button" class="btn btn-success" data-dismiss="modal" (click)="resovleSetup()">通过验证</button>-->
-                <!--<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#rejectModel" data-dismiss="modal">不通过</button>-->
+<!--<header>-->
+    <!--<div class="container-fluid">-->
+        <!--<div class="row">-->
+            <!--<div class="col-md-12">-->
+                <!--<h3>广告商审核</h3>-->
             <!--</div>-->
-        </div>
-    </div>
-</div>
+        <!--</div>-->
+        <!--<div class="row">-->
+            <!--<ul class="nav nav-tabs">-->
+                <!--<li role="presentation" [class.active]="reject" (click)="selectResolve()"><a>未审核</a></li>-->
+                <!--&lt;!&ndash;<li role="presentation" [class.active]="!reject" (click)="selectReject()"><a>已审核</a></li>&ndash;&gt;-->
+            <!--</ul>-->
+        <!--</div>-->
+        <!--<div class="row">-->
+            <!--<nav class="navbar navbar-default">-->
+                <!--<div class="container-fluid">-->
+                    <!--<div class="navbar-header">-->
+                        <!--<button class=" btn btn-primary navbar-btn">批量通过</button>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</nav>-->
+        <!--</div>-->
+    <!--</div>-->
+<!--</header>-->
+<!--<table class="table table-striped" *ngIf="reject">-->
+    <!--<tr>-->
+        <!--<td>提交时间</td>-->
+        <!--<td>类型</td>-->
+        <!--<td>名称</td>-->
+        <!--<td>推广品牌</td>-->
+        <!--<td>操作</td>-->
+    <!--</tr>-->
+    <!--<tr *ngFor="let setup of setups;let i=index " >-->
+        <!--<td>{{setup.createTime | date :'yyyy-MM-dd HH:mm:ss'}}</td>-->
+        <!--<td >-->
+            <!--<span *ngIf="setup.idtype == 0">个人</span>-->
+            <!--<span *ngIf="setup.idtype == 1">公司</span>-->
+        <!--</td>-->
+        <!--<td>{{setup.name}}</td>-->
+        <!--<td>{{setup.brand}}</td>-->
+        <!--<td>-->
+            <!--<button class="btn btn-success" data-toggle="modal" data-target="#myModal" (click)="checkInfo(setup)">查看信息</button>-->
+            <!--<button class="btn btn-danger" (click)="goNet(setup.intid)">进入后台</button>-->
+            <!--&lt;!&ndash;<button class="btn btn-danger" data-toggle="modal" data-target="#rejectModel">不通过</button>&ndash;&gt;-->
+        <!--</td>-->
+    <!--</tr>-->
+<!--</table>-->
 
-<div class="modal fade bs-example-modal-sm" id="rejectModel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content" *ngIf="setup != null">
-            <div class="modal-header">
-                {{setup?.name}}：拒绝原因
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            </div>
-            <div class="modal-body" [formGroup]="setupForm">
-                <textarea class="form-control" rows="3" formControlName="writeInfo"></textarea>
-                <select class="form-control" formControlName="selectInfo">
-                    <option>选择原因</option>
-                    <option *ngFor="let info of rejectInfo" [value]="info.value">{{info.value}}</option>
-                </select>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="rejectSetup()">不通过</button>
-            </div>
-        </div>
-    </div>
-</div>
+<!--<table class="table table-striped" *ngIf="!reject" #reject>-->
+    <!--<tr>-->
+        <!--<td>提交时间</td>-->
+        <!--<td>类型</td>-->
+        <!--<td>法人名称</td>-->
+        <!--<td>推广品牌</td>-->
+        <!--<td>审核状况</td>-->
+    <!--</tr>-->
+    <!--<tr *ngFor="let setup of setups | filter:'verified':1; let i=index" >-->
+        <!--<td>{{setup.createTime | date :'yyyy-MM-dd HH:mm:ss'}}</td>-->
+        <!--<td>-->
+            <!--<span *ngIf="setup.idtype == 0">个人</span>-->
+            <!--<span *ngIf="setup.idtype == 1">公司</span>-->
+        <!--</td>-->
+        <!--<td>{{setup.name}}</td>-->
+        <!--<td>{{setup.brand}}</td>-->
+        <!--<td>-->
+            <!--<span *ngIf="setup.verified == 1">审核通过</span>-->
+            <!--<span *ngIf="setup.verified != 1">审核未通过</span>-->
+            <!--&lt;!&ndash;<button class="btn btn-success" data-toggle="modal" data-target="#myModal" (click)="resovle(i,setup)">通过审核</button>&ndash;&gt;-->
+            <!--&lt;!&ndash;<button class="btn btn-danger" data-toggle="modal" data-target="#rejectModel"  (click)="resovle(i,setup)">不通过</button>&ndash;&gt;-->
+        <!--</td>-->
+
+    <!--</tr>-->
+<!--</table>-->
+
+<!--<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">-->
+    <!--<div class="modal-dialog" role="document">-->
+        <!--<div class="modal-content" *ngIf="setup != null">-->
+            <!--<div class="modal-header">-->
+                <!--{{setup?.name}}-->
+                <!--{{setup.createTime | date: 'yyyy-MM-dd HH:mm:ss'}}-->
+                <!--<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>-->
+            <!--</div>-->
+            <!--<div class="modal-body">-->
+                <!--<p>主体类型：-->
+                    <!--<span *ngIf="setup.idtype == 0">个人</span>-->
+                    <!--<span *ngIf="setup.idtype == 1">公司</span>-->
+                <!--</p>-->
+                <!--<p *ngIf="setup.idtype == 1">公司名称： {{setup.comName}}</p>-->
+                <!--<p>法人姓名： {{setup?.name}}</p>-->
+                <!--<p>-->
+                   <!--身份证号： {{setup?.idNo}}-->
+                <!--</p>-->
+                <!--<p *ngIf="setup.idtype == 1">公司统一信用代码： {{setup?.comCode}}</p>-->
+                <!--<p>手机号： {{setup?.phoneNo}}</p>-->
+                <!--<p>银行卡号： {{setup?.cardNo}}</p>-->
+                <!--<p>推广品牌： {{setup?.brand}}</p>-->
+                <!--<div>-->
+                    <!--<p>推广品牌logo:</p>-->
+                    <!--<img [src]="path +setup.brandlogo" class="showImg">-->
+                <!--</div>-->
+                <!--&lt;!&ndash;<div>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<p><span *ngIf="setup.idtype == 0">身份证</span></p>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<p><span *ngIf="setup.idtype == 1">营业执照</span></p>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<img *ngFor="let idphoto of setup.idphoto" [src]="path + idphoto.photo" alt="">&ndash;&gt;-->
+                <!--&lt;!&ndash;</div>&ndash;&gt;-->
+            <!--</div>-->
+            <!--&lt;!&ndash;<div class="modal-footer">&ndash;&gt;-->
+                <!--&lt;!&ndash;<button type="button" class="btn btn-success" data-dismiss="modal" (click)="resovleSetup()">通过验证</button>&ndash;&gt;-->
+                <!--&lt;!&ndash;<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#rejectModel" data-dismiss="modal">不通过</button>&ndash;&gt;-->
+            <!--&lt;!&ndash;</div>&ndash;&gt;-->
+        <!--</div>-->
+    <!--</div>-->
+<!--</div>-->
+
+<!--<div class="modal fade bs-example-modal-sm" id="rejectModel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">-->
+    <!--<div class="modal-dialog" role="document">-->
+        <!--<div class="modal-content" *ngIf="setup != null">-->
+            <!--<div class="modal-header">-->
+                <!--{{setup?.name}}：拒绝原因-->
+                <!--<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>-->
+            <!--</div>-->
+            <!--<div class="modal-body" [formGroup]="setupForm">-->
+                <!--<textarea class="form-control" rows="3" formControlName="writeInfo"></textarea>-->
+                <!--<select class="form-control" formControlName="selectInfo">-->
+                    <!--<option>选择原因</option>-->
+                    <!--<option *ngFor="let info of rejectInfo" [value]="info.value">{{info.value}}</option>-->
+                <!--</select>-->
+            <!--</div>-->
+            <!--<div class="modal-footer">-->
+                <!--<button type="button" class="btn btn-danger" data-dismiss="modal" (click)="rejectSetup()">不通过</button>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
+<!--</div>-->
+<mat-toolbar layout="row"  >
+    <i class="material-icons material-header">camera</i>
+    <h3 class="title">广告商</h3>
+    <span class="material-fill-remaining-space"></span>
+    <!--<div class="material-date">-->
+    <!--&lt;!&ndash;<input type="date" placeholder="时间"  floatPlaceholder="never" class="material-input" (change)="onSearchByDate($event)">&ndash;&gt;-->
+    <!--&lt;!&ndash;<mat-form-field>&ndash;&gt;-->
+    <!--&lt;!&ndash;<input matInput #date [matDatepicker]="picker" placeholder="时间" (dateChange)="onSearchByDate($event)">&ndash;&gt;-->
+    <!--&lt;!&ndash;<mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>&ndash;&gt;-->
+    <!--&lt;!&ndash;<mat-datepicker #picker></mat-datepicker>&ndash;&gt;-->
+    <!--&lt;!&ndash;</mat-form-field>&ndash;&gt;-->
+    <!--</div>-->
+    <!--<div class="material-search">-->
+    <!--&lt;!&ndash;<i class="material-icons">search</i>&ndash;&gt;-->
+    <!--&lt;!&ndash;<input  type="text" placeholder="请输入贴片金额查询" class="material-search-input" #searchByName [formControl]="stickerTotal">&ndash;&gt;-->
+    <!--<mat-form-field class="example-full-width">-->
+    <!--<input matInput placeholder="贴片名称搜索" [formControl]="stickerTotal">-->
+    <!--<span matSuffix><i class="material-icons">search</i></span>-->
+    <!--</mat-form-field>-->
+    <!--</div>-->
+</mat-toolbar>
+<mat-list>
+    <mat-list-item>
+        <ul>
+            <li class="date"><h4>创建时间</h4></li>
+            <li class="type"><h4>广告主类型</h4></li>
+            <li class="name"><h4>法人名称</h4></li>
+            <li class="brand"><h4>推广品牌</h4></li>
+            <li class="state"><h4>审核状态</h4></li>
+            <li class="edit"><h4>操作</h4></li>
+        </ul>
+    </mat-list-item>
+    <mat-list-item *ngFor="let setup of setups;let i=index ">
+        <ul>
+            <li class="date">{{setup.createTime | date :'yyyy-MM-dd HH:mm:ss'}}</li>
+            <li class="type">
+                <span *ngIf="setup.idtype == 0">个人</span>
+                <span *ngIf="setup.idtype == 1">公司</span>
+            </li>
+            <li class="name">{{setup.name}}</li>
+            <li class="brand">{{setup.brand}}</li>
+            <li class="state">
+                <span *ngIf="setup.isAuth == 1">已通过审核</span>
+                <span *ngIf="setup.isAuth != 1">未通过审核</span>
+            </li>
+            <li class="edit">
+                <button mat-raised-button color="primary" (click)="checkInfo(setup)">查看信息</button>
+                <button mat-raised-button color="accent" (click)="goNet(setup.intid)">进入后台</button>
+            </li>
+        </ul>
+    </mat-list-item>
+</mat-list>

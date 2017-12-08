@@ -11,6 +11,8 @@ import * as util from "../../util"
 import {FormGroup, FormControl} from "@angular/forms";
 import {DroppackService, DroppackSearchParams} from "./droppacks.service";
 import {Droppack} from "./droppacks.model";
+import {MatDialog} from "@angular/material";
+import {ConfirmDialogComponent} from "./droppack-dialog/confirm-dialog.component";
 
 @Component ({
     selector: 'droppack_veridfied',
@@ -41,7 +43,7 @@ export class DroppackVerifiedComponent implements OnInit{
         {value: '配置内容与推广主题不相符', viewValue: 'Steak'},
         {value: '排版错误', viewValue: 'Pizza'},
     ];
-    constructor(private droppackService: DroppackService){
+    constructor(private droppackService: DroppackService,private dialog: MatDialog){
         if(this.reject) {
             this.droppackService.getDroppacks(0,1,30)
         }else {
@@ -51,7 +53,34 @@ export class DroppackVerifiedComponent implements OnInit{
     }
 
     droppackVerified(index: number, droppack: Droppack){
-        this.modal = 1;
+        let dialogRef = this.dialog.open(ConfirmDialogComponent,{
+            data: droppack,
+            width: '680px',
+        });
+        dialogRef.afterClosed()
+            .subscribe(
+                (result) => {
+                    if(result == 'ok') {
+                        droppack.verified = 1;
+                        droppack.verifiedMsg = '审核通过';
+                        this.droppackService.updateDroppack(droppack);
+                    }else if(result == 'cancel'){
+                        let rejectDialog = this.dialog.open(ConfirmDialogComponent,{
+                            data: 'cancel'
+                        });
+                        rejectDialog.afterClosed()
+                            .subscribe(
+                                (result) => {
+                                    if(result != null && result != 'cancel') {
+                                       droppack.verifiedMsg = result;
+                                       droppack.verified = 2;
+                                        this.droppackService.updateDroppack(droppack);
+                                    }
+                                }
+                            )
+                    }
+                }
+            )
         this.droppack = droppack;
         this.configInfo = droppack.configInfo;
         this.droppackIndex = index;
