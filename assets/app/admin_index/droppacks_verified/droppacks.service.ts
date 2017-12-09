@@ -191,6 +191,9 @@ export class DroppackService {
                         this.droppacksPage.next(res);
                         return res;
                     }
+                    if(res.status == 505) {
+                        this.router.navigate(['/admin_login'])
+                    }
 
 
 

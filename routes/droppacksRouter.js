@@ -19,7 +19,7 @@ var config = require("../config");
 // var logger = require("../Logger");
 
 
-var clientUserToken = utils.newRedisClient(config.userTokenRedisPort,config.userTokenRedisHost,5);
+// var clientUserToken = utils.newRedisClient(config.userTokenRedisPort,config.userTokenRedisHost,5);
 
 
 //async.auto({
@@ -42,19 +42,19 @@ var clientUserToken = utils.newRedisClient(config.userTokenRedisPort,config.user
 //
 //});
 //
-// droppacksRouter.use('/',function (req,res,next) {
-//     var params = URL.parse(req.url, true);
-//     var queryParams = req.query,
-//         token = queryParams.token;
-//     jwt.verify(token, 'secret', function(err,decoded) {
-//         if(err) {
-//             var status = 505;
-//
-//             return utils.resToClient(res, params, {status: status, msg: 'token is 佛挡杀佛 null'});
-//         }
-//         next();
-//     })
-// })
+droppacksRouter.use('/',function (req,res,next) {
+    var params = URL.parse(req.url, true);
+    var queryParams = req.query,
+        token = queryParams.token;
+    jwt.verify(token, 'secret', function(err,decoded) {
+        if(err) {
+            var status = 505;
+
+            return utils.resToClient(res, params, {status: status, msg: 'token is  null'});
+        }
+        next();
+    })
+})
 
 //查询素材分页列表
 droppacksRouter.get('/list', function (req, res, next) {
