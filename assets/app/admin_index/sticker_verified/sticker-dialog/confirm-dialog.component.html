@@ -1,31 +1,19 @@
 
 
-<!--<mat-dialog-content >-->
-    <!--{{data.materialid?.name}}-->
-<!--</mat-dialog-content >-->
-<!--<mat-dialog-actions >-->
-    <!--<div class="btnBox">-->
-        <!--<button mat-raised-button (click)="dialogRef.close('ok')">确认</button>-->
-        <!--<button mat-raised-button (click)="dialogRef.close('cancel')">取消</button>-->
-    <!--</div>-->
-<!--</mat-dialog-actions>-->
-<!--<mat-dialog-title>-->
-    <!--{{data.materialid?.name}}-->
-<!--</mat-dialog-title>-->
-<h2 mat-dialog-title *ngIf="data != 'cancel'">{{data.materialid?.name}}</h2>
+<h2 mat-dialog-title *ngIf="data != 'cancel'">{{data.sticker.materialid?.name}}</h2>
 <mat-dialog-content *ngIf="data != 'cancel'">
-    <p>创建时间：{{data?.createTime | date: 'yyyy-MM-dd HH:mm:ss'}}</p>
-    <p>展示位置：{{data.materialid?.position}}</p>
+    <p>创建时间：{{data?.sticker.createTime | date: 'yyyy-MM-dd HH:mm:ss'}}</p>
+    <p>展示位置：{{data.sticker.materialid?.position}}</p>
     <div>
         <video  controls="controls" class="showImg">
-            <source [src]="path + data.materialid.url"  />
+            <source [src]="path + data.sticker.materialid.url"  />
         </video>
     </div>
-    <p>素材内容:{{data.materialid?.content}}</p>
-    <p>贴片金额： {{(data.total/100).toFixed(2)}}元</p>
-    <p>贴片持有者：{{data.intid.nickname}}</p>
+    <p>素材内容:{{data.sticker.materialid?.content}}</p>
+    <p>贴片金额： {{(data.sticker.total/100).toFixed(2)}}元</p>
+    <p>贴片持有者：{{data.sticker.intid.nickname}}</p>
 </mat-dialog-content>
-<mat-dialog-actions *ngIf="data != 'cancel'">
+<mat-dialog-actions *ngIf="data != 'cancel' && data.check == 0">
     <div class="btnBox">
         <button mat-raised-button color="primary" (click)="dialogRef.close('ok')">通过审核</button>
         <button mat-raised-button color="accent" (click)="dialogRef.close('cancel')">不通过</button>

@@ -12,31 +12,31 @@
 <!--<mat-dialog-title>-->
     <!--{{droppack.materialid?.name}}-->
 <!--</mat-dialog-title>-->
-<h2 mat-dialog-title *ngIf="droppack != 'cancel'">{{droppack?.packname}}</h2>
-<mat-dialog-content *ngIf="droppack != 'cancel'">
-    <p>创建时间：{{droppack?.createTime | date: 'yyyy-MM-dd HH:mm:ss'}}</p>
-    <p>推广品牌：{{droppack?.brand}}</p>
+<h2 mat-dialog-title *ngIf="data != 'cancel'">{{data.droppack?.packname}}</h2>
+<mat-dialog-content *ngIf="data != 'cancel'">
+    <p>创建时间：{{data.droppack?.createTime | date: 'yyyy-MM-dd HH:mm:ss'}}</p>
+    <p>推广品牌：{{data.droppack?.brand}}</p>
     <div class="showImg">
-        <img [src]="path +droppack?.brandlogo" class="showImg">
+        <img [src]="path +data.droppack?.brandlogo" class="showImg">
     </div>
     <mat-tab-group class="droppack-config">
         <mat-tab label="社区">
             <div class="community-video">
                 <p>video:</p>
-                    <video *ngFor="let video of droppack.configInfo?.community?.video" controls="controls" class="showVideo">
+                    <video *ngFor="let video of data.droppack.configInfo?.community?.video" controls="controls" class="showVideo">
                         <source [src]="path + video.value"  />
                     </video>
                 </div>
             <div class="community-banner">
                 <p>banner:</p>
-                <img *ngFor="let banner of droppack.configInfo?.community?.banner" alt="" [src]="path + banner.value">
+                <img *ngFor="let banner of data.droppack.configInfo?.community?.banner" alt="" [src]="path + banner.value">
             </div>
         </mat-tab>
         <mat-tab label="互动">
             <div class="interaction-item">
                 <p>activity:</p>
-                <p>{{droppack.configInfo?.interaction?.activity.name}}</p>
-                <div class="radio" *ngFor="let item of droppack.configInfo?.interaction?.activity.items">
+                <p>{{data.droppack.configInfo?.interaction?.activity.name}}</p>
+                <div class="radio" *ngFor="let item of data.droppack.configInfo?.interaction?.activity.items">
                     <label>
                         <input type="radio" name="optionsRadios"  value="option1" [checked]="item.answer == 1">
                         {{item.item_id}} {{item.item_content}}
@@ -45,37 +45,37 @@
             </div>
             <div class="interaction-video">
                 <p>video:</p>
-                <video *ngFor="let video of droppack.configInfo?.interaction?.video" controls="controls" class="showVideo">
+                <video *ngFor="let video of data.droppack.configInfo?.interaction?.video" controls="controls" class="showVideo">
                     <source [src]="path + video.value"  />
                 </video>
             </div>
             <div class="interaction-banner">
                 <p>background:</p>
-                <img *ngFor="let bg of droppack.configInfo?.interaction?.background" alt="" [src]="path + bg.value">
+                <img *ngFor="let bg of data.droppack.configInfo?.interaction?.background" alt="" [src]="path + bg.value">
             </div>
         </mat-tab>
         <mat-tab label="结果">
             <div class="result-bg">
                 <p>banner:</p>
-                <img *ngFor="let banner of droppack.configInfo?.result?.banner" alt="" [src]="path + banner.value">
+                <img *ngFor="let banner of data.droppack.configInfo?.result?.banner" alt="" [src]="path + banner.value">
             </div>
             <div class="result-banner">
                 <p>background:</p>
-                <img *ngFor="let bg of droppack.configInfo?.result?.background" alt="" [src]="path + bg.value">
+                <img *ngFor="let bg of data.droppack.configInfo?.result?.background" alt="" [src]="path + bg.value">
             </div>
         </mat-tab>
     </mat-tab-group>
-    <p>奖品金额：{{droppack?.prizesInfo?.money}}</p>
+    <p>奖品金额：{{data.droppack?.prizesInfo?.money}}</p>
 </mat-dialog-content>
-<mat-dialog-actions *ngIf="droppack != 'cancel'">
+<mat-dialog-actions *ngIf="data != 'cancel' && data.check == 0">
     <div class="btnBox">
         <button mat-raised-button color="primary" (click)="dialogRef.close('ok')">通过审核</button>
         <button mat-raised-button color="accent" (click)="dialogRef.close('cancel')">不通过</button>
     </div>
 </mat-dialog-actions>
 
-<h2 mat-dialog-title *ngIf="droppack == 'cancel'">拒绝原因</h2>
-<mat-dialog-content *ngIf="droppack == 'cancel'">
+<h2 mat-dialog-title *ngIf="data == 'cancel'">拒绝原因</h2>
+<mat-dialog-content *ngIf="data == 'cancel'">
     <div class="example-container" [formGroup]="stickerForm">
         <mat-form-field>
             <textarea matInput placeholder="填写拒绝原因" formControlName="writeInfo"></textarea>
@@ -90,7 +90,7 @@
         </mat-form-field>
     </div>
 </mat-dialog-content>
-<mat-dialog-actions *ngIf="droppack == 'cancel'">
+<mat-dialog-actions *ngIf="data == 'cancel'">
     <div class="btnBox">
         <button mat-raised-button color="primary" (click)="rejectSticker()">确定</button>
         <button mat-raised-button color="accent" (click)="dialogRef.close('cancel')">取消</button>

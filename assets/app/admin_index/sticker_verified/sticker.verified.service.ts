@@ -60,10 +60,14 @@ export class StickerService {
             )
     }
 
-    searchSticker(verified: number,params: StickerSearchParams){
-        let repath = '/sticker/list'+this.path+'&verified='+verified;
 
-        return this.httpService.get<any>(repath,{params: this.filterParams(params)})
+    searchSticker(verified: number,key: string, value?: any){
+        let repath = '/sticker/list'+this.path+'&verified='+verified;
+        if(value) {
+            repath = repath +'&'+key+'='+value;
+        }
+
+        return this.httpService.get<any>(repath)
             .toPromise()
             .then(
                 (response) => {
@@ -107,10 +111,6 @@ export class StickerService {
             }
         }
         return ret;
-    }
-
-    getStickersPage(pageNum: number, pageSize: number) {
-        let repath = '/sticker/list'+this.path +'&page'
     }
 
     getstickers(verified: number,pageNum?: number,pageSize?: number) :Promise<Sticker[]> {
