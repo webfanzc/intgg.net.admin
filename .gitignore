@@ -6,5 +6,6 @@ ps*.log
 
 public/js/app/*
 public/js/app/aot/*
+public/js/app/bundle.js
 
 */.gitkeep/*
