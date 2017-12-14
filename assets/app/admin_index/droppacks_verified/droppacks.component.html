@@ -174,33 +174,28 @@
 <mat-toolbar layout="row"  >
     <i class="material-icons material-header">camera</i>
     <h3 class="title">投放包审核</h3>
-    <span class="material-fill-remaining-space"></span>
-    <!--<div class="material-date">-->
-    <!--&lt;!&ndash;<input type="date" placeholder="时间"  floatPlaceholder="never" class="material-input" (change)="onSearchByDate($event)">&ndash;&gt;-->
-    <!--&lt;!&ndash;<mat-form-field>&ndash;&gt;-->
-    <!--&lt;!&ndash;<input matInput #date [matDatepicker]="picker" placeholder="时间" (dateChange)="onSearchByDate($event)">&ndash;&gt;-->
-    <!--&lt;!&ndash;<mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>&ndash;&gt;-->
-    <!--&lt;!&ndash;<mat-datepicker #picker></mat-datepicker>&ndash;&gt;-->
-    <!--&lt;!&ndash;</mat-form-field>&ndash;&gt;-->
-    <!--</div>-->
-    <!--<div class="material-search">-->
-    <!--&lt;!&ndash;<i class="material-icons">search</i>&ndash;&gt;-->
-    <!--&lt;!&ndash;<input  type="text" placeholder="请输入贴片金额查询" class="material-search-input" #searchByName [formControl]="stickerTotal">&ndash;&gt;-->
-    <!--<mat-form-field class="example-full-width">-->
-    <!--<input matInput placeholder="贴片名称搜索" [formControl]="stickerTotal">-->
-    <!--<span matSuffix><i class="material-icons">search</i></span>-->
-    <!--</mat-form-field>-->
-    <!--</div>-->
+    <span class="full-width"></span>
+    <div class="material-date">
+        <mat-form-field class="example-full-width">
+            <input matInput  type="date"   (change)="searchDroppackDate($event)">
+        </mat-form-field>
+    </div>
+    <div class="material-search">
+        <mat-form-field class="example-full-width">
+            <input matInput  placeholder="输入投放包名称" placeholder="输入投放包名称" (input)="searchDroppackName($event)">
+        </mat-form-field>
+    </div>
 </mat-toolbar>
 <nav mat-tab-nav-bar>
     <a mat-tab-link
-       routerLink="resovle">未审核
+       (click)="toRouter('resovle',0)">未审核
     </a>
     <a mat-tab-link
-       routerLink="reject">已审核
+       (click)="toRouter('reject',1)"
+       >已审核
     </a>
 </nav>
 <router-outlet></router-outlet>
 <droppacks-page
-[verified]="verified"
+    [verified]="verified"
 ></droppacks-page>

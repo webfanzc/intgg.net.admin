@@ -11,11 +11,16 @@ import {HttpClientModule} from "@angular/common/http";
 import {StickerRoutingModule} from "./sticker_verified.routing";
 import {ShareModule} from "../../share/share.module";
 import {ConfirmDialogComponent} from "./sticker-dialog/confirm-dialog.component";
+import {StickerRejectComponent} from "./sticker-reject/sticker_reject.component";
+import {StickerResovleComponent} from "./sticker-resovle/sticker_resovle.component";
+import {StickerService} from "./sticker.verified.service";
 @NgModule({
     declarations: [
         StickerVerifiedComponent,
         StickerPageComponent,
         ConfirmDialogComponent,
+        StickerRejectComponent,
+        StickerResovleComponent,
         // FilterPipe
     ],
     imports:  [
@@ -27,6 +32,9 @@ import {ConfirmDialogComponent} from "./sticker-dialog/confirm-dialog.component"
     ],
     entryComponents: [
         ConfirmDialogComponent,
+    ],
+    providers: [
+        StickerService
     ]
 })
 export class StickersModule{}

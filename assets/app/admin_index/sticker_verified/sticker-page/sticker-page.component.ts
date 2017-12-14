@@ -16,7 +16,7 @@ import {StickerService} from "../sticker.verified.service";
 
 export class StickerPageComponent implements OnInit{
 
-    @Input() verified: number;
+    @Input() verified: number = 0;
     pageTotal: number;
     pageSize :  number = 30; // 每页的数据条数
     pageCount: number[] = []; //总的页数

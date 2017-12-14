@@ -17,6 +17,7 @@
             <li class="edit">
                 <button mat-button color="primary" *ngIf="droppack.verified == 1">通过审核</button>
                 <button mat-button color="accent" *ngIf="droppack.verified != 1">未通过</button>
+                <button mat-button color="warn" (click)="droppackVerified(i,droppack)">查看信息</button>
             </li>
         </ul>
     </mat-list-item>

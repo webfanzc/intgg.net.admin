@@ -16,9 +16,9 @@ import {DroppackService} from "../droppacks.service";
 
 export class DroppacksPageComponent implements OnInit{
 
-    @Input() verified : number;
+    @Input() verified : number = 0;
     pageTotal: number;
-    pageSize = 30; // 每页的数据条数
+    pageSize = 1; // 每页的数据条数
     pageCount: number[] = []; //总的页数
     curpage: number;  //当前的页码数
     endPageNum: number;

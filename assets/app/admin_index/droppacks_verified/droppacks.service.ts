@@ -63,8 +63,11 @@ export class DroppackService {
 
 
     //模糊查询素材
-    searchDroppackByName(name:string): Promise<Droppack[]>{
-        let repath = '/droppacks/list'+this.path+'&packname='+name;
+    searchDroppack(verified: number,key:string, value: string): Promise<Droppack[]>{
+        let repath = '/droppacks/list'+this.path+'&verified='+verified;
+        if(value) {
+            repath = repath + '&'+key+'='+value;
+        }
         return this.httpService.get<any>(repath)
             .toPromise()
             .then(
@@ -100,39 +103,39 @@ export class DroppackService {
             )
     }
     //搜索素材
-    searchDroppack(params: DroppackSearchParams): Promise<Droppack[]>{
-        let repath = '/droppacks/list'+this.path;
-        return this.httpService.get<any>(repath,{params: this.filterParams(params)})
-            .toPromise()
-            .then(
-                (response) => {
-                    let res = response;
-                    let messages = res.data;
-                    let droppacks: Droppack[] = [];
-                    if (res.status == 200) {
-                        let data = res.data;
-                        for (let droppack of data) {
-                            droppacks.push(new Droppack(
-                                droppack.packname,
-                                droppack.brand,
-                                droppack.brandlogo,
-                                droppack.classType,
-                                droppack._id,
-                                droppack.intid,
-                                droppack.configInfo,
-                                droppack.prizesInfo,
-                                droppack.createTime,
-                                droppack.verified,
-                                droppack.verifiedMsg))
-                        }
-                        this.droppacks = droppacks;
-                        this.droppacksChange.next(this.droppacks);
-                        this.droppacksPage.next(res);
-                        return res;
-                    }
-                }
-            )
-    }
+    // searchDroppack(params: DroppackSearchParams): Promise<Droppack[]>{
+    //     let repath = '/droppacks/list'+this.path;
+    //     return this.httpService.get<any>(repath,{params: this.filterParams(params)})
+    //         .toPromise()
+    //         .then(
+    //             (response) => {
+    //                 let res = response;
+    //                 let messages = res.data;
+    //                 let droppacks: Droppack[] = [];
+    //                 if (res.status == 200) {
+    //                     let data = res.data;
+    //                     for (let droppack of data) {
+    //                         droppacks.push(new Droppack(
+    //                             droppack.packname,
+    //                             droppack.brand,
+    //                             droppack.brandlogo,
+    //                             droppack.classType,
+    //                             droppack._id,
+    //                             droppack.intid,
+    //                             droppack.configInfo,
+    //                             droppack.prizesInfo,
+    //                             droppack.createTime,
+    //                             droppack.verified,
+    //                             droppack.verifiedMsg))
+    //                     }
+    //                     this.droppacks = droppacks;
+    //                     this.droppacksChange.next(this.droppacks);
+    //                     this.droppacksPage.next(res);
+    //                     return res;
+    //                 }
+    //             }
+    //         )
+    // }
 
 
     private filterParams(params: DroppackSearchParams): HttpParams{
@@ -149,37 +152,6 @@ export class DroppackService {
         }
         return ret;
     }
-
-    // getMaterialsPage(pageNum: number, pageSize: number){
-    //     let repath = '/materials/list?'+this.path+'&pageSize='+pageSize+'&pageNum='+pageNum;;
-    //     return this.httpService.get(repath)
-    //         .toPromise()
-    //         .then((response) => {
-    //                 let res = response.json();
-    //                 const messages = res.data;
-    //                 let materials: Material[] = [];
-    //                 for (let message of messages) {
-    //                     materials.push(new Material(
-    //                         message.name,
-    //                         message.position,
-    //                         message.link,
-    //                         message.url,
-    //                         message.content,
-    //                         message.type,
-    //                         message.createTime,
-    //                         message._id,
-    //                         )
-    //                     );
-    //                 }
-    //                 this.materials = materials;
-    //                 this.materialsChange.next(this.materials);
-    //                 return res;
-    //             }
-    //
-    //         )
-    // }
-
-
     getDroppack(index: number) {
         return this.droppacks[index];
     }
@@ -218,6 +190,9 @@ export class DroppackService {
                         console.log(droppacks);
                         this.droppacksPage.next(res);
                         return res;
+                    }
+                    if(res.status == 505) {
+                        this.router.navigate(['/admin_login'])
                     }
 
 

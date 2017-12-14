@@ -10,6 +10,7 @@ import {DroppackResovleComponent} from "./droppack_resovle/droppacks_resovle.com
 
 export const DROPPACKS_ROUTES: Routes = [
     { path: '', component: DroppackVerifiedComponent, children: [
+        {path:'', redirectTo: 'resovle', pathMatch: 'full'},
         {path: 'reject', component: DroppackRejectComponent},
         {path: 'resovle', component: DroppackResovleComponent}
     ] },

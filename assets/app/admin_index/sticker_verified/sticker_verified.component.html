@@ -123,117 +123,99 @@
         <!--</div>-->
     <!--</div>-->
 <!--</div>-->
-<mat-toolbar layout="row"  >
+
+<!--<mat-tab-group class="demo-tab-group">-->
+<!--<mat-tab label="未审核" (selectChange)="selectResolve()">-->
+<!--<form class="sticker-form" [formGroup]="searchForm">-->
+<!--<mat-form-field class="example-full-width">-->
+<!--<input matInput  type="date"  formControlName="date" (change)="searchSticker()">-->
+<!--</mat-form-field>-->
+<!--<mat-form-field class="example-full-width">-->
+<!--<input matInput  placeholder="输入素材名称" formControlName="total" (change)="searchSticker()">-->
+<!--</mat-form-field>-->
+<!--</form>-->
+<!--<div class="demo-tab-content">-->
+<!--<mat-list>-->
+<!--<mat-list-item>-->
+<!--<ul>-->
+<!--<li class="title"><h4 >创建日期</h4></li>-->
+<!--<li class="date"><h4 >贴片名称</h4></li>-->
+<!--<li class="edit"><h4 >贴片金额</h4></li>-->
+<!--<li class="edit"><h4 >贴片持有者</h4></li>-->
+<!--<li class="edit"><h4 >审核状态</h4></li>-->
+<!--</ul>-->
+<!--</mat-list-item>-->
+<!--<mat-list-item *ngFor="let sticker of stickers;let i=index">-->
+<!--<ul>-->
+<!--<li class="title">{{sticker.createTime | date: 'yyyy-MM-dd HH:mm:ss'}}</li>-->
+<!--<li class="date">{{sticker.materialid.name}}</li>-->
+<!--<li class="edit">{{(sticker.total/100).toFixed(2)}}</li>-->
+<!--<li class="edit">{{sticker.intid.nickname}}</li>-->
+<!--<li class="edit">-->
+<!--<button mat-raised-button color="primary" (click)="stickerVerified(i,sticker)">通过审核</button>-->
+<!--<button mat-raised-button color="accent">不通过</button>-->
+<!--</li>-->
+<!--</ul>-->
+<!--</mat-list-item>-->
+<!--</mat-list>-->
+<!--</div>-->
+<!--</mat-tab>-->
+<!--<mat-tab label="已审核" (selectChange)="selectReject()">-->
+<!--<div class="demo-tab-content">-->
+<!--<mat-list>-->
+<!--<mat-list-item>-->
+<!--<ul>-->
+<!--<li class="title"><h4 >创建日期</h4></li>-->
+<!--<li class="date"><h4 >贴片名称</h4></li>-->
+<!--<li class="edit"><h4 >贴片金额</h4></li>-->
+<!--<li class="edit"><h4 >贴片持有者</h4></li>-->
+<!--<li class="edit"><h4 >审核状态</h4></li>-->
+<!--</ul>-->
+<!--</mat-list-item>-->
+<!--<mat-list-item *ngFor="let sticker of stickers;let i=index">-->
+<!--<ul>-->
+<!--<li class="title">{{sticker.createTime | date: 'yyyy-MM-dd HH:mm:ss'}}</li>-->
+<!--<li class="date">{{sticker.materialid.name}}</li>-->
+<!--<li class="edit">{{sticker.total}}</li>-->
+<!--<li class="edit">{{sticker.intid.nickname}}</li>-->
+<!--<li class="edit">-->
+<!--&lt;!&ndash;<button mat-raised-button color="primary">通过审核</button>&ndash;&gt;-->
+<!--&lt;!&ndash;<button mat-raised-button color="accent">不通过</button>&ndash;&gt;-->
+<!--<span *ngIf="sticker.verified == 1"> 已通过</span>-->
+<!--<span *ngIf="sticker.verified == 2"> 未通过</span>-->
+<!--</li>-->
+<!--</ul>-->
+<!--</mat-list-item>-->
+<!--</mat-list>-->
+<!--</div>-->
+<!--</mat-tab>-->
+<!--</mat-tab-group>-->
+<mat-toolbar layout="row">
     <i class="material-icons material-header">camera</i>
     <h3 class="title">我的贴片</h3>
-    <span class="material-fill-remaining-space"></span>
-    <!--<div class="material-date">-->
-        <!--&lt;!&ndash;<input type="date" placeholder="时间"  floatPlaceholder="never" class="material-input" (change)="onSearchByDate($event)">&ndash;&gt;-->
-        <!--&lt;!&ndash;<mat-form-field>&ndash;&gt;-->
-            <!--&lt;!&ndash;<input matInput #date [matDatepicker]="picker" placeholder="时间" (dateChange)="onSearchByDate($event)">&ndash;&gt;-->
-            <!--&lt;!&ndash;<mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>&ndash;&gt;-->
-            <!--&lt;!&ndash;<mat-datepicker #picker></mat-datepicker>&ndash;&gt;-->
-        <!--&lt;!&ndash;</mat-form-field>&ndash;&gt;-->
-    <!--</div>-->
-    <!--<div class="material-search">-->
-        <!--&lt;!&ndash;<i class="material-icons">search</i>&ndash;&gt;-->
-        <!--&lt;!&ndash;<input  type="text" placeholder="请输入贴片金额查询" class="material-search-input" #searchByName [formControl]="stickerTotal">&ndash;&gt;-->
-        <!--<mat-form-field class="example-full-width">-->
-            <!--<input matInput placeholder="贴片名称搜索" [formControl]="stickerTotal">-->
-            <!--<span matSuffix><i class="material-icons">search</i></span>-->
-        <!--</mat-form-field>-->
-    <!--</div>-->
+    <span class="full-width"></span>
+    <div class="material-date">
+        <mat-form-field class="example-full-width">
+            <input matInput  type="date"   (change)="searchStickerByDate($event)">
+        </mat-form-field>
+    </div>
+    <div class="material-search">
+        <mat-form-field class="example-full-width">
+            <input matInput  placeholder="输入素材名称" (change)="seachStickerByTotal($event)">
+        </mat-form-field>
+    </div>
 </mat-toolbar>
-<!--<mat-list>-->
-    <!--<mat-list-item>-->
-        <!--<ul>-->
-            <!--<li class="title"><h4 >创建日期</h4></li>-->
-            <!--<li class="date"><h4 >贴片名称</h4></li>-->
-            <!--<li class="edit"><h4 >贴片金额</h4></li>-->
-            <!--<li class="edit"><h4 >贴片持有者</h4></li>-->
-            <!--<li class="edit"><h4 >审核状态</h4></li>-->
-        <!--</ul>-->
-    <!--</mat-list-item>-->
-    <!--<mat-list-item *ngFor="let sticker of stickers;let i=index">-->
-        <!--<ul>-->
-            <!--<li class="title">{{sticker.createTime | date: 'yyyy-MM-dd HH:mm:ss'}}</li>-->
-            <!--<li class="date">{{sticker.materialid.name}}</li>-->
-            <!--<li class="edit">{{sticker.total}}</li>-->
-            <!--<li class="edit">{{sticker.intid.nickname}}</li>-->
-            <!--<li class="edit">-->
-                <!--<button mat-raised-button color="primary">通过审核</button>-->
-                <!--<button mat-raised-button color="accent">不通过</button>-->
-            <!--</li>-->
-        <!--</ul>-->
-    <!--</mat-list-item>-->
-<!--</mat-list>-->
-
-<mat-tab-group class="demo-tab-group">
-    <mat-tab label="未审核" (selectChange)="selectResolve()">
-        <form class="sticker-form" [formGroup]="searchForm">
-            <mat-form-field class="example-full-width">
-                <input matInput  type="date"  formControlName="date" (change)="searchSticker()">
-            </mat-form-field>
-            <mat-form-field class="example-full-width">
-                <input matInput  placeholder="输入素材名称" formControlName="total" (change)="searchSticker()">
-            </mat-form-field>
-        </form>
-        <div class="demo-tab-content">
-            <mat-list>
-                <mat-list-item>
-                    <ul>
-                        <li class="title"><h4 >创建日期</h4></li>
-                        <li class="date"><h4 >贴片名称</h4></li>
-                        <li class="edit"><h4 >贴片金额</h4></li>
-                        <li class="edit"><h4 >贴片持有者</h4></li>
-                        <li class="edit"><h4 >审核状态</h4></li>
-                    </ul>
-                </mat-list-item>
-                <mat-list-item *ngFor="let sticker of stickers;let i=index">
-                    <ul>
-                        <li class="title">{{sticker.createTime | date: 'yyyy-MM-dd HH:mm:ss'}}</li>
-                        <li class="date">{{sticker.materialid.name}}</li>
-                        <li class="edit">{{(sticker.total/100).toFixed(2)}}</li>
-                        <li class="edit">{{sticker.intid.nickname}}</li>
-                        <li class="edit">
-                            <button mat-raised-button color="primary" (click)="stickerVerified(i,sticker)">通过审核</button>
-                            <button mat-raised-button color="accent">不通过</button>
-                        </li>
-                    </ul>
-                </mat-list-item>
-            </mat-list>
-        </div>
-    </mat-tab>
-    <mat-tab label="已审核" (selectChange)="selectReject()">
-        <div class="demo-tab-content">
-            <mat-list>
-                <mat-list-item>
-                    <ul>
-                        <li class="title"><h4 >创建日期</h4></li>
-                        <li class="date"><h4 >贴片名称</h4></li>
-                        <li class="edit"><h4 >贴片金额</h4></li>
-                        <li class="edit"><h4 >贴片持有者</h4></li>
-                        <li class="edit"><h4 >审核状态</h4></li>
-                    </ul>
-                </mat-list-item>
-                <mat-list-item *ngFor="let sticker of stickers;let i=index">
-                    <ul>
-                        <li class="title">{{sticker.createTime | date: 'yyyy-MM-dd HH:mm:ss'}}</li>
-                        <li class="date">{{sticker.materialid.name}}</li>
-                        <li class="edit">{{sticker.total}}</li>
-                        <li class="edit">{{sticker.intid.nickname}}</li>
-                        <li class="edit">
-                            <!--<button mat-raised-button color="primary">通过审核</button>-->
-                            <!--<button mat-raised-button color="accent">不通过</button>-->
-                            <span *ngIf="sticker.verified == 1"> 已通过</span>
-                            <span *ngIf="sticker.verified == 2"> 未通过</span>
-                        </li>
-                    </ul>
-                </mat-list-item>
-            </mat-list>
-        </div>
-    </mat-tab>
-</mat-tab-group>
+<nav mat-tab-nav-bar>
+    <a mat-tab-link
+       (click)="toRouter('resovle',0)"
+       >未审核
+    </a>
+    <a mat-tab-link
+       (click)="toRouter('reject',1)"
+       >已审核
+    </a>
+</nav>
+<router-outlet></router-outlet>
 <sticker-page
 [verified]="verified"
 ></sticker-page>

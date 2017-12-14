@@ -19,7 +19,7 @@ export class ConfirmDialogComponent implements OnInit{
         {value: '排版错误', viewValue: 'Pizza'},
     ];
     stickerForm: FormGroup;
-    constructor(@Inject(MAT_DIALOG_DATA) public droppack: any,public dialogRef: MatDialogRef<ConfirmDialogComponent>) {
+    constructor(@Inject(MAT_DIALOG_DATA) public data: any,public dialogRef: MatDialogRef<ConfirmDialogComponent>) {
     }
 
     rejectSticker(){
