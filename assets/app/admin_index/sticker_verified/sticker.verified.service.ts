@@ -30,10 +30,13 @@ export class StickerService {
             .then(
                 (response) => {
                     let res = response;
+                    console.log(res);
                     let value = res.data;
                     if(res.status == 200){
                         let stickers = new Sticker(
                             value.total,
+                            value.startDate,
+                            value.endDate,
                             sticker.materialid,
                             value._id,
                             value.createTime,
@@ -79,6 +82,8 @@ export class StickerService {
                             if(value.materialid != null){
                                 stickers.push(new Sticker(
                                     value.total,
+                                    value.startDate,
+                                    value.endDate,
                                     value.materialid,
                                     value._id,
                                     value.createTime,
@@ -129,6 +134,8 @@ export class StickerService {
                             if(value.materialid != null){
                                 stickers.push(new Sticker(
                                     value.total,
+                                    value.startDate,
+                                    value.endDate,
                                     value.materialid,
                                     value._id,
                                     value.createTime,

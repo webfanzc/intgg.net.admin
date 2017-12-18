@@ -45,7 +45,7 @@ export class StickerResovleComponent implements OnInit{
         });
         dialogRef.afterClosed()
             .subscribe(
-                (result) => {
+                (result:any) => {
                     if(result == 'ok'){
                         sticker.verified = 1;
                         sticker.verifiedMsg = '审核通过';
@@ -61,7 +61,7 @@ export class StickerResovleComponent implements OnInit{
                         });
                         rejectDialog.afterClosed()
                             .subscribe(
-                                (result) => {
+                                (result:any) => {
                                     if(result != null && result != 'cancel') {
                                         sticker.verified = 2;
                                         sticker.verifiedMsg = result;
@@ -87,7 +87,7 @@ export class StickerResovleComponent implements OnInit{
         });
         rejectDialog.afterClosed()
             .subscribe(
-                (result) => {
+                (result:any) => {
                     if(result != null && result != 'cancel') {
                         sticker.verified = 2;
                         sticker.verifiedMsg = result;

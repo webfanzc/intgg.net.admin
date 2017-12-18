@@ -3,7 +3,6 @@ import { Routes, RouterModule } from "@angular/router";
 import {AdminLoginComponent} from "./admin_login/admin_login.component";
 import {LoginGuard} from "./app.guard";
 import {NgModule} from "@angular/core";
-import {StickerVerifiedComponent} from "./admin_index/sticker_verified/sticker_verified.component";
 const APP_ROUTES: Routes = [
     { path: '', redirectTo: 'admin_login', pathMatch: 'full' }, //通过public/test/login.html 扫一扫登录
     // { path: 'stickers', canActivate:[LoginGuard], component:StickerVerifiedComponent},

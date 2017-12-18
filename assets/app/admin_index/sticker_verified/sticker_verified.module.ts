@@ -2,7 +2,7 @@
  * Created by gy104 on 17/9/28.
  */
 import {NgModule} from "@angular/core";
-import {CommonModule} from "@angular/common";
+
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {StickerVerifiedComponent} from "./sticker_verified.component";
 import {StickerPageComponent} from "./sticker-page/sticker-page.component";

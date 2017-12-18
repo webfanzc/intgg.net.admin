@@ -73,6 +73,9 @@ module.exports = {
     timerRedisPort:6383,
     timerDB: "15",
 
+    stickerRedisHost: '106.15.228.49', // 贴片
+    stickerRedisPort: 6383,
+    stickerDB: 11,
 
     // 404  500 错误处理页面
     errorPage:'http://a.h5.mtq.tvm.cn/tishi/index.html',
