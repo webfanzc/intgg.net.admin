@@ -4,12 +4,9 @@
 
 
 import {Component, OnInit} from "@angular/core";
-import {StickerService, StickerSearchParams} from "./sticker.verified.service";
+import {StickerService} from "./sticker.verified.service";
 import {Sticker} from "./sticker.verified.model";
 import * as util from "../../util"
-import {FormGroup, FormControl} from "@angular/forms";
-import {MatDialog} from "@angular/material";
-import {ConfirmDialogComponent} from "./sticker-dialog/confirm-dialog.component";
 import {Router, ActivatedRoute} from "@angular/router";
 
 @Component ({

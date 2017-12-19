@@ -10,6 +10,7 @@ import * as util from "../../../util"
 import {FormGroup, FormControl} from "@angular/forms";
 import {MatDialog} from "@angular/material";
 import {ConfirmDialogComponent} from "../sticker-dialog/confirm-dialog.component";
+import {SnackBarService} from "../../../share/toast/snackbar.service";
 
 @Component ({
     selector: 'sticker_reject',
@@ -34,7 +35,7 @@ export class StickerRejectComponent implements OnInit{
         {value: '贴片涉及违法信息', viewValue: 'Steak'},
         {value: '贴片内容不清晰', viewValue: 'Pizza'},
     ];
-    constructor(private stickerService: StickerService,private dialog: MatDialog){
+    constructor(private stickerService: StickerService,private dialog: MatDialog,private snackbar: SnackBarService){
         // if(this.reject) {
         //     this.stickerService.getstickers(0,1,30);
         // }else {
@@ -48,13 +49,30 @@ export class StickerRejectComponent implements OnInit{
         let dialogRef = this.dialog.open(ConfirmDialogComponent,{
             data: {sticker: sticker, check: 1}
         });
-        // dialogRef.afterClosed()
-        //     .subscribe(
-        //         (result) => {
-        //             if(result == 'ok'){
-        //             }
-        //         }
-        //     )
+    }
+
+    stopSticker(sticker: Sticker) {
+        sticker.isStart = 0;
+       this.stickerService.delSticker(sticker)
+           .subscribe(
+               (response: any) => {
+                   console.log(response);
+                   if(response.status == 200 ) {
+                        this.snackbar.openSnackBar("停用成功");
+                   }
+               }
+           )
+    }
+    startSticker(sticker: Sticker) {
+        sticker.isStart = 1;
+        this.stickerService.updateSticker(sticker)
+            .then(
+                (response: any) => {
+                    if(response != null) {
+                        this.snackbar.openSnackBar('启用成功');
+                    }
+                }
+            )
     }
     ngOnInit(){
         this.stickerService.stickersChange

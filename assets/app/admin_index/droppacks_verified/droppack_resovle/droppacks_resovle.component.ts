@@ -13,6 +13,7 @@ import {DroppackService, DroppackSearchParams} from "../droppacks.service";
 import {Droppack} from "../droppacks.model";
 import {MatDialog} from "@angular/material";
 import {ConfirmDialogComponent} from "../droppack-dialog/confirm-dialog.component";
+import {SnackBarService} from "../../../share/toast/snackbar.service";
 
 @Component ({
     selector: 'droppack_reject',
@@ -27,7 +28,7 @@ export class DroppackResovleComponent implements OnInit{
     path: string = util.path;
     verified: number = 0;
 
-    constructor(private droppackService: DroppackService,private dialog: MatDialog){
+    constructor(private droppackService: DroppackService,private dialog: MatDialog,private snackbar: SnackBarService){
         this.droppackService.getDroppacks(0,1,30)
     }
 
@@ -46,6 +47,7 @@ export class DroppackResovleComponent implements OnInit{
                             .then(
                                 (droppack: Droppack) => {
                                     this.droppacks.splice(index, 1);
+                                    this.snackbar.openSnackBar('审核成功：已通过')
                                 }
                             );
                     }else if(result == 'cancel'){
@@ -62,6 +64,7 @@ export class DroppackResovleComponent implements OnInit{
                                             .then(
                                                 (droppack: Droppack) => {
                                                     this.droppacks.splice(index, 1);
+                                                    this.snackbar.openSnackBar('审核未通过')
                                                 }
                                             );
                                     }
@@ -87,6 +90,7 @@ export class DroppackResovleComponent implements OnInit{
                             .then(
                                 (droppack: Droppack) => {
                                     this.droppacks.splice(index, 1);
+                                    this.snackbar.openSnackBar('审核未通过');
                                 }
                             );
                     }

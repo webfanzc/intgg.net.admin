@@ -11,7 +11,10 @@ import {
   MatTabsModule,
   MatDialogModule,
   MatSelectModule,
+  MatSidenavModule,
+  MatSnackBarModule,
   MatCardModule} from '@angular/material'
+import {SnackBarComponent} from "./toast/snackbar.component";
 @NgModule({
   imports: [
     CommonModule,
@@ -24,7 +27,9 @@ import {
     MatSlideToggleModule,
     MatTabsModule,
     MatDialogModule,
-    MatSelectModule
+    MatSelectModule,
+    MatSidenavModule,
+    MatSnackBarModule
   ],
   exports: [
     CommonModule,
@@ -37,8 +42,15 @@ import {
     MatSlideToggleModule,
     MatTabsModule,
     MatDialogModule,
-    MatSelectModule
+    MatSelectModule,
+    MatSidenavModule,
+    MatSnackBarModule
   ],
-  declarations: []
+  declarations: [
+      SnackBarComponent
+  ],
+  entryComponents: [
+      SnackBarComponent
+  ]
 })
 export class ShareModule { }

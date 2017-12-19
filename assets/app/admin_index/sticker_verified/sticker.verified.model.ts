@@ -8,23 +8,32 @@ export class Sticker {
     materialid: string;
     verified: number;
     verifiedMsg: string;
+    startDate: string;
+    endDate: string;
     _id: string;
     intid: any;
+    isStart: number;
     constructor(
         total: string,
+        startDate: string,
+        endDate: string,
         materialid: string,
         _id?: string,
         createTime?: string,
         verified?: number,
         verifiedMsg?: string,
-        intid?: any
+        intid?: any,
+        isStart?: number
     ){
         this.total = total;
+        this.startDate = startDate;
+        this.endDate = endDate;
         this.createTime = createTime;
         this.materialid = materialid;
         this.verified = verified;
         this.verifiedMsg = verifiedMsg;
         this._id = _id;
         this.intid = intid;
+        this.isStart = isStart;
     }
 }

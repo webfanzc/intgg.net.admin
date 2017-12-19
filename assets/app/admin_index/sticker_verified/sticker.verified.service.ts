@@ -24,22 +24,27 @@ export class StickerService {
 
     updateSticker(sticker: Sticker){
         let body = JSON.stringify(sticker);
+        console.log(sticker);
         const repath = '/sticker/update'+this.path+'&_id='+sticker._id;
         return this.httpService.post<any>(repath, body, this.headers)
             .toPromise()
             .then(
                 (response) => {
                     let res = response;
+                    console.log(res);
                     let value = res.data;
                     if(res.status == 200){
                         let stickers = new Sticker(
                             value.total,
+                            value.startDate,
+                            value.endDate,
                             sticker.materialid,
                             value._id,
                             value.createTime,
                             value.verified,
                             value.verifiedMsg,
-                            value.intid
+                            value.intid,
+                            value.isStart
                         );
                         this.stickers[this.stickers.indexOf(sticker)] = stickers;
                         this.stickersChange.next(this.stickers);
@@ -60,6 +65,11 @@ export class StickerService {
             )
     }
 
+    delSticker(sticker: Sticker) {
+        let body = JSON.stringify(sticker);
+        let repath = '/sticker/del'+this.path+'&_id='+sticker._id;
+        return this.httpService.post(repath, body, this.headers);
+    }
 
     searchSticker(verified: number,key: string, value?: any){
         let repath = '/sticker/list'+this.path+'&verified='+verified;
@@ -79,12 +89,15 @@ export class StickerService {
                             if(value.materialid != null){
                                 stickers.push(new Sticker(
                                     value.total,
+                                    value.startDate,
+                                    value.endDate,
                                     value.materialid,
                                     value._id,
                                     value.createTime,
                                     value.verified,
                                     value.verifiedMsg,
-                                    value.intid
+                                    value.intid,
+                                    value.isStart
                                     )
                                 )
                             }
@@ -129,12 +142,15 @@ export class StickerService {
                             if(value.materialid != null){
                                 stickers.push(new Sticker(
                                     value.total,
+                                    value.startDate,
+                                    value.endDate,
                                     value.materialid,
                                     value._id,
                                     value.createTime,
                                     value.verified,
                                     value.verifiedMsg,
-                                    value.intid
+                                    value.intid,
+                                    value.isStart
                                     )
                                 )
                             }
