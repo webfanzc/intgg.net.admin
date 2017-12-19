@@ -10,8 +10,12 @@
         </video>
     </div>
     <p>素材内容:{{data.sticker.materialid?.content}}</p>
+    <p>贴片开始时间:{{data.sticker.startDate | date: 'yyyy-MM-dd' }}</p>
+    <p>贴片结束时间:{{data.sticker.endDate | date: "yyyy-MM-dd" }}</p>
     <p>贴片金额： {{(data.sticker.total/100).toFixed(2)}}元</p>
     <p>贴片持有者：{{data.sticker.intid.nickname}}</p>
+
+
 </mat-dialog-content>
 <mat-dialog-actions *ngIf="data != 'cancel' && data.check == 0">
     <div class="btnBox">

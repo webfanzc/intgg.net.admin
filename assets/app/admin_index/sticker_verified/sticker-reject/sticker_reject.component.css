@@ -41,6 +41,7 @@ li {
     float: left;
     height: 100%;
     margin: 0;
+    text-align: center;
 
 }
 
@@ -50,17 +51,40 @@ h4 {
     color: #767676;
     font-size: 16px;
 }
-li.title {
-    width: 20%;
-}
+/*li.title {*/
+    /*width: 20%;*/
+/*}*/
+/*li.date {*/
+    /*width: 20%;*/
+    /*text-align: center;*/
+/*}*/
+/*li.edit {*/
+    /*width: 20%;*/
+    /*text-align: center;*/
+/*}*/
+
+
 li.date {
     width: 20%;
     text-align: center;
+}
+li.type {
+    width: 10%;
+}
+li.name {
+    width: 15%;
+}
+li.brand {
+    width: 15%;
+}
+li.state {
+    width: 20%;
 }
 li.edit {
     width: 20%;
     text-align: center;
 }
+
 .demo-tab-group {
     border: 1px solid #e8e8e8;
 }

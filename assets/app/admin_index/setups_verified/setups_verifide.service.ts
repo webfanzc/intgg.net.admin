@@ -10,6 +10,7 @@ import { Setups } from './setups.model'
 import {Subject} from "rxjs";
 import {Router} from "@angular/router";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {SnackBarService} from "../../share/toast/snackbar.service";
 
 @Injectable()
 export class SetupsVerifiedService {
@@ -20,7 +21,7 @@ export class SetupsVerifiedService {
     private headers = {
         headers: new HttpHeaders().set('Content-Type','application/json')
     };
-    constructor(private httpService: HttpClient,private router: Router){}
+    constructor(private httpService: HttpClient,private router: Router,private snackbar: SnackBarService){}
 
 
 

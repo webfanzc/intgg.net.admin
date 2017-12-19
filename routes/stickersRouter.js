@@ -392,7 +392,7 @@ stickersRouter.post('/update',function (req, res, next) {
                     //     logger.info('reply',reply);
                     // })
                     redisDaos.setAdd(clientSticker, rkey, item.materialid, function(err, reply){
-                        logger.info(STICKERKEY,reply,'----');
+                        console.log(rkey+'====='+reply)
                         innerCallback(null);
                     })
                 }, function (err) {
@@ -421,6 +421,8 @@ stickersRouter.post('/del',function (req, res, next) {
     var materialid = req.query.materialid;
         stickersid = req.query._id || "";
 
+    var body = req.body;
+
     //首先check用户的intid和token是否合法
 
     var status = 400,
@@ -433,31 +435,80 @@ stickersRouter.post('/del',function (req, res, next) {
     }
 
     async.auto({
-        saveToMongo:function (callback) {
+        checkintid:function (callback) {
             var condition = {};
             if(!_.isEmpty(stickersid)) {
                 _.extend(condition,{_id: stickersid})
             }
-            if(!_.isEmpty(materialid)) {
-                _.extend(condition,{materialid: materialid})
-            }
-            stickersDao.del(condition,null,function(err,reply){
-                if (err) {  //内部服务错误
+            stickersDao.findById(stickersid, function(err, reply) {
+                if(err) {
                     status = 500;
                     return callback(err);
                 }
-                if (_.isEmpty(reply)) { //删除失败
-                    return callback(new Error("del sticker is fail."));
+                if(_.isEmpty(reply)) {
+                    status = 404;
+                    return callback(new Error("sticker is not exits"))
                 }
-                callback(null,reply);
+                callback(null, reply);
+            })
+
+        },
+        saveToMongo: ["checkintid", function(callback, result) {
+            stickersDao.update({_id: stickersid},body,null, function(err, reply) {
+                if(err) {
+                    status = 500;
+                    return callback(err);
+                }
+                callback(null, reply);
+            })
+        }],
+        repairData: ["checkintid","saveToMongo", function(callback,result) {
+            var sticker = result.checkintid;
+            // 算出日期组数
+            var startDate = moment(sticker.startDate);
+            var endDate = moment(sticker.endDate);
+            var materialid = sticker.materialid;
+
+            var daylong = (endDate - startDate)/(3600000 * 24) + 1;
+            var repairData = [];
+            var dayArr = [];
+            for(var i = 0; i< daylong; i++) {
+                dayArr.push(moment(startDate).add(i,"d").format("YYYY-MM-DD"));
+            }
+
+            _.each(dayArr, function(item, itemindex) {
+                repairData.push({
+                    startTime: item,
+                    materialid: materialid
+                })
             });
-        }
+            // 组织好保存到redis的数据；
+            console.log(repairData+'=========');
+            callback(null, repairData);
+
+        }],
+        delToRedis: ["checkintid", "repairData", function(callback,result ) {
+            var sticker = result.saveToMongo;
+            var repairData = result.repairData;
+            async.eachLimit(repairData, 3, function (item, innerCallback) {
+                var rkey = [
+                    STICKERKEY,
+                    item.startTime
+                ].join(":");
+                redisDaos.delKey(clientSticker, rkey, function(err, reply) {
+                    innerCallback(null)
+                });
+            }, function (err) {
+                callback(null,repairData);
+
+            });
+
+        }]
     }, function (err, results) {
 
         if(err){
             return utils.resToClient(res, params, {status: status || 500, msg: err.message});
         }
-
         utils.resToClient(res,params,{status: 200, data: results.saveToMongo, msg:"删除成功"});
 
     });

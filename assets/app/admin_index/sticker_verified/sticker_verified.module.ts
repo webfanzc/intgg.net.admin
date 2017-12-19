@@ -14,6 +14,7 @@ import {ConfirmDialogComponent} from "./sticker-dialog/confirm-dialog.component"
 import {StickerRejectComponent} from "./sticker-reject/sticker_reject.component";
 import {StickerResovleComponent} from "./sticker-resovle/sticker_resovle.component";
 import {StickerService} from "./sticker.verified.service";
+import {SnackBarService} from "../../share/toast/snackbar.service";
 @NgModule({
     declarations: [
         StickerVerifiedComponent,
@@ -34,7 +35,8 @@ import {StickerService} from "./sticker.verified.service";
         ConfirmDialogComponent,
     ],
     providers: [
-        StickerService
+        StickerService,
+        SnackBarService
     ]
 })
 export class StickersModule{}

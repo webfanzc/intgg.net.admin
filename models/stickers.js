@@ -11,6 +11,7 @@ var schema = new Schema({
     total: {type: Number},  //贴片金额
     startDate: {type: String}, // 开始日期
     endDate: {type: String}, // 结束日期
+    isStart: {type: Number, enum: [0,1]},  // 是否启用 0表示未启用，
     createTime: {type: Number},  // 创建时间
     updateTime: {type: Number},  // 更新时间
     verified: {type: Number, enum: [0,1,2,3,4],default: 0},

@@ -12,6 +12,7 @@ export class Sticker {
     endDate: string;
     _id: string;
     intid: any;
+    isStart: number;
     constructor(
         total: string,
         startDate: string,
@@ -21,7 +22,8 @@ export class Sticker {
         createTime?: string,
         verified?: number,
         verifiedMsg?: string,
-        intid?: any
+        intid?: any,
+        isStart?: number
     ){
         this.total = total;
         this.startDate = startDate;
@@ -32,5 +34,6 @@ export class Sticker {
         this.verifiedMsg = verifiedMsg;
         this._id = _id;
         this.intid = intid;
+        this.isStart = isStart;
     }
 }
