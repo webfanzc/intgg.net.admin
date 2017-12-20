@@ -379,19 +379,12 @@ stickersRouter.post('/update',function (req, res, next) {
             var sticker = result.saveToMongo;
             var repairData = result.repairData;
             if(sticker.verified == 1) {
-                console.log(1);
                 async.eachLimit(repairData, 3, function (item, innerCallback) {
                     var rkey = [
                         STICKERKEY,
                         item.startTime
                     ].join(":");
-                    // redisDaos.delKey(clientSticker, rkey, function(err, reply) {
-                    //     logger.info('del');
-                    // })
-                    // redisDaos.getSmembers(clientSticker,rkey, function(err, reply) {
-                    //     logger.info('reply',reply);
-                    // })
-                    redisDaos.setAdd(clientSticker, rkey, item.materialid, function(err, reply){
+                    redisDaos.setAdd(clientSticker, rkey, item.materialid.toString(), function(err, reply){
                         console.log(rkey+'====='+reply)
                         innerCallback(null);
                     })
@@ -495,7 +488,7 @@ stickersRouter.post('/del',function (req, res, next) {
                     STICKERKEY,
                     item.startTime
                 ].join(":");
-                redisDaos.delKey(clientSticker, rkey, function(err, reply) {
+                redisDaos.setRemove(clientSticker, rkey, item.materialid, function(err, reply) {
                     innerCallback(null)
                 });
             }, function (err) {
