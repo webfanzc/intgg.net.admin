@@ -12,6 +12,7 @@ import {HttpClientModule} from "@angular/common/http";
 import {SetupRoutingModule} from "./setup_verified.routing";
 import {ShareModule} from "../../share/share.module";
 import {ConfirmDialogComponent} from "./setup-dialog/confirm-dialog.component";
+import {SnackBarService} from "../../share/toast/snackbar.service";
 @NgModule({
     declarations: [
         SetupsVerifiedComponent,
@@ -27,6 +28,9 @@ import {ConfirmDialogComponent} from "./setup-dialog/confirm-dialog.component";
     ],
     entryComponents: [
         ConfirmDialogComponent
+    ],
+    providers: [
+      SnackBarService
     ]
 })
 export class SetupModule{}

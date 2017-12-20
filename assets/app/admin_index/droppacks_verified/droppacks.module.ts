@@ -14,6 +14,7 @@ import {ConfirmDialogComponent} from "./droppack-dialog/confirm-dialog.component
 import {DroppackService} from "./droppacks.service";
 import {DroppackRejectComponent} from "./droppack_reject/droppacks_reject.component";
 import {DroppackResovleComponent} from "./droppack_resovle/droppacks_resovle.component";
+import {SnackBarService} from "../../share/toast/snackbar.service";
 @NgModule({
     declarations: [
         DroppackVerifiedComponent,
@@ -34,7 +35,8 @@ import {DroppackResovleComponent} from "./droppack_resovle/droppacks_resovle.com
         ConfirmDialogComponent
     ],
     providers: [
-        DroppackService
+        DroppackService,
+        SnackBarService,
     ]
 })
 export class DroppacksModule{}
