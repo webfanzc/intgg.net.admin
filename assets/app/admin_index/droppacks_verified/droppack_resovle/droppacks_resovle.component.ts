@@ -8,7 +8,6 @@
 
 import {Component, OnInit} from "@angular/core";
 import * as util from "../../../util"
-import {FormGroup, FormControl} from "@angular/forms";
 import {DroppackService, DroppackSearchParams} from "../droppacks.service";
 import {Droppack} from "../droppacks.model";
 import {MatDialog} from "@angular/material";
@@ -29,7 +28,7 @@ export class DroppackResovleComponent implements OnInit{
     verified: number = 0;
 
     constructor(private droppackService: DroppackService,private dialog: MatDialog,private snackbar: SnackBarService){
-        this.droppackService.getDroppacks(0,1,30)
+        this.droppackService.getDroppacks(0,1,util.pageSize)
     }
 
     droppackVerified(index: number, droppack: Droppack){

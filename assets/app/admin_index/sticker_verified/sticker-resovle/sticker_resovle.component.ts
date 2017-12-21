@@ -36,7 +36,7 @@ export class StickerResovleComponent implements OnInit{
         {value: '贴片内容不清晰', viewValue: 'Pizza'},
     ];
     constructor(private stickerService: StickerService,private dialog: MatDialog,private snackbar: SnackBarService){
-        this.stickerService.getstickers(0,1,30);
+        this.stickerService.getstickers(0,1,util.pageSize);
     }
 
     stickerVerified(index: number, sticker: Sticker){

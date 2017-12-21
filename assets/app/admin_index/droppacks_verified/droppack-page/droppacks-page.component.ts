@@ -1,6 +1,6 @@
 import {Component,OnInit,Input} from "@angular/core";
 import {DroppackService} from "../droppacks.service";
-
+import * as util from "../../../util";
 
 /**
  * Created by gy104 on 17/5/24.
@@ -18,7 +18,7 @@ export class DroppacksPageComponent implements OnInit{
 
     @Input() verified : number = 0;
     pageTotal: number;
-    pageSize = 1; // 每页的数据条数
+    pageSize = util.pageSize; // 每页的数据条数
     pageCount: number[] = []; //总的页数
     curpage: number;  //当前的页码数
     endPageNum: number;

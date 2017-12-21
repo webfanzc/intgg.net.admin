@@ -1,6 +1,7 @@
 import {Component,OnInit,Input} from "@angular/core";
 import {Sticker} from "../sticker.verified.model";
 import {StickerService} from "../sticker.verified.service";
+import * as util from "../../../util"
 
 /**
  * Created by gy104 on 17/5/24.
@@ -18,7 +19,7 @@ export class StickerPageComponent implements OnInit{
 
     @Input() verified: number = 0;
     pageTotal: number;
-    pageSize :  number = 30; // 每页的数据条数
+    pageSize :  number = util.pageSize; // 每页的数据条数
     pageCount: number[] = []; //总的页数
     curpage: number;  //当前的页码数
     endPageNum: number;

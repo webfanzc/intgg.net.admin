@@ -39,7 +39,7 @@ export class StickerRejectComponent implements OnInit{
         // if(this.reject) {
         //     this.stickerService.getstickers(0,1,30);
         // }else {
-            this.stickerService.getstickers(1,1,30);
+            this.stickerService.getstickers(1,1,util.pageSize);
         // }
 
     }

@@ -7,7 +7,7 @@
 
 
 import {Component, OnInit} from "@angular/core";
-import * as util from "../../../util"
+import * as util from "../../../util";
 import {FormGroup, FormControl} from "@angular/forms";
 import {DroppackService, DroppackSearchParams} from "../droppacks.service";
 import {Droppack} from "../droppacks.model";
@@ -27,7 +27,7 @@ export class DroppackRejectComponent implements OnInit{
     path: string = util.path;
     verified: number = 0;
     constructor(private droppackService: DroppackService,private dialog: MatDialog){
-        this.droppackService.getDroppacks(1,1,2);
+        this.droppackService.getDroppacks(1,1,util.pageSize);
     }
 
     droppackVerified(index: number, droppack: Droppack){

@@ -384,7 +384,11 @@ stickersRouter.post('/update',function (req, res, next) {
                         STICKERKEY,
                         item.startTime
                     ].join(":");
-                    redisDaos.setAdd(clientSticker, rkey, item.materialid.toString(), function(err, reply){
+                    var timestamp = moment(item.startTime).add(1,'d').hours(0).minutes(0).seconds(0).milliseconds(0).unix();
+                    // var timestamp = moment().unix() + 10;
+                    // console.log(timestamp);
+                    // console.log(moment(timestamp*1000).format('YY-MM-DD:HH:mm:ss'))
+                    redisDaos.setAdd(clientSticker, rkey, {obj:item.materialid.toString(),timestamp: timestamp}, function(err, reply){
                         console.log(rkey+'====='+reply)
                         innerCallback(null);
                     })
