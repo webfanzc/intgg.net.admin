@@ -11,7 +11,7 @@
 // import {MaterialVerifiedComponent} from "./material_verified/material_verified.component";
 // import {MaterialsPageComponent} from "./material_verified/material-page/materials-page.component";
 // import {StickerVerifiedComponent} from "./sticker_verified/sticker_verified.component";
-// import {StickerPageComponent} from "./sticker_verified/sticker-page/sticker-page.component";
+// import {StickerPageComponent} from "./sticker_verified/crazygrab_page/crazygrab_page.component";
 // import {FilterPipe} from "./filter.pipe";
 // import {DroppackVerifiedComponent} from "./droppacks_verified/droppacks.component";
 // import {DroppacksPageComponent} from "./droppacks_verified/droppack-page/droppacks-page.component";

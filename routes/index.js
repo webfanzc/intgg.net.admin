@@ -11,6 +11,7 @@ var adminRouter = require('./adminRouter');
 var stickerRouter = require('./stickersRouter');
 var droppacksRouter = require('./droppacksRouter');
 var moneysRouter = require('./moneysRouter');
+var crazygrabRouter = require('./crazygrabRouter');
 var config = require('../config');
 
 exports.runApp = function(app){
@@ -23,6 +24,7 @@ exports.runApp = function(app){
     app.use('/sticker', stickerRouter); // 贴片审核
     app.use('/droppacks',droppacksRouter);  // 投放包审核
     app.use('/moneys',moneysRouter);
+    app.use('/crazygrab',crazygrabRouter);
     // //ronghui test route
     // app.get('/admin', function (req, res, next) {
     //     res.render('admin_index');

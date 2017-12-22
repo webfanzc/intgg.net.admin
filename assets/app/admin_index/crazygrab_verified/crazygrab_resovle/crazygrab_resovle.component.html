@@ -9,15 +9,15 @@
             <li class="edit"><h4 >审核状态</h4></li>
         </ul>
     </mat-list-item>
-    <mat-list-item *ngFor="let sticker of stickers;let i=index">
+    <mat-list-item *ngFor="let crazygrab of crazygrabs;let i=index">
         <ul>
-            <li class="title">{{sticker.createTime | date: 'yyyy-MM-dd HH:mm:ss'}}</li>
-            <li class="date">{{sticker.materialid.name}}</li>
-            <li class="edit">{{(sticker.total/100).toFixed(2)}}</li>
-            <li class="edit">{{sticker.intid.nickname}}</li>
+            <li class="title">{{crazygrab.createTime | date: 'yyyy-MM-dd HH:mm:ss'}}</li>
+            <li class="date">{{crazygrab.materialid.name}}</li>
+            <li class="edit">{{(crazygrab.total/100).toFixed(2)}}</li>
+            <li class="edit">{{crazygrab.intid.nickname}}</li>
             <li class="edit">
-                <button mat-raised-button color="primary" (click)="stickerVerified(i,sticker)">通过审核</button>
-                <button mat-raised-button color="accent" (click)="rejectVerified(i,sticker)">不通过</button>
+                <button mat-raised-button color="primary" (click)="stickerVerified(i,crazygrab)">通过审核</button>
+                <button mat-raised-button color="accent" (click)="rejectVerified(i,crazygrab)">不通过</button>
             </li>
         </ul>
     </mat-list-item>

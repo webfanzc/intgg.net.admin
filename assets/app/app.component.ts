@@ -12,6 +12,7 @@ export class AppComponent {
         localStorage.clear();
     }
     isLoginIn() {
-        return localStorage.getItem('token') !== null;
+        return true;
+        // return localStorage.getItem('token') !== null;
     }
 }

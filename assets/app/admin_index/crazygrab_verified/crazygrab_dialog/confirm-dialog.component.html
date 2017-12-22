@@ -1,0 +1,47 @@
+
+
+<h2 mat-dialog-title *ngIf="data != 'cancel'">{{data.crazygrab.materialid?.name}}</h2>
+<mat-dialog-content *ngIf="data != 'cancel'">
+    <p>创建时间：{{data?.crazygrab.createTime | date: 'yyyy-MM-dd HH:mm:ss'}}</p>
+    <p>展示位置：{{data.crazygrab.materialid?.position}}</p>
+    <div>
+        <video  controls="controls" class="showImg">
+            <source [src]="path + data.crazygrab.materialid.url"  />
+        </video>
+    </div>
+    <p>素材内容:{{data.crazygrab.materialid?.content}}</p>
+    <p>疯抢开始时间:{{data.crazygrab.startTime | date: 'yyyy-MM-dd' }}</p>
+    <p>疯抢结束时间:{{data.crazygrab.endTime | date: "yyyy-MM-dd" }}</p>
+    <p>疯抢金额： {{(data.crazygrab.total/100).toFixed(2)}}元</p>
+    <p>疯抢持有者：{{data.crazygrab.intid.nickname}}</p>
+
+</mat-dialog-content>
+<mat-dialog-actions *ngIf="data != 'cancel' && data.check == 0">
+    <div class="btnBox">
+        <button mat-raised-button color="primary" (click)="dialogRef.close('ok')">通过审核</button>
+        <button mat-raised-button color="accent" (click)="dialogRef.close('cancel')">不通过</button>
+    </div>
+</mat-dialog-actions>
+
+<h2 mat-dialog-title *ngIf="data == 'cancel'">拒绝原因</h2>
+<mat-dialog-content *ngIf="data == 'cancel'">
+    <div class="example-container" [formGroup]="stickerForm">
+        <mat-form-field>
+            <textarea matInput placeholder="填写拒绝原因" formControlName="writeInfo"></textarea>
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-select placeholder="选择拒绝原因" formControlName="selectInfo">
+                <mat-option  *ngFor="let info of rejectInfo" [value]="info.value">
+                    {{info.value}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+</mat-dialog-content>
+<mat-dialog-actions *ngIf="data == 'cancel'">
+    <div class="btnBox">
+        <button mat-raised-button color="primary" (click)="rejectSticker()">确定</button>
+        <button mat-raised-button color="accent" (click)="dialogRef.close('cancel')">取消</button>
+    </div>
+</mat-dialog-actions>

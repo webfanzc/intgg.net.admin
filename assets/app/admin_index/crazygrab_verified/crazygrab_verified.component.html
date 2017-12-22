@@ -194,16 +194,16 @@
     <i class="material-icons material-header">camera</i>
     <h3 class="title">我的贴片</h3>
     <span class="full-width"></span>
-    <div class="material-date">
-        <mat-form-field class="example-full-width">
-            <input matInput  type="date"   (change)="searchStickerByDate($event)">
-        </mat-form-field>
-    </div>
-    <div class="material-search">
-        <mat-form-field class="example-full-width">
-            <input matInput  placeholder="输入素材名称" (change)="seachStickerByTotal($event)">
-        </mat-form-field>
-    </div>
+    <!--<div class="material-date">-->
+        <!--<mat-form-field class="example-full-width">-->
+            <!--<input matInput  type="date"   (change)="searchStickerByDate($event)">-->
+        <!--</mat-form-field>-->
+    <!--</div>-->
+    <!--<div class="material-search">-->
+        <!--<mat-form-field class="example-full-width">-->
+            <!--<input matInput  placeholder="输入素材名称" (change)="seachStickerByTotal($event)">-->
+        <!--</mat-form-field>-->
+    <!--</div>-->
 </mat-toolbar>
 <nav mat-tab-nav-bar>
     <a mat-tab-link
@@ -216,6 +216,6 @@
     </a>
 </nav>
 <router-outlet></router-outlet>
-<sticker-page
+<crazygrab_page
 [verified]="verified"
-></sticker-page>
+></crazygrab_page>

@@ -22,14 +22,17 @@ require('./admin');
 require('./stickers');
 require('./droppacks');
 require('./moneys');
+require('./crazygrab')
 exports.Materials = db.model('Materials');
 exports.Setups = db.model('Setups');
 exports.Droppacks = db.model("Droppacks");
+exports.crazygrab = db.model("Crazygrab");
 
 exports.Admin = db.model('Admin');
 exports.Stickers = db.model('Stickers');
 exports.Users = db.model('Users');
 exports.Moneys = db.model('Moneys');
+exports.Crazygrab = db.model('Crazygrab');
 
 exports.close = function(){
     db.close(function(){

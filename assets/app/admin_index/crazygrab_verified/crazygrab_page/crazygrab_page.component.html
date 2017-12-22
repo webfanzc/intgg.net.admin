@@ -1,0 +1,12 @@
+<div class="pager">
+    <ul>
+        <li class="start"  [class.disabled]="curpage == 1"> <button type="button" (click)="startPage()" [disabled]="curpage == 1 " [class.disabled]="curpage == 1">|< </button></li>
+        <li class="before" [class.disabled]="curpage == 1"><button type="button" (click)="beforePage()" [disabled]="curpage == 1 " [class.disabled]="curpage == 1">上一页</button></li>
+
+        <li *ngFor="let pageNum of pageCount" (click)="getPageData(pageNum)" [class.active]="pageNum == curpage">{{pageNum}}</li>
+
+        <li class="next" [class.disabled]="curpage == endPageNum"><button type="button" (click)="nextPage()" [disabled]="curpage == endPageNum " [class.disabled]="curpage == endPageNum">下一页</button></li>
+        <li class="end" [class.disabled]="curpage == endPageNum"> <button type="button"  (click)="endPage()" [disabled]="curpage == endPageNum " [class.disabled]="curpage == endPageNum"> >| </button> </li>
+    </ul>
+</div>
+
