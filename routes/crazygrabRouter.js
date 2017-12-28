@@ -62,7 +62,7 @@ crazygrabRouter.get('/list', function (req, res, next) {
                 callback(null);
             });
         },
-        getInfoByintid: ["checktoken",function (callback, result) {
+        getInfoByintid: ["checktoken",function (result, callback) {
 
             var condition = {};
             if(verified == 0) {
