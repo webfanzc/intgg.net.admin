@@ -1,0 +1,37 @@
+<script src="guess.component.ts"></script>
+<mat-toolbar layout="row" class="full-width">
+    <i class="material-icons material-header">camera</i>
+    <h3 class="title">竞猜管理</h3>
+    <span class="full-width"></span>
+    <div class="material-type">
+        <mat-form-field>
+            <mat-select [formControl]="typeFilter" placeholder="类型">
+                <mat-option>类型</mat-option>
+                <mat-option *ngFor="let type of curGuessTypes" [value]="type">{{type}}</mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+    <div class="material-timeline">
+        <mat-form-field>
+            <mat-select [formControl]="timeFilter" placeholder="时间">
+                <mat-option>时间</mat-option>
+                <mat-option *ngFor="let time of guesstimeline" [value]="time.title">{{time.title}}</mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+    <div class="material-add">
+        <button mat-raised-button color="primary" (click)="addNewGuess()">新建</button>
+    </div>
+
+</mat-toolbar>
+<nav mat-tab-nav-bar class="full-width">
+    <a mat-tab-link
+       (click)="setType('lottery')">彩票竞猜
+    </a>
+    <a mat-tab-link
+       (click)="setType('stock')"
+    >股票竞猜
+    </a>
+</nav>
+<app-guess-list [guesses]="guesses" [(curType)]="curType" [timeline]="timeline" [filterType]="type"></app-guess-list>
+<app-guess-page [curType]="curType"></app-guess-page>

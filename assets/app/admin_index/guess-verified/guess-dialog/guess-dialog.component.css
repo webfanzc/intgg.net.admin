@@ -1,0 +1,7 @@
+.warn{
+    color: red;
+}
+.warn::before{
+    content: '!';
+
+}

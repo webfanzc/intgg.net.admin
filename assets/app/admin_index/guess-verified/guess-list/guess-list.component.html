@@ -1,0 +1,33 @@
+<mat-list>
+    <mat-list-item>
+        <ul class="list-head">
+            <li><h4>类型</h4></li>
+            <li><h4>标题</h4></li>
+            <li><h4>彩票期数</h4></li>
+            <li><h4>结果</h4></li>
+            <li><h4>操作</h4></li>
+        </ul>
+    </mat-list-item>
+    <mat-list-item *ngFor="let guess of guesses;let i = index;">
+        <ul>
+            <li class="type">{{guess.guessname}}</li>
+            <li class="title">{{guess.guesstitle}}</li>
+            <li class="issue">{{guess.guessissue}}</li>
+            <li class="result">
+                <span *ngIf="guess.guessresult">{{guess.guessresult}}</span>
+                <div class="fields-container" *ngIf="!guess.guessresult">
+                    <mat-form-field>
+                        <mat-select placeholder="编辑" [formControl]="editResult" (selectionChange)="this.setResult(i)">
+                            <mat-option>编辑</mat-option>
+                            <mat-option *ngFor="let result of guess.guesstitle.includes('单双')?['单','双']:guess.guesstitle.includes('高低')?['高','低']:['涨','跌']" [value]="result">{{result}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+
+            </li>
+            <li class="del">
+                <button mat-raised-button color="warn" (click)="this.delGuess(i)">删除</button>
+            </li>
+        </ul>
+    </mat-list-item>
+</mat-list>

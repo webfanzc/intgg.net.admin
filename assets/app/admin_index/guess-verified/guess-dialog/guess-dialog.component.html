@@ -1,0 +1,22 @@
+<h2 mat-dialog-title>{{data.dialogTitle}}</h2>
+<mat-dialog-content>
+    <form [formGroup]="addGuessForm" novalidate>
+        <mat-form-field>
+            <mat-select placeholder="类型" formControlName="typeInfo">
+                <mat-option>类型</mat-option>
+                <mat-option *ngFor="let type of data.types" [value]="type.title">{{type.title}}</mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput formControlName="issueInfo" placeholder="请输入期数" [value]="issue">
+        </mat-form-field>
+    </form>
+    <div class="warn" *ngIf="typeinfo.invalid&&(typeinfo.dirty||typeinfo.touched)">请选择类型</div>
+    <div class="warn" *ngIf="issueVerified&&issueinfo.invalid">请输入期数,且输入长度必须大于4的纯数字</div>
+</mat-dialog-content>
+<mat-dialog-actions>
+    <div class="btnBox">
+        <button mat-raised-button color="primary" (click)="saveGuess()">保存</button>
+        <button mat-raised-button color="accent" (click)="dialogRef.close('cancel')">取消</button>
+    </div>
+</mat-dialog-actions>
