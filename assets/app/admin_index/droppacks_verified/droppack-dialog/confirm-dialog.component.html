@@ -12,7 +12,7 @@
 <!--<mat-dialog-title>-->
     <!--{{droppack.materialid?.name}}-->
 <!--</mat-dialog-title>-->
-<h2 mat-dialog-title *ngIf="data != 'cancel'">{{data.droppack?.packname}}</h2>
+<script src="../../crazygrab_verified/crazygrab_resovle/crazygrab_resovle.component.ts"></script><h2 mat-dialog-title *ngIf="data != 'cancel'">{{data.droppack?.packname}}</h2>
 <mat-dialog-content *ngIf="data != 'cancel'">
     <p>创建时间：{{data.droppack?.createTime | date: 'yyyy-MM-dd HH:mm:ss'}}</p>
     <p>推广品牌：{{data.droppack?.brand}}</p>

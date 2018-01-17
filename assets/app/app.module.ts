@@ -1,6 +1,6 @@
-import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-import { AppComponent } from "./app.component";
+import {NgModule} from '@angular/core';
+import {BrowserModule} from '@angular/platform-browser';
+import {AppComponent} from "./app.component";
 import {ReactiveFormsModule, FormsModule} from "@angular/forms";
 import {AdminLoginComponent} from "./admin_login/admin_login.component";
 import {LoginGuard} from "./app.guard";
@@ -9,12 +9,10 @@ import {HttpClientModule} from "@angular/common/http";
 import {CoreModule} from "./core/core.module";
 import {ShareModule} from "./share/share.module";
 
-
-
 @NgModule({
     declarations: [
         AppComponent,
-        AdminLoginComponent,
+        AdminLoginComponent
     ],
     imports: [
         BrowserModule,
@@ -23,10 +21,10 @@ import {ShareModule} from "./share/share.module";
         HttpClientModule,
         FormsModule,
         ReactiveFormsModule,
-        AppRoutingModule,
+        AppRoutingModule
     ],
-    providers:[
-      LoginGuard
+    providers: [
+        LoginGuard
     ],
     bootstrap: [AppComponent]
 })

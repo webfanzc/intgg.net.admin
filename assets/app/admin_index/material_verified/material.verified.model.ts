@@ -3,19 +3,20 @@
  */
 
 export class Material {
-    name : string;
-    position : string;
-    link : string;
-    url : string;
-    content : string;
-    createTime? : number;
-    updateTime? : number;
-    type? : string;
+    name: string;
+    position: string;
+    link: string;
+    url: string;
+    content: string;
+    createTime?: number;
+    updateTime?: number;
+    type?: string;
     materialComplete: string;
-    _id?:string;
+    _id?: string;
     intid?: string;
     verified: number;
     verifiedMsg: string;
+
     constructor(name: string,
                 position: string,
                 link: string,
@@ -26,8 +27,7 @@ export class Material {
                 _id?: string,
                 verified?: number,
                 verifiedMsg?: string,
-                intid?: string
-                ) {
+                intid?: string) {
         this.name = name;
         this.position = position;
         this.link = link;

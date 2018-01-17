@@ -15,7 +15,7 @@ import {MatDialog} from "@angular/material";
 import {ConfirmDialogComponent} from "./droppack-dialog/confirm-dialog.component";
 import {Router, ActivatedRoute} from "@angular/router";
 
-@Component ({
+@Component({
     selector: 'droppack_veridfied',
     templateUrl: 'droppacks.component.html',
     styleUrls: [
@@ -26,8 +26,8 @@ import {Router, ActivatedRoute} from "@angular/router";
     ]
 
 })
-export class DroppackVerifiedComponent implements OnInit{
-    droppacks : Droppack[] = [];
+export class DroppackVerifiedComponent implements OnInit {
+    droppacks: Droppack[] = [];
     droppackResovle: Droppack[] = [];
     droppackReject: Droppack[] = [];
     droppack: Droppack;
@@ -44,26 +44,29 @@ export class DroppackVerifiedComponent implements OnInit{
         {value: '配置内容与推广主题不相符', viewValue: 'Steak'},
         {value: '排版错误', viewValue: 'Pizza'},
     ];
-    constructor(
-        private router: Router,
-        private routerInfo: ActivatedRoute,
-        private droppackService: DroppackService,
-        private dialog: MatDialog){
+
+    constructor(private router: Router,
+                private routerInfo: ActivatedRoute,
+                private droppackService: DroppackService,
+                private dialog: MatDialog) {
     }
 
     searchDroppackName(event: any) {
         let value = event.target.value;
-        this.droppackService.searchDroppack(this.verified,'packname',value);
+        this.droppackService.searchDroppack(this.verified, 'packname', value);
     }
+
     searchDroppackDate(event: any) {
         let value = event.target.value;
-        this.droppackService.searchDroppack(this.verified,'date',value)
+        this.droppackService.searchDroppack(this.verified, 'date', value)
     }
+
     toRouter(routerValue: string, verified: number) {
         this.verified = verified;
-        this.router.navigate([routerValue], { relativeTo: this.routerInfo })
+        this.router.navigate([routerValue], {relativeTo: this.routerInfo})
     }
-    ngOnInit(){
+
+    ngOnInit() {
 
     }
 
